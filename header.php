@@ -3,9 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<meta name="description" content="Website short description." />
-<meta name="keywords" content="website main keywords" />
-<title>Link Analysis Tool from Blogstorm.co.uk</title>
+<title>SEOKit</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -13,7 +11,9 @@
 
 <div id="container">
 
-<div id="header"><h1>Link Analysis Tool, find popular pages</h1></div>
+<div id="header">
+<h1>Link Analysis Tool, find popular pages</h1>
+</div>
 
 <div id="sub_header">... rank better</div>
 

@@ -14,8 +14,8 @@ function StrToNum($Str, $Check, $Magic) {
 
     $length = strlen($Str);
     for ($i = 0; $i < $length; $i++) {
-        $Check *= $Magic; 	
-        //If the float is beyond the boundaries of integer (usually +/- 2.15e+9 = 2^31), 
+        $Check *= $Magic;
+        //If the float is beyond the boundaries of integer (usually +/- 2.15e+9 = 2^31),
         //  the result of converting to integer is undefined
         //  refer to http://www.php.net/manual/en/language.types.integer.php
         if ($Check >= $Int32Unit) {
@@ -23,7 +23,7 @@ function StrToNum($Str, $Check, $Magic) {
             //if the check less than -2^31
             $Check = ($Check < -2147483648) ? ($Check + $Int32Unit) : $Check;
         }
-        $Check += ord($Str{$i}); 
+        $Check += ord($Str{$i});
     }
     return $Check;
 }
@@ -33,14 +33,14 @@ function HashURL($String) {
     $Check1 = StrToNum($String, 0x1505, 0x21);
     $Check2 = StrToNum($String, 0, 0x1003F);
 
-    $Check1 >>= 2; 	
+    $Check1 >>= 2;
     $Check1 = (($Check1 >> 4) & 0x3FFFFC0 ) | ($Check1 & 0x3F);
     $Check1 = (($Check1 >> 4) & 0x3FFC00 ) | ($Check1 & 0x3FF);
-    $Check1 = (($Check1 >> 4) & 0x3C000 ) | ($Check1 & 0x3FFF);	
-	
+    $Check1 = (($Check1 >> 4) & 0x3C000 ) | ($Check1 & 0x3FFF);
+
     $T1 = (((($Check1 & 0x3C0) << 4) | ($Check1 & 0x3C)) <<2 ) | ($Check2 & 0xF0F );
     $T2 = (((($Check1 & 0xFFFFC000) << 4) | ($Check1 & 0x3C00)) << 0xA) | ($Check2 & 0xF0F0000 );
-	
+
     return ($T1 | $T2);
 }
 
@@ -51,15 +51,15 @@ function CheckHash($Hashnum) {
 
     $HashStr = sprintf('%u', $Hashnum) ;
     $length = strlen($HashStr);
-	
+
     for ($i = $length - 1;  $i >= 0;  $i --) {
         $Re = $HashStr{$i};
-        if (1 === ($Flag % 2)) {              
-            $Re += $Re;     
+        if (1 === ($Flag % 2)) {
+            $Re += $Re;
             $Re = (int)($Re / 10) + ($Re % 10);
         }
         $CheckByte += $Re;
-        $Flag ++;	
+        $Flag ++;
     }
 
     $CheckByte %= 10;
@@ -81,57 +81,57 @@ function getch($url) { return CheckHash(HashURL($url)); }
 
 //return the pagerank figure
 function getpr($url) {
-	global $googlehost,$googleua;
-	$ch = getch($url);
-	$fp = fsockopen($googlehost, 80, $errno, $errstr, 30);
-	if ($fp) {
-	   $out = "GET /search?client=navclient-auto&ch=$ch&features=Rank&q=info:$url HTTP/1.1\r\n";
-	   //echo "<pre>$out</pre>\n"; //debug only
-	   $out .= "User-Agent: $googleua\r\n";
-	   $out .= "Host: $googlehost\r\n";
-	   $out .= "Connection: Close\r\n\r\n";
-	
-	   fwrite($fp, $out);
-	   
-	   //$pagerank = substr(fgets($fp, 128), 4); //debug only
-	   //echo $pagerank; //debug only
-	   while (!feof($fp)) {
-			$data = fgets($fp, 128);
-			//echo $data;
-			$pos = strpos($data, "Rank_");
-			if($pos === false){} else{
-				$pr=substr($data, $pos + 9);
-				$pr=trim($pr);
-				$pr=str_replace("\n",'',$pr);
-						// printing pagerank rishi
-				return $pr;
-			}
-	   }
-	   //else { echo "$errstr ($errno)<br />\n"; } //debug only
-	   fclose($fp);
-	}
+    global $googlehost,$googleua;
+    $ch = getch($url);
+    $fp = fsockopen($googlehost, 80, $errno, $errstr, 30);
+    if ($fp) {
+        $out = "GET /search?client=navclient-auto&ch=$ch&features=Rank&q=info:$url HTTP/1.1\r\n";
+        //echo "<pre>$out</pre>\n"; //debug only
+        $out .= "User-Agent: $googleua\r\n";
+        $out .= "Host: $googlehost\r\n";
+        $out .= "Connection: Close\r\n\r\n";
+
+        fwrite($fp, $out);
+
+        //$pagerank = substr(fgets($fp, 128), 4); //debug only
+        //echo $pagerank; //debug only
+        while (!feof($fp)) {
+            $data = fgets($fp, 128);
+            //echo $data;
+            $pos = strpos($data, "Rank_");
+            if($pos === false){} else{
+                $pr=substr($data, $pos + 9);
+                $pr=trim($pr);
+                $pr=str_replace("\n",'',$pr);
+                // printing pagerank rishi
+                return $pr;
+            }
+        }
+        //else { echo "$errstr ($errno)<br />\n"; } //debug only
+        fclose($fp);
+    }
 }
 
 //generate the graphical pagerank
 function pagerank($url,$width=40,$method='style') {
-	if (!preg_match('/^(http:\/\/)?([^\/]+)/i', $url)) { $url='http://'.$url; }
-	$pr=getpr($url);
+    if (!preg_match('/^(http:\/\/)?([^\/]+)/i', $url)) { $url='http://'.$url; }
+    $pr=getpr($url);
 
-	return $pr;
+    return $pr;
 }
 
 
-if (isset($_GET['url'])) 
-{  
-	$tempurls=$_GET['url'];
-	$pieces = explode("\n", $tempurls);
-	$size=sizeof($pieces);
-		for ($j=0; $j<$size; $j++)
-		{		
-		$url=$pieces[$j];
-		echo getpr($pieces[$j]);
-		
-		}
+if (isset($_GET['url']))
+{
+    $tempurls=$_GET['url'];
+    $pieces = explode("\n", $tempurls);
+    $size=sizeof($pieces);
+    for ($j=0; $j<$size; $j++)
+    {
+        $url=$pieces[$j];
+        echo getpr($pieces[$j]);
+
+    }
 
 }
 ?>
