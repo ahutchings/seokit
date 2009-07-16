@@ -90,7 +90,7 @@ any reason, we won't store duplicate urls.</p>
     $start = 1;
     while ($start <= 1000) {
         $request = 'http://search.yahooapis.com/SiteExplorerService/V1/pageData?appid=';
-        $request .= $yahoo_api_key;
+        $request .= Options::get('yahoo_api_key');
         $request .= '&query=';
         $request .= $url;
         $request .= '&results=100&start=';

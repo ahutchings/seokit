@@ -17,8 +17,4 @@ date_default_timezone_set(Options::get('timezone'));
 
 $db = DB::connect();
 
-// api key available from http://developer.yahoo.com/wsregapp/index.php
-// more details here http://developer.yahoo.com/search/
-
-$yahoo_api_key  = 'uloL8vHV34Gb64k1sNiHx6l8ZPrpEfWm1WNCcez4LscfDvLRHdVr3_tDpwFjTYmkTAO8iNA9NJwZiuI-';
 $scriptlocation = "http://seokit.localhost";

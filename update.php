@@ -9,14 +9,8 @@ $domain       = mysql_escape_string($_GET["domain"]);
 $today = date("Y-m-d");
 
 if (!empty($linking_page)) {
-    $request = 'http://search.yahooapis.com/SiteExplorerService/V1/inlinkData?appid=';
-    $request .= $yahoo_api_key;
-    $request .= '&query=';
-    $request .= $linking_page;
-    $request .= '&output=php';
-    $request .= '&omit_inlinks=domain';
-    $output = unserialize(file_get_contents($request));
-    $incoming_links = $output[ResultSet][totalResultsAvailable];
+
+    $incoming_links = Yahoo::get_inlink_count(array('query' => $linking_page));
 
     if (ctype_digit($incoming_links)) {
 
@@ -32,14 +26,8 @@ if (!empty($linking_page)) {
 } else {
 
     if (!empty($url)){
-        $request = 'http://search.yahooapis.com/SiteExplorerService/V1/inlinkData?appid=';
-        $request .= $yahoo_api_key;
-        $request .= '&query=';
-        $request .= $url;
-        $request .= '&output=php';
-        $request .= '&omit_inlinks=domain';
-        $output = unserialize(file_get_contents($request));
-        $incoming_links = $output['ResultSet']['totalResultsAvailable'];
+
+        $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
 
         if (ctype_digit($incoming_links)) {
 
@@ -67,15 +55,7 @@ if (!empty($linking_page)) {
 
             $url = $row['url'];
 
-            $request = 'http://search.yahooapis.com/SiteExplorerService/V1/inlinkData?appid=';
-            $request .= $yahoo_api_key;
-            $request .= '&query=';
-            $request .= $url;
-            $request .= '&output=php';
-            $request .= '&omit_inlinks=domain';
-
-            $output = @unserialize(file_get_contents($request));
-            $incoming_links = $output['ResultSet']['totalResultsAvailable'];
+            $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
 
             if (ctype_digit($incoming_links)) {
 
