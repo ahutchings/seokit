@@ -1,23 +1,34 @@
 <?php include 'header.php' ?>
 
 <?php if (!isset($_GET['url']) || empty($_GET['url'])): ?>
-    <h2>Add a site to be analysed</h2>
+        <div id="bd">
+            <div id="yui-main">
+                <div class="yui-a"><div class="yui-g">
 
-    <p>To input a site just enter the url in the box below and the script
-    will store all the known url's in the database ready for analysis.</p>
+                    <div class="block">
+                        <div class="bd">
+                            <h2>Add a site to be analysed</h2>
 
-    <form action="/domain/create" id="add-site" method="get">
-    	<label>Site URL</label>
-    	<input name="url" id="url" size="45" type="text" class="text" />
-    	<input value="Submit" type="submit" />
-    </form>
+                            <p>To input a site just enter the url in the box below and the script
+                            will store all the known url's in the database ready for analysis.</p>
 
-    <p>The script captures data using the "Pages in Site" feature of
-    <a href="https://siteexplorer.search.yahoo.com">Yahoo Site Explorer</a>.</p>
+                            <form action="/domain/create" id="add-site" method="get">
+                            	<label>Site URL</label>
+                            	<input name="url" id="url" size="45" type="text" class="text" />
+                            	<input value="Submit" type="submit" />
+                            </form>
 
-    <p>You can add a site that's already in the database if you need to for
-    any reason, we won't store duplicate urls.</p>
+                            <p>The script captures data using the "Pages in Site" feature of
+                            <a href="https://siteexplorer.search.yahoo.com">Yahoo Site Explorer</a>.</p>
 
+                            <p>You can add a site that's already in the database if you need to for
+                            any reason, we won't store duplicate urls.</p>
+                        </div>
+                    </div>
+
+                </div></div>
+            </div>
+        </div>
 <?php else: ?>
 	<h2>Spider results</h2>
     <?php

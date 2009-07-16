@@ -1,7 +1,5 @@
 <?php
 
-include 'config.inc.php';
-
 $linking_page = mysql_escape_string($_GET["linking_page"]);
 $url          = mysql_escape_string($_GET["url"]);
 $domain       = mysql_escape_string($_GET["domain"]);

@@ -1,7 +1,5 @@
 <?php
 
-include 'config.inc.php';
-
 $refresh = $_GET["refresh"];
 $url     = mysql_escape_string($_GET["url"]);
 $orderby = $_GET["orderby"];

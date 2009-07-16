@@ -1,6 +1,5 @@
 <?php
 
-include 'config.inc.php';
 include 'header.php';
 
 if (!isset($_GET['url']) || empty($_GET['url'])) {
