@@ -7,12 +7,11 @@ if (!isset($_GET['domain'])) {
     $q = "SELECT * FROM domains ORDER BY id ASC";
     $domains = $db->query($q)->fetchAll();
     ?>
-    <h2>Your domains</h2>
+    <h2>All Domains</h2>
     <table>
     	<thead>
     		<tr>
-    			<th>ID</th>
-    			<th>Domain</th>
+    			<th>URL</th>
     			<th>PageRank</th>
     			<th></th>
     		</tr>
@@ -20,7 +19,6 @@ if (!isset($_GET['domain'])) {
     	<tbody>
         <?php foreach ($domains as $domain): ?>
             <tr>
-                <td width="50"><?php echo $domain['id'] ?></td>
                 <td width="200"><a href="index.php?domain=<?php echo $domain['domain'] ?>"><?php echo $domain['domain'] ?></a></td>
                 <td><img src="images/pr<?php echo $domain['pr'] ?>.gif" alt="PageRank <?php echo $domain['pr'] ?>" title="PageRank <?php echo $domain['pr'] ?>"></td>
                 <td>
@@ -45,7 +43,7 @@ if (!isset($_GET['domain'])) {
     <table>
     <thead>
         <tr>
-        	<th></th>
+        	<th>Page Title</th>
         	<th><a href="index.php?domain=<?php echo $domain ?>&orderby=links">Links</a></th>
         	<th><a href="index.php?domain=<?php echo $domain ?>&orderby=pr">PR</a></th>
         	<th colspan="5"></th>
@@ -69,14 +67,14 @@ if (!isset($_GET['domain'])) {
 
         ?>
         <tr>
-            <td width="410" bgcolor="<?php echo $bg ?>"><a href="<?php echo $row['url'] ?>" title="<?php echo $row['url'] ?>"><?php echo $title ?></a></td>
+            <td width="410" bgcolor="<?php echo $bg ?>"><a href="linkdata.php?url=<?php echo $row['url'] ?>" title="View link data for this url"><?php echo $title ?></a></td>
             <td width="40" bgcolor="<?php echo $bg ?>"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $row['url'] ?>&bwm=i&bwmo=d&bwmf=u" target="_blank"><?php echo $row['links'] ?></a></td>
             <td width="40"><img src="images/pr<?php echo $row['pr'] ?>.gif" alt="PageRank <?php echo $row['pr'] ?>" title="PageRank <?php echo $row['pr'] ?>"></td>
             <td width="18" bgcolor="<?php echo $bg ?>"><a href="rank.php?url=<?php echo $row['url'] ?>&engine=g" target="_blank" title="Check ranking on Google">G</a></td>
             <td width="18" bgcolor="<?php echo $bg ?>"><a href="rank.php?url=<?php echo $row['url'] ?>&engine=y" target="_blank" title="Check ranking on Yahoo">Y!</a></td>
             <td width="18" bgcolor="<?php echo $bg ?>"><a href="rank.php?url=<?php echo $row['url'] ?>&engine=m" target="_blank" title="Check ranking on MSN">M</a></td>
-            <td width="18" bgcolor="<?php echo $bg ?>"><a href="update.php?url=<?php echo $row['url'] ?>"><img src="http://www.blogstorm.co.uk/images/refresh.jpeg" alt="Update link count for <?php echo $row['url'] ?>" title="Update link count for <?php echo $row['url'] ?>" border="0"></a></td>
-            <td width="18" bgcolor="<?php echo $bg ?>"><a href="linkdata.php?url=<?php echo $row['url'] ?>"><img src="http://www.blogstorm.co.uk/images/drilldown.jpg" alt="View link data for this url" title="View link data for this url" border="0"></a></td>
+            <td width="18" bgcolor="<?php echo $bg ?>"><a href="update.php?url=<?php echo $row['url'] ?>"><img src="/images/arrow_refresh.png" alt="Update link count for <?php echo $row['url'] ?>" title="Update link count for <?php echo $row['url'] ?>" border="0"></a></td>
+            <td width="18" bgcolor="<?php echo $bg ?>"><a href="<?php echo $row['url'] ?>" title="Visit this URL"><img src="/images/magnifier.png" alt="Visit this url" border="0"></a></td>
         </tr>
         <?php
     }

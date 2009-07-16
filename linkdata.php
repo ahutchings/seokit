@@ -83,21 +83,21 @@ if ($refresh == "yes") {
         $fp = '';
         $fp = @file($request);
 
-        if (!$fp){
+        if (!$fp) {
             echo "Cannot connect to Yahoo, you might have used more than 5000 queries today?";
             include 'footer.php';
             exit();
         }
 
-        foreach ($fp as $line){
-            if (!xml_parse($xmlParser, $line)){
+        foreach ($fp as $line) {
+            if (!xml_parse($xmlParser, $line)) {
                 echo "Cannot parse xml file";
                 include 'footer.php';
                 exit();
             }
         }
 
-        foreach ($itemInfo as $items){
+        foreach ($itemInfo as $items) {
             $linking_page = $items['url'];
             $linking_page_title = $items['title'];
             $linking_page_title = mysql_escape_string($linking_page_title);
@@ -116,9 +116,9 @@ if ($refresh == "yes") {
             }
             else
             {
-                $pr="$scriptlocation/getpr.php?url=$linking_page";
-                $pr=@file_get_contents($pr);
-                $result7 = MYSQL_QUERY("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
+                $pr = "$scriptlocation/getpr.php?url=$linking_page";
+                $pr = @file_get_contents($pr);
+                $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
                 echo "Link data updated <a href=\"$linking_page\">$linking_page_title</a><br>\n";
 
             }
@@ -137,10 +137,22 @@ else
     if ($orderby == '') {
         $orderby = "linking_page_inlinks";
     }
-    echo "<h2>Links to $url</h2><p><a href=\"linkdata.php?url=$url&refresh=yes\">Click here to refresh this data using Yahoo</a>";
-    echo "<table cellpadding=\"4\" cellspacing=\"0\" border=\"1\" width=\"100%\">";
-    echo "<tr><td></td><td><a href=\"linkdata.php?url=$url&orderby=linking_page_inlinks\">Links</a></td><td><a href=\"linkdata.php?url=$url&orderby=linking_page_pr\">PR</a></td><td colspan=\"4\"></td></tr>";
 
+    ?>
+    <h2>Links to <?php echo $url ?></h2>
+    <p><a href="linkdata.php?url=<?php echo $url ?>&amp;refresh=yes">Click here to refresh this data using Yahoo</a></p>
+    <table>
+        <thead>
+            <tr>
+            	<td></td>
+            	<td><a href="linkdata.php?url=<?php echo $url ?>&orderby=linking_page_inlinks">Links</a></td>
+            	<td><a href="linkdata.php?url=<?php echo $url ?>&orderby=linking_page_pr">PR</a></td>
+            	<td colspan="4"></td>
+        	</tr>
+    	</thead>
+    	<tbody>
+
+	<?php
     $query = "SELECT * FROM linkdata WHERE url='$url' ORDER BY $orderby DESC LIMIT 1000";
 
     $result = mysql_query($query);
@@ -156,7 +168,7 @@ else
 
 
     }
-    echo "</table>";
+    echo "</tbody></table>";
 }
 
 include 'footer.php';
