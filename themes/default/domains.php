@@ -22,7 +22,7 @@
                                 <?php foreach ($this->domains as $domain): ?>
                                     <tr>
                                         <td width="200"><a href="/?domain=<?php echo $domain->domain ?>"><?php echo $domain->domain ?></a></td>
-                                        <td><img src="images/pr<?php echo $domain->pr ?>.gif" alt="PageRank <?php echo $domain->pr ?>" title="PageRank <?php echo $domain->pr ?>"></td>
+                                        <td><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $domain->pr ?>.gif" alt="PageRank <?php echo $domain->pr ?>" title="PageRank <?php echo $domain->pr ?>"></td>
                                         <td>
                                         	<a href="update.php?domain=<?php echo $domain->domain ?>" title="Update all link counts for <?php echo $domain->domain ?>">refresh</a> |
                                         	<a href="delete.php?id=<?php echo $domain->id ?>" title="Delete entire domain">delete</a>
@@ -56,8 +56,8 @@
                                 <td width="18"><a href="http://www.google.com/search?hl=en&amp;q=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Google">G</a></td>
                                 <td width="18"><a href="http://search.yahoo.com/search?p=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Yahoo">Y!</a></td>
                                 <td width="18"><a href="http://www.bing.com/search?q=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Bing">B</a></td>
-                                <td width="18"><a href="update.php?url=<?php echo $row['url'] ?>"><img src="/images/arrow_refresh.png" alt="Update link count for <?php echo $row['url'] ?>" title="Update link count for <?php echo $row['url'] ?>" border="0"></a></td>
-                                <td width="18"><a href="<?php echo $row['url'] ?>" title="Visit this URL"><img src="/images/magnifier.png" alt="Visit this url" border="0"></a></td>
+                                <td width="18"><a href="update.php?url=<?php echo $row['url'] ?>"><img src="<?php echo Options::get('theme_path') ?>/images/arrow_refresh.png" alt="Update link count for <?php echo $row['url'] ?>" title="Update link count for <?php echo $row['url'] ?>" border="0"></a></td>
+                                <td width="18"><a href="<?php echo $row['url'] ?>" title="Visit this URL"><img src="<?php echo Options::get('theme_path') ?>/images/magnifier.png" alt="Visit this url" border="0"></a></td>
                             </tr>
                         <?php endforeach ?>
                         </tbody>

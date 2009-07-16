@@ -1,0 +1,92 @@
+h1,h2,h3 {
+	color:#222;
+}
+
+a {
+	color:#0854C7;
+	text-decoration:none;
+}
+
+table thead {
+	background-color:#464646;
+}
+
+#hd {
+	background-color:#464646;
+}
+
+#hd h1 a {
+	color:#fff;
+}
+
+.block .hd {
+	background-color:#eaf3fa;
+	color:#333;
+	border-bottom:2px solid #cee1ef;
+}
+
+.tabs .hd {
+	background-color:#064780;
+	border-bottom:5px solid #A0C2DE;
+}
+
+.spaces .hd {
+	background-color:transparent;
+}
+
+.spaces .hd ul li {
+	background-color:#064780;
+	margin-right:0.1em;
+}
+
+.tabs .hd ul li a:hover {
+	background-color:#CDEFFF;
+	color:#333;
+}
+
+.tabs .hd ul li.active a {
+	background-color:#A0C2DE !important;
+	color:#333;
+	text-decoration:none;
+}
+
+ul.pager li a {
+	background:#FFF;
+	margin-right:0.3em;
+	border:1px solid #ccc;
+	text-decoration:none;
+	color:#328ab2;
+	padding:0.1em 0.3em;
+}
+
+ul.pager li.active a,ul.pager li a:hover {
+	background-color:#328ab2;
+	border-color:#328ab2;
+	color:#fff;
+}
+
+#bd,#primary-navigation li.active a {
+	background-color:#fff;
+	color:#333;
+}
+
+.block .bd h2,.block .bd h3 {
+	color:#666;
+}
+
+#search { text-align:right; }
+#search label { display:none; }
+#search #criteria { display:inline; width:inherit; }
+
+#messages thead { display:none; }
+#messages .bd { padding:0; }
+#messages .protocol { width:11px; padding:0; }
+#messages .aim { background:#ffffcc; }
+#messages .jabber { background:#ffe5cc; }
+#messages .msn { background:#ccf3ff; }
+#messages .yahoo { background:#ffcccc; }
+
+tr.odd { background:#F8F8F8 }
+
+#sender { display:inline; width:160px; }
+#dates { display:inline; width:120px; }

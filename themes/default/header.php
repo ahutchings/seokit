@@ -5,10 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <title>SEOKit</title>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css">
-    <link rel="stylesheet" type="text/css" href="css/yuiapp.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo Options::get('theme_path') ?>css/yuiapp.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo Options::get('theme_path') ?>css/style.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js" type="text/javascript"></script>
-    <script src="scripts/jquery.clearinginput.js" type="text/javascript"></script>
+    <script src="<?php echo Options::get('theme_path') ?>scripts/jquery.clearinginput.js" type="text/javascript"></script>
 </head>
 
 <body>
