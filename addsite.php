@@ -6,17 +6,21 @@ include 'header.php';
 if (!isset($_GET['url']) || empty($_GET['url'])) {
     ?>
 <h2>Add a site to be analysed</h2>
+
 <p>To input a site just enter the url in the box below and the script
-will store all the known url's in the database ready for analysis.
+will store all the known url's in the database ready for analysis.</p>
+
 <form action="addsite.php" id="add-site" method="get">
 	<label>Site URL</label>
 	<input name="url" id="url" size="45" type="text" class="text" />
 	<input value="Submit" type="submit" />
 </form>
-<p>The script captures data using the "Pages in Site" feature of <a
-	href="https://siteexplorer.search.yahoo.com">Yahoo Site Explorer</a>.
+
+<p>The script captures data using the "Pages in Site" feature of
+<a href="https://siteexplorer.search.yahoo.com">Yahoo Site Explorer</a>.</p>
+
 <p>You can add a site that's already in the database if you need to for
-any reason, we won't store duplicate urls.
+any reason, we won't store duplicate urls.</p>
 
     <?php } else { ?>
 <h2>Spider results</h2>
@@ -85,8 +89,9 @@ any reason, we won't store duplicate urls.
 
     $start = 1;
     while ($start <= 1000) {
-        $request = "";
-        $request = 'http://search.yahooapis.com/SiteExplorerService/V1/pageData?appid=FUH9aZjV34GSWglIPsIhtcRNWA3_oTLSJDq51iBY8_P7.ykFyeZOcLoH.Hz4AiI-&query=';
+        $request = 'http://search.yahooapis.com/SiteExplorerService/V1/pageData?appid=';
+        $request .= $yahoo_api_key;
+        $request .= '&query=';
         $request .= $url;
         $request .= '&results=100&start=';
         $request .= $start;
@@ -99,7 +104,6 @@ any reason, we won't store duplicate urls.
         xml_set_element_handler($xmlParser, "opening_element", "closing_element");
         xml_set_character_data_handler($xmlParser, "c_data");
 
-        $fp = "";
         $fp = @file($request);
 
         if (!$fp){
@@ -122,8 +126,7 @@ any reason, we won't store duplicate urls.
             $q = "SELECT url FROM urls WHERE url='$url' LIMIT 1";
 
             if (!$row = $db->query($q)->fetch()){
-//                $pr = "$scriptlocation/getpr.php?url=$url";
-//                $pr = @file_get_contents($pr);
+
                 $pr = Google::get_pagerank($url);
                 if ($db->exec("INSERT INTO urls VALUES('','$url','$title','0','','$pr')")){
                     echo "<a href=\"$url\">$url</a> was added!<br />\n";
