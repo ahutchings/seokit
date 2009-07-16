@@ -17,6 +17,6 @@ if (!isset($_GET['confirm']) || $_GET['confirm'] != "yes"){
     $domain->delete();
 
     header("HTTP/1.1 301 Moved Permanently");
-    header("Location: index.php");
+    header("Location: /");
     exit();
 }

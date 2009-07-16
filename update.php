@@ -1,7 +1,5 @@
 <?php
 
-include 'config.inc.php';
-
 $linking_page = mysql_escape_string($_GET["linking_page"]);
 $url          = mysql_escape_string($_GET["url"]);
 $domain       = mysql_escape_string($_GET["domain"]);
@@ -39,19 +37,19 @@ if (!empty($linking_page)) {
         $domain = "$str[2]";
 
         header("HTTP/1.1 301 Moved Permanently");
-        header("Location: index.php?domain=$domain&checked=$url");
+        header("Location: /?domain=$domain&checked=$url");
         exit();
 
     }
 
     if (!empty($domain) && empty($url)){
         include 'header.php';
-        echo "<h2>Getting link data</h2><p>This might take a while but you will be <a href=\"index.php?domain=$domain\">sent here when it finishes</a>.";
+        echo "<h2>Getting link data</h2><p>This might take a while but you will be <a href=\"/?domain=$domain\">sent here when it finishes</a>.";
 
         $domain1 = "http://$domain";
         $q       = "SELECT * FROM urls WHERE checkdate !='$today' AND url LIKE '$domain1%' ORDER BY id DESC LIMIT 5000";
 
-        while ($row = $db->query($q)->fetch()) {
+        while ($row = DB::connect()->query($q)->fetch()) {
 
             $url = $row['url'];
 
@@ -71,6 +69,6 @@ if (!empty($linking_page)) {
         }
     }
 
-    echo "<meta http-equiv=\"refresh\" content=\"10;url=index.php?domain=$domain\">";
+    echo "<meta http-equiv=\"refresh\" content=\"10;url=/?domain=$domain\">";
     include 'footer.php';
 }

@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
 	<div id="doc3" class="yui-t6">
 
         <div id="hd">
@@ -20,7 +19,7 @@
         	<div id="navigation">
             	<ul id="primary-navigation">
                     <li class="active"><a href="/">Overview</a></li>
-                	<li><a href="/addsite.php">Add website</a></li>
+                	<li><a href="/addsite.php">Add Site</a></li>
                 	<li><a href="/addurl.php">Add single URL</a></li>
                 	<li><a href="/sitemap.php">Spider a sitemap</a></li>
             	</ul>
@@ -32,7 +31,3 @@
             	<div class="clear"></div>
         	</div>
         </div>
-
-        <div id="bd">
-	       	<div id="yui-main">
-            	<div class="yui-b"><div class="yui-g">
