@@ -25,7 +25,7 @@
                                         <td><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $domain->pr ?>.gif" alt="PageRank <?php echo $domain->pr ?>" title="PageRank <?php echo $domain->pr ?>"></td>
                                         <td>
                                         	<a href="update.php?domain=<?php echo $domain->domain ?>" title="Update all link counts for <?php echo $domain->domain ?>">refresh</a> |
-                                        	<a href="delete.php?id=<?php echo $domain->id ?>" title="Delete entire domain">delete</a>
+                                        	<a href="/domain/delete?id=<?php echo $domain->id ?>" title="Delete entire domain">delete</a>
                                     	</td>
                                     </tr>
                                 <?php endforeach; ?>

@@ -35,6 +35,27 @@ class SiteHandler
         $this->template->display('domains.php');
     }
 
+    public function display_domain_delete()
+    {
+        $domain = Domains::get(array('id' => $_GET['id']));
+
+        if (!isset($_GET['confirm']) || $_GET['confirm'] != "yes"){
+
+            $this->template->domain = $domain;
+
+            $this->template->display('delete.php');
+
+        } else {
+
+            $domain->delete();
+
+            header("HTTP/1.1 301 Moved Permanently");
+            header("Location: /");
+            exit();
+
+        }
+    }
+
     public function display_logs()
     {
         $params = array();
