@@ -122,8 +122,8 @@ if ($refresh == "yes") {
                 echo "Link data updated <a href=\"$linking_page\">$linking_page_title</a><br>\n";
 
             }
-            $update="$scriptlocation/getlinks.php?linking_page=$linking_page";
-            $update=file_get_contents($update);
+            $update = "$scriptlocation/getlinks.php?linking_page=$linking_page";
+            $update = file_get_contents($update);
 
         }
 
@@ -131,9 +131,7 @@ if ($refresh == "yes") {
     }
 
 
-}
-else
-{
+} else {
     if ($orderby == '') {
         $orderby = "linking_page_inlinks";
     }
