@@ -40,10 +40,18 @@ if (!isset($_GET['domain'])) {
     $checked = $_GET["checked"];
     $domain  = mysql_escape_string($_GET["domain"]);
 
-    echo "<h2>Results for $domain</h2>";
-    echo "<table>";
-    echo "<tr><td></td><td><a href=\"index.php?domain=$domain&orderby=links\">Links</a></td><td><a href=\"index.php?domain=$domain&orderby=pr\">PR</a></td><td colspan=\"5\"></td></tr>";
-
+    ?>
+    <h2>Results for <?php echo $domain ?></h2>
+    <table>
+    <thead>
+        <tr>
+        	<th></th>
+        	<th><a href="index.php?domain=<?php echo $domain ?>&orderby=links">Links</a></th>
+        	<th><a href="index.php?domain=<?php echo $domain ?>&orderby=pr">PR</a></th>
+        	<th colspan="5"></th>
+    	</tr>
+	</thead>
+    <?php
     $domain1 = "http://$domain";
 
     if (empty($orderby)){
@@ -51,20 +59,25 @@ if (!isset($_GET['domain'])) {
     }
 
     $q = "SELECT * FROM urls WHERE url LIKE '$domain1%' ORDER BY $orderby DESC, id ASC";
+    $urls = $db->query($q)->fetchAll();
 
-    while ($row = $db->query($q)->fetch()) {
+    foreach ($urls as $row) {
 
-        $title = (empty($row[title])) ? $row['url'] : $row['title'];
+        $title = (empty($row['title'])) ? $row['url'] : $row['title'];
         $bg    = ($row['url'] == $checked) ? '#ADDFFF' : '#FFF';
 
-        echo "<tr><td width=\"410\" bgcolor=\"$bg\"><a href=\"$row[url]\" title=\"$row[url]\">$title</a></td><td width=\"40\" bgcolor=\"$bg\"><a href=\"https://siteexplorer.search.yahoo.com/advsearch?p=$row[url]&bwm=i&bwmo=d&bwmf=u\" target=\"_blank\">$row[links] links</a></td>";
-        echo "<td width=\"40\"><img src=\"images/pr$row[pr].gif\" alt=\"PageRank $row[pr]\" title=\"PageRank $row[pr]\"></td>";
-        echo "<td width=\"18\" bgcolor=\"$bg\"><a href=\"rank.php?url=$row[url]&engine=g\" target=\"_blank\"><img src=\"http://www.blogstorm.co.uk/images/g.gif\" alt=\"Check ranking on Google\" width=\"16\" height=\"16\" title=\"Check ranking on Google\" border=\"0\"></a></td>";
-        echo "<td width=\"18\" bgcolor=\"$bg\"><a href=\"rank.php?url=$row[url]&engine=y\" target=\"_blank\"><img src=\"http://www.blogstorm.co.uk/images/y.gif\" alt=\"Check ranking on Yahoo\" width=\"16\" height=\"16\" title=\"Check ranking on Yahoo\" border=\"0\"></a></td>";
-        echo "<td width=\"18\" bgcolor=\"$bg\"><a href=\"rank.php?url=$row[url]&engine=m\" target=\"_blank\"><img src=\"http://www.blogstorm.co.uk/images/m.gif\" alt=\"Check ranking on MSN\" width=\"16\" height=\"16\" title=\"Check ranking on MSN\" border=\"0\"></a></td>";
-        echo "<td width=\"18\" bgcolor=\"$bg\"><a href=\"update.php?url=$row[url]\"><img src=\"http://www.blogstorm.co.uk/images/refresh.jpeg\" alt=\"Update link count for $row[url]\" title=\"Update link count for $row[url]\" border=\"0\"></a></td>";
-        echo "<td width=\"18\" bgcolor=\"$bg\"><a href=\"linkdata.php?url=$row[url]\"><img src=\"http://www.blogstorm.co.uk/images/drilldown.jpg\" alt=\"View link data for this url\" title=\"View link data for this url\" border=\"0\"></a></td></tr>\n";
-
+        ?>
+        <tr>
+            <td width="410" bgcolor="<?php echo $bg ?>"><a href="<?php echo $row['url'] ?>" title="<?php echo $row['url'] ?>"><?php echo $title ?></a></td>
+            <td width="40" bgcolor="<?php echo $bg ?>"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $row['url'] ?>&bwm=i&bwmo=d&bwmf=u" target="_blank"><?php echo $row['links'] ?></a></td>
+            <td width="40"><img src="images/pr<?php echo $row['pr'] ?>.gif" alt="PageRank <?php echo $row['pr'] ?>" title="PageRank <?php echo $row['pr'] ?>"></td>
+            <td width="18" bgcolor="<?php echo $bg ?>"><a href="rank.php?url=<?php echo $row['url'] ?>&engine=g" target="_blank" title="Check ranking on Google">G</a></td>
+            <td width="18" bgcolor="<?php echo $bg ?>"><a href="rank.php?url=<?php echo $row['url'] ?>&engine=y" target="_blank" title="Check ranking on Yahoo">Y!</a></td>
+            <td width="18" bgcolor="<?php echo $bg ?>"><a href="rank.php?url=<?php echo $row['url'] ?>&engine=m" target="_blank" title="Check ranking on MSN">M</a></td>
+            <td width="18" bgcolor="<?php echo $bg ?>"><a href="update.php?url=<?php echo $row['url'] ?>"><img src="http://www.blogstorm.co.uk/images/refresh.jpeg" alt="Update link count for <?php echo $row['url'] ?>" title="Update link count for <?php echo $row['url'] ?>" border="0"></a></td>
+            <td width="18" bgcolor="<?php echo $bg ?>"><a href="linkdata.php?url=<?php echo $row['url'] ?>"><img src="http://www.blogstorm.co.uk/images/drilldown.jpg" alt="View link data for this url" title="View link data for this url" border="0"></a></td>
+        </tr>
+        <?php
     }
 
     echo "</table>";
