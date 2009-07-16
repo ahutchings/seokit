@@ -119,4 +119,35 @@ class SEOKit
 
         return $out;
     }
+
+    /**
+     * retrieves an array of valid timezones for date_default_timezone_set
+     *
+     * @return array
+     */
+    public static function getTimezones()
+    {
+        $cities = array();
+
+        foreach (DateTimeZone::listAbbreviations() as $key => $zones) {
+            foreach ($zones as $id => $zone) {
+                if (preg_match('/^(America|Antartica|Arctic|Asia|Atlantic|Europe|Indian|Pacific)\//', $zone['timezone_id'])) {
+                    $cities[$zone['timezone_id']][] = $key;
+                }
+            }
+        }
+
+        // for each city, have a comma separated list of all possible timezones for that city
+        foreach ($cities as $k => $v) {
+            $cities[$k] = implode( ',', $v);
+        }
+
+        // only keep one city (the first and also most important) for each set of possibilities
+        $cities = array_unique($cities);
+
+        // sort by area/city name
+        ksort($cities);
+
+        return array_keys($cities);
+    }
 }

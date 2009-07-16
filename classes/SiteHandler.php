@@ -58,7 +58,7 @@ class SiteHandler
 
     public function update_settings()
     {
-        $allowed = array('base_url', 'theme_path', 'timezone', 'log_path', 'pagination');
+        $allowed = array('base_url', 'theme_path', 'timezone', 'pagination', 'yahoo_api_key');
         $options = array_intersect_key($_POST, array_fill_keys($allowed, true));
 
         foreach ($options as $name => $value) {
