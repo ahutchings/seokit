@@ -31,7 +31,7 @@
                                 <?php endforeach; ?>
                         		</tbody>
                             </table>
-                            <p><a href="addsite.php">Add a new domain</a></p>
+                            <p><a href="/domain/create">Add a new domain</a></p>
                         </div>
                 	</div>
 

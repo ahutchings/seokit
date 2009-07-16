@@ -11,7 +11,7 @@ use an xml sitemap rather than relying on Yahoo to return indexed pages.
 
 <p><b>Note:</b> if you spider a site using this method the page titles
 will not be added to the database like they will be if you use <a
-	href="addsite.php">this method</a>.
+	href="/domain/create">this method</a>.
 <p>Enter the xml sitemap location in the box below:
 <form action="sitemap.php" id="sitemap" method="get">
 	<label>Sitemap URL</label>

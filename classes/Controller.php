@@ -11,6 +11,7 @@ class Controller
     {
         $routes = array(
             'index' => array('url' => '/\\A\\z/', 'controller' => 'SiteHandler', 'action' => 'display_home'),
+        	'domain_create' => array('url' => '%^domain/create/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_domain_create'),
         	'domain_delete' => array('url' => '%^domain/delete/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_domain_delete'),
             'settings' => array('url' => '%^settings/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_settings'),
         	'logs' => array('url' => '%^logs/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_logs'),

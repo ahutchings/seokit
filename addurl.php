@@ -11,7 +11,7 @@ if (!isset($_GET['url']) || empty($_GET['url'])) {
 below.
 <p><b>Note:</b> if you spider a site using this method the page titles
 will not be added to the database like they will be if you use <a
-	href="addsite.php">this method</a>.
+	href="/domain/create">this method</a>.
 <form action="addurl.php" id="add-url" method="get">
 	<label>Web page URL</label>
 	<input name="url" size="45" id="url" type="text" class="text" />

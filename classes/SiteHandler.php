@@ -35,6 +35,23 @@ class SiteHandler
         $this->template->display('domains.php');
     }
 
+    public function display_domain_create()
+    {
+        if (isset($_GET['url']) && !empty($_GET['url'])) {
+            $db     = DB::connect();
+            $domain = parse_url($_GET['url'], PHP_URL_HOST);
+            $q      = "SELECT COUNT(1) FROM domain WHERE domain = '$domain'";
+
+            if ($db->query($q)->fetchColumn() == 0){
+                $pr = Google::get_pagerank($domain);
+
+                $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
+            }
+        }
+
+        $this->template->display('addsite.php');
+    }
+
     public function display_domain_delete()
     {
         $domain = Domains::get(array('id' => $_GET['id']));

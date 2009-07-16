@@ -1,15 +1,12 @@
-<?php
+<?php include 'header.php' ?>
 
-include 'config.inc.php';
-include 'header.php';
-
-if (!isset($_GET['url']) || empty($_GET['url'])): ?>
+<?php if (!isset($_GET['url']) || empty($_GET['url'])): ?>
     <h2>Add a site to be analysed</h2>
 
     <p>To input a site just enter the url in the box below and the script
     will store all the known url's in the database ready for analysis.</p>
 
-    <form action="addsite.php" id="add-site" method="get">
+    <form action="/domain/create" id="add-site" method="get">
     	<label>Site URL</label>
     	<input name="url" id="url" size="45" type="text" class="text" />
     	<input value="Submit" type="submit" />
@@ -24,15 +21,6 @@ if (!isset($_GET['url']) || empty($_GET['url'])): ?>
 <?php else: ?>
 	<h2>Spider results</h2>
     <?php
-    $domain = parse_url($_GET['url'], PHP_URL_HOST);
-    $q = "SELECT COUNT(1) FROM domain WHERE domain = '$domain'";
-
-    if ($db->query($q)->fetchColumn() == 0){
-
-        $pr = Google::get_pagerank($domain);
-
-        $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
-    }
 
     echo $_GET['url'] . " is being spidered.........<br>\n";
 
