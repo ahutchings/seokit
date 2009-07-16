@@ -19,9 +19,9 @@ if (!empty($linking_page)) {
     $incoming_links = $output[ResultSet][totalResultsAvailable];
 
     if (ctype_digit($incoming_links)) {
-        $pr="$scriptlocation/getpr.php?url=$linking_page";
-        $pr=@file_get_contents($pr);
-        MYSQL_QUERY("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
+        $pr = "$scriptlocation/getpr.php?url=$linking_page";
+        $pr = @file_get_contents($pr);
+        $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
     }
 
     header("HTTP/1.1 301 Moved Permanently");
@@ -43,7 +43,7 @@ if (!empty($linking_page)) {
         if (ctype_digit($incoming_links)) {
             $pr = "$scriptlocation/getpr.php?url=$url";
             $pr = @file_get_contents($pr);
-            MYSQL_QUERY("UPDATE urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
+            $db->exec("UPDATE urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
         }
         $str = explode('/',$url);
         $domain = "$str[2]";

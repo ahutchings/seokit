@@ -8,9 +8,11 @@ if (!isset($_GET['url']) || empty($_GET['url'])) {
 <h2>Add a site to be analysed</h2>
 <p>To input a site just enter the url in the box below and the script
 will store all the known url's in the database ready for analysis.
-<form action="addsite.php" method="get">Site URL: <input name="url"
-	size="45" value="http://www.site.com" type="text" class="text" />
-	<input value="Submit" type="submit" /></form>
+<form action="addsite.php" method="get">
+	<label>Site URL</label>
+	<input name="url" size="45" value="http://www.site.com" type="text" class="text" />
+	<input value="Submit" type="submit" />
+</form>
 <p>The script captures data using the "Pages in Site" feature of <a
 	href="https://siteexplorer.search.yahoo.com">Yahoo Site Explorer</a>.
 <p>You can add a site that's already in the database if you need to for
@@ -20,20 +22,18 @@ any reason, we won't store duplicate urls.
 <h2>Spider results</h2>
     <?php
     $url = mysql_escape_string($_GET["url"]);
-    $str = explode('/',$url);
+    $str = explode('/', $url);
     $domain = "$str[2]";
-    $result = MYSQL_QUERY("SELECT domain FROM domains WHERE domain='$domain' LIMIT 1");
+    $q = "SELECT domain FROM domains WHERE domain='$domain' LIMIT 1";
 
-    if (!$row = mysql_fetch_array($result)){
+    if (!$row = $db->query($q)->fetch()){
         $pr = "$scriptlocation/getpr.php?url=$domain";
         $pr = @file_get_contents($pr);
-        if (mysql_query("INSERT INTO domains VALUES('','$domain','$pr')") or die(mysql_error())){
 
-        }
-
+        $db->exec("INSERT INTO domains VALUES('','$domain','$pr')");
     }
 
-    echo "$url being spidered.........<BR>\n";
+    echo "$url is being spidered.........<br>\n";
 
     $counter = 0;
     $type = 0;
@@ -107,12 +107,12 @@ any reason, we won't store duplicate urls.
         $fp = "";
         $fp = @file($request);
 
-        if(!$fp){
+        if (!$fp){
             echo "Cannot connect to Yahoo, you might have used more than 5000 queries today?";
             include 'footer.php';
             exit();
         }
-        foreach($fp as $line){
+        foreach ($fp as $line){
             if (!xml_parse($xmlParser, $line)){
                 echo "Cannot parse xml file";
                 include 'footer.php';
@@ -120,34 +120,30 @@ any reason, we won't store duplicate urls.
             }
         }
 
-        foreach($itemInfo as $items){
-            $url=$items['url'];
-            $title=$items['title'];
-            $title=mysql_escape_string($title);
+        foreach ($itemInfo as $items){
+            $url = $items['url'];
+            $title = $items['title'];
+            $title = mysql_escape_string($title);
+            $q = "SELECT url FROM urls WHERE url='$url' LIMIT 1";
 
-            $result = MYSQL_QUERY("SELECT url FROM urls WHERE url='$url' LIMIT 1");
-
-            if (!$row=mysql_fetch_array($result)){
-                $pr="$scriptlocation/getpr.php?url=$url";
-                $pr=@file_get_contents($pr);
-                if (mysql_query("INSERT INTO urls VALUES('','$url','$title','0','','$pr')") or die(mysql_error())){
+            if (!$row = $db->query($q)->fetch()){
+                $pr = "$scriptlocation/getpr.php?url=$url";
+                $pr = @file_get_contents($pr);
+                if ($db->exec("INSERT INTO urls VALUES('','$url','$title','0','','$pr')")){
                     echo "<a href=\"$url\">$url</a> was added!<br />\n";
                     $update = "$scriptlocation/getlinks.php?url=$url";
                     $update = file_get_contents($update);
                 }
 
-            }
-            else
-            {
+            } else {
                 echo "<a href=\"$url\">$url</a> is already listed <BR>\n";
                 $update = "$scriptlocation/getlinks.php?url=$url";
                 $update = file_get_contents($update);
             }
 
-
         }
 
-        $start=$start+100;
+        $start += 100;
     }
 
 

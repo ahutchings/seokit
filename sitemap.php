@@ -13,9 +13,11 @@ use an xml sitemap rather than relying on Yahoo to return indexed pages.
 will not be added to the database like they will be if you use <a
 	href="addsite.php">this method</a>.
 <p>Enter the xml sitemap location in the box below:
-<form action="sitemap.php" method="get">Sitemap URL: <input name="url"
-	size="45" value="http://www.site.com/sitemap.xml" type="text" class="text" /><input
-	value="Submit" type="submit" /></form>
+<form action="sitemap.php" method="get">
+	<label>Sitemap URL</label>
+	<input name="url" size="45" value="http://www.site.com/sitemap.xml" type="text" class="text" />
+	<input value="Submit" type="submit" />
+</form>
     <?php
 } else {
     ?>
@@ -26,16 +28,14 @@ will not be added to the database like they will be if you use <a
     $domain = "$str[2]";
     $result = MYSQL_QUERY("SELECT domain FROM domains WHERE domain='$domain' LIMIT 1");
 
-    if (!$row=mysql_fetch_array($result)){
-        $pr="$scriptlocation/getpr.php?url=$domain";
-        $pr=@file_get_contents($pr);
+    if (!$row = mysql_fetch_array($result)){
+        $pr = "$scriptlocation/getpr.php?url=$domain";
+        $pr = @file_get_contents($pr);
 
-        if (mysql_query("INSERT INTO domains VALUES('','$domain','$pr')") or die(mysql_error())){
-
-        }
-
+        mysql_query("INSERT INTO domains VALUES('','$domain','$pr')") or die(mysql_error());
     }
-    echo "$feedurl being spidered.........<BR>\n";
+
+    echo "$feedurl being spidered.........<br>\n";
 
     $counter = 0;
     $type = 0;

@@ -12,9 +12,11 @@ below.
 <p><b>Note:</b> if you spider a site using this method the page titles
 will not be added to the database like they will be if you use <a
 	href="addsite.php">this method</a>.
-<form action="addurl.php" method="get">Web page URL: <input name="url"
-	size="45" value="http://www.site.com/single-page" type="text" class="text" /><input
-	value="Submit" type="submit" /></form>
+<form action="addurl.php" method="get">
+	<label>Web page URL</label>
+	<input name="url" size="45" value="http://www.site.com/single-page" type="text" class="text" />
+	<input value="Submit" type="submit" />
+</form>
     <?php
 
 } else {
