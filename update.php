@@ -82,9 +82,9 @@ if (!empty($linking_page)) {
                 $db->query("UPDATE urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
                 $db->query("UPDATE domains SET pr='$pr' WHERE domain='$domain' LIMIT 1");
 
-                echo "$incoming_links links to $url <BR> \n";
+                echo "$incoming_links links to $url <br> \n";
             } else {
-                echo "Error getting link count for $url <BR> \n";
+                echo "Error getting link count for $url <br> \n";
             }
         }
     }

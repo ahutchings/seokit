@@ -41,8 +41,8 @@ any reason, we won't store duplicate urls.
     $itemInfo = array();
     $channelInfo = array();
 
-    function opening_element($xmlParser, $name, $attribute){
-
+    function opening_element($xmlParser, $name, $attribute)
+    {
         global $tag, $type;
 
         $tag = $name;
@@ -52,11 +52,10 @@ any reason, we won't store duplicate urls.
         } elseif ($name == "RESULT"){
             $type = 2;
         }
-
     }//end opening element
 
-    function closing_element($xmlParser, $name){
-
+    function closing_element($xmlParser, $name)
+    {
         global $tag, $type, $counter;
 
         $tag = "";
@@ -68,8 +67,8 @@ any reason, we won't store duplicate urls.
         }
     }//end closing_element
 
-    function c_data($xmlParser, $data){
-
+    function c_data($xmlParser, $data)
+    {
         global $tag, $type, $channelInfo, $itemInfo, $counter;
 
         $data = trim(htmlspecialchars($data));
@@ -92,9 +91,9 @@ any reason, we won't store duplicate urls.
     while ($start <= 1000) {
         $request = "";
         $request = 'http://search.yahooapis.com/SiteExplorerService/V1/pageData?appid=FUH9aZjV34GSWglIPsIhtcRNWA3_oTLSJDq51iBY8_P7.ykFyeZOcLoH.Hz4AiI-&query=';
-        $request.=$url;
-        $request.='&results=100&start=';
-        $request.=$start;
+        $request .= $url;
+        $request .= '&results=100&start=';
+        $request .= $start;
 
         $xmlParser = xml_parser_create();
 
@@ -136,7 +135,7 @@ any reason, we won't store duplicate urls.
                 }
 
             } else {
-                echo "<a href=\"$url\">$url</a> is already listed <BR>\n";
+                echo "<a href=\"$url\">$url</a> is already listed <br>\n";
                 $update = "$scriptlocation/getlinks.php?url=$url";
                 $update = file_get_contents($update);
             }

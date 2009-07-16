@@ -16,11 +16,11 @@ if (!empty($url)) {
     $request .= '&output=php';
     $request .= '&omit_inlinks=domain';
     $output = unserialize(file_get_contents($request));
-    $incoming_links=$output[ResultSet][totalResultsAvailable];
+    $incoming_links = $output['ResultSet']['totalResultsAvailable'];
 
     if (ctype_digit($incoming_links)) {
 
-        $result3 = $db->exec("UPDATE urls SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
+        $db->exec("UPDATE urls SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
         echo "$incoming_links links to $url";
     }
 }
@@ -38,7 +38,7 @@ if (!empty($linking_page)){
 
     if (ctype_digit($incoming_links)) {
 
-        $result3 = $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links' WHERE linking_page='$linking_page' LIMIT 1");
+        $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links' WHERE linking_page='$linking_page' LIMIT 1");
         echo "$incoming_links links to $url";
     }
 }

@@ -32,65 +32,58 @@ will not be added to the database like they will be if you use <a
         $pr = "$scriptlocation/getpr.php?url=$domain";
         $pr = @file_get_contents($pr);
 
-        mysql_query("INSERT INTO domains VALUES('','$domain','$pr')") or die(mysql_error());
+        $db->exec("INSERT INTO domains VALUES('','$domain','$pr')");
     }
 
-    echo "$feedurl being spidered.........<br>\n";
+    echo "$feedurl is being spidered.........<br>\n";
 
     $counter = 0;
     $type = 0;
-    $tag = "";
+    $tag = '';
     $itemInfo = array();
     $channelInfo = array();
 
-    function opening_element($xmlParser, $name, $attribute){
-
+    function opening_element($xmlParser, $name, $attribute)
+    {
         global $tag, $type;
 
         $tag = $name;
 
-        if($name == "URLSET"){
+        if ($name == "URLSET") {
             $type = 1;
-        }
-        else if($name == "URL"){
+        } elseif ($name == "URL") {
             $type = 2;
         }
+    }
 
-    }//end opening element
-
-    function closing_element($xmlParser, $name){
-
+    function closing_element($xmlParser, $name)
+    {
         global $tag, $type, $counter;
 
         $tag = "";
-        if($name == "URL"){
+
+        if ($name == "URL") {
             $type = 0;
             $counter++;
-        }
-        else if($name == "URLSET"){
+        } elseif ($name == "URLSET") {
             $type = 0;
         }
-    }//end closing_element
+    }
 
-    function c_data($xmlParser, $data){
-
+    function c_data($xmlParser, $data)
+    {
         global $tag, $type, $channelInfo, $itemInfo, $counter;
 
         $data = trim(htmlspecialchars($data));
 
-        if($tag == "TITLE" || $tag == "DESCRIPTION" || $tag == "LOC" || $tag == "PUBDATE"){
-            if($type == 1){
-
+        if (in_array($tag, array('TITLE', 'DESCRIPTION', 'LOC', 'PUBDATE'))) {
+            if ($type == 1) {
                 $channelInfo[strtolower($tag)] = $data;
-
-            }//end checking channel
-            else if($type == 2){
-
+            } elseif ($type == 2) {
                 $itemInfo[$counter][strtolower($tag)] .= $data;
-
-            }//end checking for item
-        }//end checking tag
-    }//end cdata funct
+            }
+        }
+    }
 
     $xmlParser = xml_parser_create();
 
@@ -101,17 +94,17 @@ will not be added to the database like they will be if you use <a
     xml_set_character_data_handler($xmlParser, "c_data");
 
     $fp = file($feedurl);
-    if (!$fp){
+    if (!$fp) {
         echo "Cannot connect to $feedurl";
         exit();
     }
     foreach ($fp as $line){
-        if(!xml_parse($xmlParser, $line)){
+        if (!xml_parse($xmlParser, $line)) {
             die("Could not parse file.");
         }
     }
 
-    foreach ($itemInfo as $items){
+    foreach ($itemInfo as $items) {
         $url = $items['loc'];
 
         $result = MYSQL_QUERY("SELECT url FROM urls WHERE url='$url' LIMIT 1");
@@ -124,10 +117,8 @@ will not be added to the database like they will be if you use <a
                 echo "<a href=\"$url\">$url</a> was added!<br />\n";
             }
 
-        }
-        else
-        {
-            echo "<a href=\"$url\">$url</a> is already listed <BR>\n";
+        } else {
+            echo "<a href=\"$url\">$url</a> is already listed <br>\n";
         }
 
     }
