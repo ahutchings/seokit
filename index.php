@@ -4,8 +4,7 @@ include 'config.inc.php';
 include 'header.php';
 
 if (!isset($_GET['domain'])) {
-    $q = "SELECT * FROM domains ORDER BY id ASC";
-    $domains = $db->query($q)->fetchAll();
+    $domains = Domains::get();
     ?>
     <h2>All Domains</h2>
     <table>
@@ -19,11 +18,11 @@ if (!isset($_GET['domain'])) {
     	<tbody>
         <?php foreach ($domains as $domain): ?>
             <tr>
-                <td width="200"><a href="index.php?domain=<?php echo $domain['domain'] ?>"><?php echo $domain['domain'] ?></a></td>
-                <td><img src="images/pr<?php echo $domain['pr'] ?>.gif" alt="PageRank <?php echo $domain['pr'] ?>" title="PageRank <?php echo $domain['pr'] ?>"></td>
+                <td width="200"><a href="index.php?domain=<?php echo $domain->domain ?>"><?php echo $domain->domain ?></a></td>
+                <td><img src="images/pr<?php echo $domain->pr ?>.gif" alt="PageRank <?php echo $domain->pr ?>" title="PageRank <?php echo $domain->pr ?>"></td>
                 <td>
-                	<a href="update.php?domain=<?php echo $domain['domain'] ?>" title="Update all link counts for <?php echo $domain['domain'] ?>">refresh</a> |
-                	<a href="delete.php?domain=<?php echo $domain['domain'] ?>" title="Delete entire domain">delete</a>
+                	<a href="update.php?domain=<?php echo $domain->domain ?>" title="Update all link counts for <?php echo $domain->domain ?>">refresh</a> |
+                	<a href="delete.php?domain=<?php echo $domain->domain ?>" title="Delete entire domain">delete</a>
             	</td>
             </tr>
         <?php endforeach; ?>
