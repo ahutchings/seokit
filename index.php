@@ -9,16 +9,27 @@ if (!isset($_GET['domain'])) {
     ?>
     <h2>Your domains</h2>
     <table>
-    <?php foreach ($domains as $domain): ?>
-        <tr>
-            <td width="50"><?php echo $domain['id'] ?></td>
-            <td width="200"><a href="index.php?domain=<?php echo $domain['domain'] ?>"><?php echo $domain['domain'] ?></a></td>
-            <td><img src="images/pr<?php echo $domain['pr'] ?>.gif" alt="PageRank <?php echo $domain['pr'] ?>" title="PageRank <?php echo $domain['pr'] ?>"></td>
-            <td width="30"><a href="update.php?domain=<?php echo $domain['domain'] ?>"><img src="http://www.blogstorm.co.uk/images/refresh.jpeg" alt="Update all link counts for <?php echo $domain['domain'] ?>" title="Update all link counts for <?php echo $domain['domain'] ?>" border="0"></a></td>
-            <td><a href="delete.php?domain=<?php echo $domain['domain'] ?>">Delete entire domain</a></td>
-        </tr>
-    <?php endforeach; ?>
-
+    	<thead>
+    		<tr>
+    			<th>ID</th>
+    			<th>Domain</th>
+    			<th>PageRank</th>
+    			<th></th>
+    		</tr>
+    	</thead>
+    	<tbody>
+        <?php foreach ($domains as $domain): ?>
+            <tr>
+                <td width="50"><?php echo $domain['id'] ?></td>
+                <td width="200"><a href="index.php?domain=<?php echo $domain['domain'] ?>"><?php echo $domain['domain'] ?></a></td>
+                <td><img src="images/pr<?php echo $domain['pr'] ?>.gif" alt="PageRank <?php echo $domain['pr'] ?>" title="PageRank <?php echo $domain['pr'] ?>"></td>
+                <td>
+                	<a href="update.php?domain=<?php echo $domain['domain'] ?>" title="Update all link counts for <?php echo $domain['domain'] ?>">refresh</a> |
+                	<a href="delete.php?domain=<?php echo $domain['domain'] ?>" title="Delete entire domain">delete</a>
+            	</td>
+            </tr>
+        <?php endforeach; ?>
+		</tbody>
     </table><br><a href="addsite.php">Add a new domain</a>
 
     <?php
