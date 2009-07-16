@@ -1,15 +1,13 @@
 <?php
 
-include('config.inc.php');
+include 'config.inc.php';
 
+$url = $_GET["url"];
+$url = mysql_escape_string($url);
 
-$url=$_GET["url"];
-$url=mysql_escape_string($url);
+include 'header.php';
 
-
-include("header.php");
-
-if($url==""){
+if ($url == "") {
     ?>
 <h2>Add a single web page to the database</h2>
 
@@ -23,48 +21,38 @@ will not be added to the database like they will be if you use <a
 	value="Submit" style="width: 50px" type="submit" /></form>
     <?php
 
-}
-else
-{
+} else {
     $url = str_replace("http://", "", $url);
-    $url="http://$url";
-
-
-
-
+    $url = "http://$url";
 
     $result = MYSQL_QUERY("SELECT url FROM linkanalysis_urls WHERE url='$url' LIMIT 1");
 
-    if (!$row=mysql_fetch_array($result)){
+    if (!$row = mysql_fetch_array($result)){
 
-        $pr="$scriptlocation/getpr.php?url=$url";
-        $pr=@file_get_contents($pr);
+        $pr = "$scriptlocation/getpr.php?url=$url";
+        $pr = @file_get_contents($pr);
 
         if (mysql_query("INSERT INTO linkanalysis_urls VALUES('','$url','$title','0','','$pr')") or die(mysql_error())){
             echo "<h2>Page added</h2> <BR> <a href=\"$url\">$url</a> was added to the database<br />\n";
         }
 
-    }
-    else
-    {
+    } else {
         echo "<h2>Results</h2> <BR> <a href=\"$url\">$url</a> is already listed in the database<BR>\n";
     }
-    $update="$scriptlocation/getlinks.php?url=$url";
-    $update=file_get_contents($update);
-     
-    $str = explode('/',$url);
-    $domain="$str[2]";
+    $update = "$scriptlocation/getlinks.php?url=$url";
+    $update = file_get_contents($update);
+
+    $str    = explode('/',$url);
+    $domain = "$str[2]";
     $result = MYSQL_QUERY("SELECT domain FROM linkanalysis_domains WHERE domain='$domain' LIMIT 1");
 
-    if (!$row=mysql_fetch_array($result)){
-        $pr="$scriptlocation/getpr.php?url=$domain";
-        $pr=@file_get_contents($pr);
+    if (!$row = mysql_fetch_array($result)){
+        $pr = "$scriptlocation/getpr.php?url=$domain";
+        $pr = @file_get_contents($pr);
         if (mysql_query("INSERT INTO linkanalysis_domains VALUES('','$domain','$pr')") or die(mysql_error())){
 
         }
-
     }
-
 }
-include("footer.php");
-?>
+
+include 'footer.php';

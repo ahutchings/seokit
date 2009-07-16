@@ -1,12 +1,12 @@
 <?php
 
-include('config.inc.php');
+include 'config.inc.php';
 
 
 $feedurl=$_GET["url"];
 $feedurl=mysql_escape_string($feedurl);
 
-include("header.php");
+include 'header.php';
 
 if($feedurl==""){
     ?>
@@ -109,7 +109,7 @@ else
 
     $fp = file($feedurl);
     if(!$fp){
-        echo"Cannot connect to $feedurl";
+        echo "Cannot connect to $feedurl";
         exit();
     }
     foreach($fp as $line){
@@ -139,7 +139,7 @@ else
 
     }
 }
-include("footer.php");
+include 'footer.php';
 ?>
 
 

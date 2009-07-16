@@ -1,17 +1,17 @@
 <?php
-include('config.inc.php');
+include 'config.inc.php';
 
 $tables = array();
-$tbl="linkanalysis_domains";
-$tbl2="linkanalysis_urls";
-$tbl3="linkanalysis_linkdata";
+$tbl  = "linkanalysis_domains";
+$tbl2 = "linkanalysis_urls";
+$tbl3 = "linkanalysis_linkdata";
 
 $q = @mysql_query("SHOW TABLES");
 while ($r = @mysql_fetch_array($q)) { $tables[] = $r[0]; }
 @mysql_free_result($q);
 @mysql_close($link);
 if (in_array($tbl, $tables)) {
-    echo" table $tbl already exists <BR>";
+    echo " table $tbl already exists <BR>";
 }
 else
 {
@@ -21,7 +21,7 @@ else
 }
 
 if (in_array($tbl2, $tables)) {
-    echo" table $tbl2 already exists<BR>";
+    echo " table $tbl2 already exists<BR>";
 }
 else
 {
@@ -31,7 +31,7 @@ else
 }
 
 if (in_array($tbl3, $tables)) {
-    echo" table $tbl3 already exists<BR>";
+    echo " table $tbl3 already exists<BR>";
 }
 else
 {
@@ -39,6 +39,6 @@ else
     echo 'Creating table: \'linkanalysis_linkdata\'....<BR>';
     mysql_query($result) or die(mysql_error());
 }
-echo"<BR><a href=\"index.php\">Setup completed</a>";
+echo "<BR><a href=\"index.php\">Setup completed</a>";
 
 ?>

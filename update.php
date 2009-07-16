@@ -1,6 +1,5 @@
 <?php
-include('config.inc.php');
-//include("header.php");
+include 'config.inc.php';
 
 $url=$_GET["url"];
 $linking_page=$_GET["linking_page"];
@@ -26,16 +25,12 @@ if($linking_page!=""){
         $pr="$scriptlocation/getpr.php?url=$linking_page";
         $pr=@file_get_contents($pr);
         $result3 = MYSQL_QUERY("UPDATE linkanalysis_linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
-        //echo"$incoming_links links to $url";
     }
 
     header("HTTP/1.1 301 Moved Permanently");
     header("Location: linkdata.php?url=$url");
     exit();
 
-
-     
-     
 }
 else
 {
@@ -55,7 +50,7 @@ else
             $pr="$scriptlocation/getpr.php?url=$url";
             $pr=@file_get_contents($pr);
             $result3 = MYSQL_QUERY("UPDATE linkanalysis_urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
-            //echo"$incoming_links links to $url";
+            //echo "$incoming_links links to $url";
         }
         $str = explode('/',$url);
         $domain="$str[2]";
@@ -67,8 +62,8 @@ else
     }
 
     if(($domain!="")&&($url=="")){
-        include("header.php");
-        echo"<h2>Getting link data</h2><p>This might take a while but you will be <a href=\"index.php?domain=$domain\">sent here when it finishes</a>.";
+        include 'header.php';
+        echo "<h2>Getting link data</h2><p>This might take a while but you will be <a href=\"index.php?domain=$domain\">sent here when it finishes</a>.";
 
         $domain1="http://$domain";
         $counter="0";
@@ -76,7 +71,7 @@ else
             $result = MYSQL_QUERY("SELECT * FROM linkanalysis_urls WHERE checkdate !='$today' AND url LIKE '$domain1%' ORDER BY id DESC LIMIT 1");
 
             if (!$row=mysql_fetch_array($result)){
-                echo"Every url has been checked already today";
+                echo "Every url has been checked already today";
                 exit();
             }
             $url=$row[url];
@@ -95,19 +90,16 @@ else
                 $pr=@file_get_contents($pr);
                 $result4 = MYSQL_QUERY("UPDATE linkanalysis_urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
                 $result5 = MYSQL_QUERY("UPDATE linkanalysis_domains SET pr='$pr' WHERE domain='$domain' LIMIT 1");
-                echo"$incoming_links links to $url <BR> \n";
+                echo "$incoming_links links to $url <BR> \n";
             }
             else
             {
-                echo"Error getting link count for $url <BR> \n";
+                echo "Error getting link count for $url <BR> \n";
             }
 
             $counter = $counter + 1;
         }
     }
-    echo"<meta http-equiv=\"refresh\" content=\"10;url=index.php?domain=$domain\">";
-    include("footer.php");
+    echo "<meta http-equiv=\"refresh\" content=\"10;url=index.php?domain=$domain\">";
+    include 'footer.php';
 }
-
-//
-?>

@@ -1,12 +1,11 @@
 <?php
 
-
 //PageRank Lookup v1.1 by HM2K (update: 31/01/07)
 //based on an alogoritham found here: http://pagerank.gamesaga.net/
 
 //settings - host and user agent
-$googlehost='toolbarqueries.google.com';
-$googleua='Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.6) Gecko/20060728 Firefox/1.5';
+$googlehost = 'toolbarqueries.google.com';
+$googleua   = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.0.6) Gecko/20060728 Firefox/1.5';
 
 //convert a string to a 32-bit integer
 function StrToNum($Str, $Check, $Magic) {

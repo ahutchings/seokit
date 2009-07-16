@@ -1,14 +1,14 @@
 <?php
 
-include('config.inc.php');
+include 'config.inc.php';
 
 
-$url=$_GET["url"];
-$url=mysql_escape_string($url);
+$url = $_GET["url"];
+$url = mysql_escape_string($url);
 
-include("header.php");
+include 'header.php';
 
-if($url==""){
+if ($url == "") {
     ?>
 <h2>Add a site to be analysed</h2>
 <p>To input a site just enter the url in the box below and the script
@@ -119,14 +119,14 @@ else
         $fp = @file($request);
 
         if(!$fp){
-            echo"Cannot connect to Yahoo, you might have used more than 5000 queries today?";
-            include("footer.php");
+            echo "Cannot connect to Yahoo, you might have used more than 5000 queries today?";
+            include 'footer.php';
             exit();
         }
         foreach($fp as $line){
             if(!xml_parse($xmlParser, $line)){
-                echo"Cannot parse xml file";
-                include("footer.php");
+                echo "Cannot parse xml file";
+                include 'footer.php';
                 exit();
             }
         }
@@ -143,16 +143,16 @@ else
                 $pr=@file_get_contents($pr);
                 if (mysql_query("INSERT INTO linkanalysis_urls VALUES('','$url','$title','0','','$pr')") or die(mysql_error())){
                     echo "<a href=\"$url\">$url</a> was added!<br />\n";
-                    $update="$scriptlocation/getlinks.php?url=$url";
-                    $update=file_get_contents($update);
+                    $update = "$scriptlocation/getlinks.php?url=$url";
+                    $update = file_get_contents($update);
                 }
 
             }
             else
             {
                 echo "<a href=\"$url\">$url</a> is already listed <BR>\n";
-                $update="$scriptlocation/getlinks.php?url=$url";
-                $update=file_get_contents($update);
+                $update = "$scriptlocation/getlinks.php?url=$url";
+                $update = file_get_contents($update);
             }
 
 
@@ -164,5 +164,4 @@ else
 
 }
 
-include("footer.php");
-?>
+include 'footer.php';
