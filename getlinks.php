@@ -20,7 +20,7 @@ if (!empty($url)) {
 
     if (ctype_digit($incoming_links)) {
 
-        $result3 = MYSQL_QUERY("UPDATE linkanalysis_urls SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
+        $result3 = MYSQL_QUERY("UPDATE urls SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
         echo "$incoming_links links to $url";
     }
 }
@@ -38,7 +38,7 @@ if (!empty($linking_page)){
 
     if (ctype_digit($incoming_links)) {
 
-        $result3 = MYSQL_QUERY("UPDATE linkanalysis_linkdata SET linking_page_inlinks='$incoming_links' WHERE linking_page='$linking_page' LIMIT 1");
+        $result3 = MYSQL_QUERY("UPDATE linkdata SET linking_page_inlinks='$incoming_links' WHERE linking_page='$linking_page' LIMIT 1");
         echo "$incoming_links links to $url";
     }
 }

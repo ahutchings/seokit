@@ -21,7 +21,7 @@ if (!empty($linking_page)) {
     if (ctype_digit($incoming_links)) {
         $pr="$scriptlocation/getpr.php?url=$linking_page";
         $pr=@file_get_contents($pr);
-        $result3 = MYSQL_QUERY("UPDATE linkanalysis_linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
+        $result3 = MYSQL_QUERY("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
     }
 
     header("HTTP/1.1 301 Moved Permanently");
@@ -43,7 +43,7 @@ if (!empty($linking_page)) {
         if (ctype_digit($incoming_links)) {
             $pr = "$scriptlocation/getpr.php?url=$url";
             $pr = @file_get_contents($pr);
-            $result3 = MYSQL_QUERY("UPDATE linkanalysis_urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
+            $result3 = MYSQL_QUERY("UPDATE urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
         }
         $str = explode('/',$url);
         $domain="$str[2]";
@@ -61,7 +61,7 @@ if (!empty($linking_page)) {
         $domain1 = "http://$domain";
         $counter = 0;
         while ($counter <= 5000) {
-            $result = MYSQL_QUERY("SELECT * FROM linkanalysis_urls WHERE checkdate !='$today' AND url LIKE '$domain1%' ORDER BY id DESC LIMIT 1");
+            $result = MYSQL_QUERY("SELECT * FROM urls WHERE checkdate !='$today' AND url LIKE '$domain1%' ORDER BY id DESC LIMIT 1");
 
             if (!$row = mysql_fetch_array($result)){
                 echo "Every url has been checked already today";
@@ -81,8 +81,8 @@ if (!empty($linking_page)) {
             if (ctype_digit($incoming_links)) {
                 $pr="$scriptlocation/getpr.php?url=$url";
                 $pr=@file_get_contents($pr);
-                $result4 = MYSQL_QUERY("UPDATE linkanalysis_urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
-                $result5 = MYSQL_QUERY("UPDATE linkanalysis_domains SET pr='$pr' WHERE domain='$domain' LIMIT 1");
+                $result4 = MYSQL_QUERY("UPDATE urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
+                $result5 = MYSQL_QUERY("UPDATE domains SET pr='$pr' WHERE domain='$domain' LIMIT 1");
                 echo "$incoming_links links to $url <BR> \n";
             }
             else

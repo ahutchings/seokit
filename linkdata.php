@@ -114,12 +114,12 @@ if ($refresh=="yes"){
             $linking_page_title=mysql_escape_string($linking_page_title);
             $linking_page=mysql_escape_string($linking_page);
 
-            $result = MYSQL_QUERY("SELECT linking_page FROM linkanalysis_linkdata WHERE linking_page='$linking_page' LIMIT 1");
+            $result = MYSQL_QUERY("SELECT linking_page FROM linkdata WHERE linking_page='$linking_page' LIMIT 1");
 
             if (!$row=mysql_fetch_array($result)){
                 $pr="$scriptlocation/getpr.php?url=$domain";
                 $pr=@file_get_contents($pr);
-                if (mysql_query("INSERT INTO linkanalysis_linkdata VALUES('','$url','$linking_page','$linking_page_title','$pr','0')") or die(mysql_error())){
+                if (mysql_query("INSERT INTO linkdata VALUES('','$url','$linking_page','$linking_page_title','$pr','0')") or die(mysql_error())){
                     echo "Link found at $pr <a href=\"$linking_page\">$linking_page_title</a><br />\n";
 
                 }
@@ -129,7 +129,7 @@ if ($refresh=="yes"){
             {
                 $pr="$scriptlocation/getpr.php?url=$linking_page";
                 $pr=@file_get_contents($pr);
-                $result7 = MYSQL_QUERY("UPDATE linkanalysis_linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
+                $result7 = MYSQL_QUERY("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
                 echo "Link data updated <a href=\"$linking_page\">$linking_page_title</a><BR>\n";
 
             }
@@ -152,7 +152,7 @@ else
     echo "<table cellpadding=\"4\" cellspacing=\"0\" border=\"1\" width=\"100%\">";
     echo "<tr><td></td><td><a href=\"linkdata.php?url=$url&orderby=linking_page_inlinks\">Links</a></td><td><a href=\"linkdata.php?url=$url&orderby=linking_page_pr\">PR</a></td><td colspan=\"4\"></td></tr>";
 
-    $query = "SELECT * FROM linkanalysis_linkdata WHERE url='$url' ORDER BY $orderby DESC LIMIT 1000";
+    $query = "SELECT * FROM linkdata WHERE url='$url' ORDER BY $orderby DESC LIMIT 1000";
 
     $result=mysql_query($query);
     while ($row= mysql_fetch_array($result)) {

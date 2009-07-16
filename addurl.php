@@ -22,14 +22,14 @@ will not be added to the database like they will be if you use <a
     $url = str_replace("http://", "", $url);
     $url = "http://$url";
 
-    $result = MYSQL_QUERY("SELECT url FROM linkanalysis_urls WHERE url='$url' LIMIT 1");
+    $result = MYSQL_QUERY("SELECT url FROM urls WHERE url='$url' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)){
 
         $pr = "$scriptlocation/getpr.php?url=$url";
         $pr = @file_get_contents($pr);
 
-        if (mysql_query("INSERT INTO linkanalysis_urls VALUES('','$url','$title','0','','$pr')") or die(mysql_error())){
+        if (mysql_query("INSERT INTO urls VALUES('','$url','$title','0','','$pr')") or die(mysql_error())){
             echo "<h2>Page added</h2> <BR> <a href=\"$url\">$url</a> was added to the database<br />\n";
         }
 
@@ -41,12 +41,12 @@ will not be added to the database like they will be if you use <a
 
     $str    = explode('/',$url);
     $domain = "$str[2]";
-    $result = MYSQL_QUERY("SELECT domain FROM linkanalysis_domains WHERE domain='$domain' LIMIT 1");
+    $result = MYSQL_QUERY("SELECT domain FROM domains WHERE domain='$domain' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)){
         $pr = "$scriptlocation/getpr.php?url=$domain";
         $pr = @file_get_contents($pr);
-        if (mysql_query("INSERT INTO linkanalysis_domains VALUES('','$domain','$pr')") or die(mysql_error())){
+        if (mysql_query("INSERT INTO domains VALUES('','$domain','$pr')") or die(mysql_error())){
 
         }
     }

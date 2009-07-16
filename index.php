@@ -4,7 +4,7 @@ include 'config.inc.php';
 include 'header.php';
 
 if (!isset($_GET['domain'])) {
-    $q = "SELECT * FROM linkanalysis_domains ORDER BY id ASC";
+    $q = "SELECT * FROM domains ORDER BY id ASC";
     $domains = $db->query($q)->fetchAll();
     ?>
     <h2>Your domains</h2>
@@ -39,7 +39,7 @@ if (!isset($_GET['domain'])) {
         $orderby = "links";
     }
 
-    $q = "SELECT * FROM linkanalysis_urls WHERE url LIKE '$domain1%' ORDER BY $orderby DESC, id ASC";
+    $q = "SELECT * FROM urls WHERE url LIKE '$domain1%' ORDER BY $orderby DESC, id ASC";
 
     while ($row = $db->query($q)->fetch()) {
 
