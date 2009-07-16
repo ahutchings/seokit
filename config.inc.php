@@ -2,7 +2,7 @@
 
 // replace username, password and database-name with your details
 
-$mainconnection = MYSQL_CONNECT("localhost","seokit","seokit") OR DIE("Unable to connect to database");
+$db = MYSQL_CONNECT("localhost","seokit","seokit") OR DIE("Unable to connect to database");
 
 @mysql_select_db("seokit") or die("Unable to select the database");
 

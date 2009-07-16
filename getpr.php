@@ -80,7 +80,7 @@ function getch($url) { return CheckHash(HashURL($url)); }
 
 //return the pagerank figure
 function getpr($url) {
-    global $googlehost,$googleua;
+    global $googlehost, $googleua;
     $ch = getch($url);
     $fp = fsockopen($googlehost, 80, $errno, $errstr, 30);
     if ($fp) {
@@ -93,12 +93,11 @@ function getpr($url) {
 
         while (!feof($fp)) {
             $data = fgets($fp, 128);
-            //echo $data;
             $pos = strpos($data, "Rank_");
-            if($pos === false){} else{
-                $pr=substr($data, $pos + 9);
-                $pr=trim($pr);
-                $pr=str_replace("\n",'',$pr);
+            if ($pos === false){} else{
+                $pr = substr($data, $pos + 9);
+                $pr = trim($pr);
+                $pr = str_replace("\n",'',$pr);
                 // printing pagerank rishi
                 return $pr;
             }
@@ -109,25 +108,24 @@ function getpr($url) {
 }
 
 //generate the graphical pagerank
-function pagerank($url,$width=40,$method='style') {
+function pagerank($url, $width = 40, $method = 'style') {
     if (!preg_match('/^(http:\/\/)?([^\/]+)/i', $url)) { $url='http://'.$url; }
-    $pr=getpr($url);
+
+    $pr = getpr($url);
 
     return $pr;
 }
 
 
-if (isset($_GET['url']))
-{
-    $tempurls=$_GET['url'];
+if (isset($_GET['url'])) {
+    $tempurls = $_GET['url'];
     $pieces = explode("\n", $tempurls);
-    $size=sizeof($pieces);
-    for ($j=0; $j<$size; $j++)
+    for ($i = 0, $n = count($pieces); $i < $n; $i++)
     {
-        $url=$pieces[$j];
-        echo getpr($pieces[$j]);
+        $url = $pieces[$i];
+        echo getpr($pieces[$i]);
 
     }
-
 }
+
 ?>

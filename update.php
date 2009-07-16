@@ -41,10 +41,9 @@ if (!empty($linking_page)) {
         $incoming_links=$output[ResultSet][totalResultsAvailable];
 
         if (ctype_digit($incoming_links)) {
-            $pr="$scriptlocation/getpr.php?url=$url";
-            $pr=@file_get_contents($pr);
+            $pr = "$scriptlocation/getpr.php?url=$url";
+            $pr = @file_get_contents($pr);
             $result3 = MYSQL_QUERY("UPDATE linkanalysis_urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
-            //echo "$incoming_links links to $url";
         }
         $str = explode('/',$url);
         $domain="$str[2]";
@@ -60,15 +59,15 @@ if (!empty($linking_page)) {
         echo "<h2>Getting link data</h2><p>This might take a while but you will be <a href=\"index.php?domain=$domain\">sent here when it finishes</a>.";
 
         $domain1 = "http://$domain";
-        $counter = "0";
+        $counter = 0;
         while ($counter <= 5000) {
             $result = MYSQL_QUERY("SELECT * FROM linkanalysis_urls WHERE checkdate !='$today' AND url LIKE '$domain1%' ORDER BY id DESC LIMIT 1");
 
-            if (!$row=mysql_fetch_array($result)){
+            if (!$row = mysql_fetch_array($result)){
                 echo "Every url has been checked already today";
                 exit();
             }
-            $url=$row[url];
+            $url = $row[url];
 
             $request = 'http://search.yahooapis.com/SiteExplorerService/V1/inlinkData?appid=';
             $request.=$yahoo_api_key;
@@ -91,7 +90,7 @@ if (!empty($linking_page)) {
                 echo "Error getting link count for $url <BR> \n";
             }
 
-            $counter = $counter + 1;
+            $counter++;
         }
     }
     echo "<meta http-equiv=\"refresh\" content=\"10;url=index.php?domain=$domain\">";

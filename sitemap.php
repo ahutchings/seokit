@@ -20,10 +20,7 @@ will not be added to the database like they will be if you use <a
 	size="45" value="http://www.site.com/sitemap.xml" type="text" /><input
 	value="Submit" style="width: 50px" type="submit" /></form>
     <?php
-
-}
-else
-{
+} else {
     ?>
 <h2>Spider results</h2>
     <?php
