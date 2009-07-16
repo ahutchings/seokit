@@ -2,11 +2,9 @@
 include 'config.inc.php';
 include 'header.php';
 
-$domain  = $_GET["domain"];
 $orderby = $_GET["orderby"];
 $checked = $_GET["checked"];
-$domain  = mysql_escape_string($domain);
-
+$domain  = mysql_escape_string($_GET["domain"]);
 
 $tables = array();
 $tbl = "linkanalysis_domains";
@@ -40,7 +38,7 @@ echo "</table><BR><a href=\"addsite.php\">Add a new domain</a>";
         echo "<table>";
         echo "<tr><td></td><td><a href=\"index.php?domain=$domain&orderby=links\">Links</a></td><td><a href=\"index.php?domain=$domain&orderby=pr\">PR</a></td><td colspan=\"5\"></td></tr>";
 
-        $domain1="http://$domain";
+        $domain1 = "http://$domain";
 
         if ($orderby == ""){
             $orderby = "links";

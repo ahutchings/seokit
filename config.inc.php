@@ -10,6 +10,4 @@ $mainconnection = MYSQL_CONNECT("localhost","seokit","seokit") OR DIE("Unable to
 // more details here http://developer.yahoo.com/search/
 
 $yahoo_api_key  = 'uloL8vHV34Gb64k1sNiHx6l8ZPrpEfWm1WNCcez4LscfDvLRHdVr3_tDpwFjTYmkTAO8iNA9NJwZiuI-';
-$scriptlocation = "http://www.site.com/linkanalysis";
-
-?>
+$scriptlocation = "http://seokit.localhost";

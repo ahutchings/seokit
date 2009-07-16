@@ -1,17 +1,14 @@
 <?php
+
 include 'config.inc.php';
 
-$url=$_GET["url"];
-$linking_page=$_GET["linking_page"];
-$linking_page=mysql_escape_string($linking_page);
+$linking_page = mysql_escape_string($_GET["linking_page"]);
+$url          = mysql_escape_string($_GET["url"]);
+$domain       = mysql_escape_string($_GET["domain"]);
 
-$domain=$_GET["domain"];
-$url=mysql_escape_string($url);
-$domain=mysql_escape_string($domain);
+$today = date("Y-m-d");
 
-
-$today= date("Y-m-d");
-if($linking_page!=""){
+if (!empty($linking_page)) {
     $request = 'http://search.yahooapis.com/SiteExplorerService/V1/inlinkData?appid=';
     $request.=$yahoo_api_key;
     $request.='&query=';
@@ -31,12 +28,9 @@ if($linking_page!=""){
     header("Location: linkdata.php?url=$url");
     exit();
 
-}
-else
-{
+} else {
 
-
-    if($url!=""){
+    if (!empty($url)){
         $request = 'http://search.yahooapis.com/SiteExplorerService/V1/inlinkData?appid=';
         $request.=$yahoo_api_key;
         $request.='&query=';
@@ -61,13 +55,13 @@ else
 
     }
 
-    if(($domain!="")&&($url=="")){
+    if(!empty($domain) && empty($url)){
         include 'header.php';
         echo "<h2>Getting link data</h2><p>This might take a while but you will be <a href=\"index.php?domain=$domain\">sent here when it finishes</a>.";
 
-        $domain1="http://$domain";
-        $counter="0";
-        while ( $counter <= 5000 ) {
+        $domain1 = "http://$domain";
+        $counter = "0";
+        while ($counter <= 5000) {
             $result = MYSQL_QUERY("SELECT * FROM linkanalysis_urls WHERE checkdate !='$today' AND url LIKE '$domain1%' ORDER BY id DESC LIMIT 1");
 
             if (!$row=mysql_fetch_array($result)){

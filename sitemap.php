@@ -2,8 +2,7 @@
 
 include 'config.inc.php';
 
-$feedurl = $_GET["url"];
-$feedurl = mysql_escape_string($feedurl);
+$feedurl = mysql_escape_string($_GET["url"]);
 
 include 'header.php';
 

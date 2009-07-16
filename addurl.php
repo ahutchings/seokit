@@ -2,12 +2,11 @@
 
 include 'config.inc.php';
 
-$url = $_GET["url"];
-$url = mysql_escape_string($url);
+$url = mysql_escape_string($_GET["url"]);
 
 include 'header.php';
 
-if ($url == "") {
+if (empty($url)) {
     ?>
 <h2>Add a single web page to the database</h2>
 

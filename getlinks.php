@@ -2,18 +2,13 @@
 
 include 'config.inc.php';
 
-$url          = $_GET["url"];
-$linking_page = $_GET["linking_page"];
-$linking_page = mysql_escape_string($linking_page);
-
-$domain = $_GET["domain"];
-$url    = mysql_escape_string($url);
-$domain = mysql_escape_string($domain);
-
+$linking_page = mysql_escape_string($_GET["linking_page"]);
+$url          = mysql_escape_string($_GET["url"]);
+$domain       = mysql_escape_string($_GET["domain"]);
 
 $today = date("Y-m-d");
 
-if ($url != "") {
+if (!empty($url)) {
     $request = 'http://search.yahooapis.com/SiteExplorerService/V1/inlinkData?appid=';
     $request.=$yahoo_api_key;
     $request.='&query=';
@@ -30,7 +25,7 @@ if ($url != "") {
     }
 }
 
-if ($linking_page != ""){
+if (!empty($linking_page)){
 
     $request = 'http://search.yahooapis.com/SiteExplorerService/V1/inlinkData?appid=';
     $request.=$yahoo_api_key;

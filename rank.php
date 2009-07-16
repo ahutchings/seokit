@@ -1,9 +1,7 @@
 <?php
 
-$url    = $_GET["url"];
-$engine = $_GET["engine"];
-$url    = mysql_escape_string($url);
-$engine = mysql_escape_string($engine);
+$url    = mysql_escape_string($_GET["url"]);
+$engine = mysql_escape_string($_GET["engine"]);
 
 
 $fp = fopen($url, 'r');
@@ -13,6 +11,7 @@ while (!feof($fp)){
         break;
     }
 }
+
 if (eregi("<title>(.*)</title>", $content, $out)) {
     $str   = explode(' ', $out[1]);
     $query = "$str[0] $str[1] $str[2] $str[3] $str[4] $str[5] $str[6]";
@@ -31,12 +30,8 @@ if (eregi("<title>(.*)</title>", $content, $out)) {
         header("Location: http://search.msn.com/results.aspx?q=$query");
         exit();
     }
-} else{
+} else {
     include 'header.php';
     echo "Error, could not find the page title.";
     include 'footer.php';
 }
-
-
-
-?>
