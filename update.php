@@ -38,7 +38,7 @@ if (!empty($linking_page)) {
         $request .= '&output=php';
         $request .= '&omit_inlinks=domain';
         $output = unserialize(file_get_contents($request));
-        $incoming_links = $output[ResultSet][totalResultsAvailable];
+        $incoming_links = $output['ResultSet']['totalResultsAvailable'];
 
         if (ctype_digit($incoming_links)) {
             $pr = "$scriptlocation/getpr.php?url=$url";
@@ -73,7 +73,7 @@ if (!empty($linking_page)) {
             $request .= '&omit_inlinks=domain';
 
             $output = @unserialize(file_get_contents($request));
-            $incoming_links = $output[ResultSet][totalResultsAvailable];
+            $incoming_links = $output['ResultSet']['totalResultsAvailable'];
 
             if (ctype_digit($incoming_links)) {
                 $pr = "$scriptlocation/getpr.php?url=$url";
