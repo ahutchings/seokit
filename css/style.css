@@ -1,118 +1,92 @@
-body {
-	background: #CACACA url('../images/background.png') repeat-x;
-	font-family: "Trebuchet MS", Verdana, serif
-}
-
-#container {
-	margin: 0 auto;
-	width: 950px
-}
-
-#header {
-	width: 100%
-}
-
-#main_content {
-	margin: 0 auto;
-	width: 100%;
-	background: #FFF;
-}
-
-#footer {
-	text-align: center;
-	font-size: 12px;
-	margin: 10px auto
-}
-
-.content {
-	float: left;
-	width: 710px;
-	padding: 30px;
-	font-size: 12px
-}
-
-.menu {
-	width: 139px;
-	float: right;
-	padding: 20px;
-	border-left: #8C8484 1px solid;
-	font-size: 12px
-}
-
-.menu ul {
-	margin: 0;
-	padding: 10px 0 10px 15px
-}
-
-.menu il {
-	list-style-type: disc
-}
-
-#header h1 {
-	margin-bottom: 0px;
-	font-size: 28px;
-	font-weight: bold;
-	color: #A40008
-}
-
-.content h2 {
-	margin-top: 0px;
-	font-size: 18px;
-	font-weight: bold;
-	color: #A40008
-}
-
-#clear {
-	display: block;
-	clear: both;
-	width: 100%;
-	height: 1px;
-	overflow: hidden;
-}
-
-.menu_title {
-	font-size: 18px;
-	font-weight: bold;
-	color: #A40008
-}
-
-.menu ul {
-	margin: 0;
-	padding: 10px 0 20px 15px
-}
-
-.menu li {
-	padding-top: 2px;
-	list-style-type: circle
+h1,h2,h3 {
+	color:#222;
 }
 
 a {
-	color: #A40008;
-	font-weight: bold;
-	text-decoration: none
+	color:#0854C7;
+	text-decoration:none;
 }
 
-a:hover {
-	color: #A40008;
-	font-weight: bold;
-	text-decoration: underline
+table thead {
+	background-color:#464646;
 }
 
-a.menu_link {
-	color: #000000;
-	font-weight: bold;
-	text-decoration: underline
+#hd {
+	background-color:#464646;
 }
 
-a.menu_link:hover {
-	color: #A40008;
-	font-weight: bold;
-	text-decoration: none
+#hd h1 a {
+	color:#fff;
 }
 
-.quote {
-	margin: 20px;
-	text-align: center;
-	font-weight: bold;
-	font-style: italic
+.block .hd {
+	background-color:#eaf3fa;
+	color:#333;
+	border-bottom:2px solid #cee1ef;
 }
+
+.tabs .hd {
+	background-color:#064780;
+	border-bottom:5px solid #A0C2DE;
+}
+
+.spaces .hd {
+	background-color:transparent;
+}
+
+.spaces .hd ul li {
+	background-color:#064780;
+	margin-right:0.1em;
+}
+
+.tabs .hd ul li a:hover {
+	background-color:#CDEFFF;
+	color:#333;
+}
+
+.tabs .hd ul li.active a {
+	background-color:#A0C2DE !important;
+	color:#333;
+	text-decoration:none;
+}
+
+ul.pager li a {
+	background:#FFF;
+	margin-right:0.3em;
+	border:1px solid #ccc;
+	text-decoration:none;
+	color:#328ab2;
+	padding:0.1em 0.3em;
+}
+
+ul.pager li.active a,ul.pager li a:hover {
+	background-color:#328ab2;
+	border-color:#328ab2;
+	color:#fff;
+}
+
+#bd,#primary-navigation li.active a {
+	background-color:#fff;
+	color:#333;
+}
+
+.block .bd h2,.block .bd h3 {
+	color:#666;
+}
+
+#search { text-align:right; }
+#search label { display:none; }
+#search #criteria { display:inline; width:inherit; }
+
+#messages thead { display:none; }
+#messages .bd { padding:0; }
+#messages .protocol { width:11px; padding:0; }
+#messages .aim { background:#ffffcc; }
+#messages .jabber { background:#ffe5cc; }
+#messages .msn { background:#ccf3ff; }
+#messages .yahoo { background:#ffcccc; }
+
+tr.odd { background:#F8F8F8 }
+
+#sender { display:inline; width:160px; }
+#dates { display:inline; width:120px; }

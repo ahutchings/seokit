@@ -2,13 +2,12 @@
 
 include 'config.inc.php';
 
-
-$feedurl=$_GET["url"];
-$feedurl=mysql_escape_string($feedurl);
+$feedurl = $_GET["url"];
+$feedurl = mysql_escape_string($feedurl);
 
 include 'header.php';
 
-if($feedurl==""){
+if (empty($feedurl)) {
     ?>
 <h2>Spider an xml sitemap for URL's</h2>
 <p>If you would like to input a lot of URL's it is sometimes better to
@@ -30,7 +29,7 @@ else
 <h2>Spider results</h2>
     <?php
     $str = explode('/',$feedurl);
-    $domain="$str[2]";
+    $domain = "$str[2]";
     $result = MYSQL_QUERY("SELECT domain FROM linkanalysis_domains WHERE domain='$domain' LIMIT 1");
 
     if (!$row=mysql_fetch_array($result)){
@@ -108,18 +107,18 @@ else
     xml_set_character_data_handler($xmlParser, "c_data");
 
     $fp = file($feedurl);
-    if(!$fp){
+    if (!$fp){
         echo "Cannot connect to $feedurl";
         exit();
     }
-    foreach($fp as $line){
+    foreach ($fp as $line){
         if(!xml_parse($xmlParser, $line)){
             die("Could not parse file.");
         }
     }
 
-    foreach($itemInfo as $items){
-        $url=$items['loc'];
+    foreach ($itemInfo as $items){
+        $url = $items['loc'];
 
         $result = MYSQL_QUERY("SELECT url FROM linkanalysis_urls WHERE url='$url' LIMIT 1");
 
@@ -139,8 +138,7 @@ else
 
     }
 }
+
 include 'footer.php';
+
 ?>
-
-
-
