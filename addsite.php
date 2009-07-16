@@ -8,9 +8,9 @@ if (!isset($_GET['url']) || empty($_GET['url'])) {
 <h2>Add a site to be analysed</h2>
 <p>To input a site just enter the url in the box below and the script
 will store all the known url's in the database ready for analysis.
-<form action="addsite.php" method="get">
+<form action="addsite.php" id="add-site" method="get">
 	<label>Site URL</label>
-	<input name="url" size="45" value="http://www.site.com" type="text" class="text" />
+	<input name="url" id="url" size="45" type="text" class="text" />
 	<input value="Submit" type="submit" />
 </form>
 <p>The script captures data using the "Pages in Site" feature of <a

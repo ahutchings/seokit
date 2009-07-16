@@ -12,16 +12,16 @@ below.
 <p><b>Note:</b> if you spider a site using this method the page titles
 will not be added to the database like they will be if you use <a
 	href="addsite.php">this method</a>.
-<form action="addurl.php" method="get">
+<form action="addurl.php" id="add-url" method="get">
 	<label>Web page URL</label>
-	<input name="url" size="45" value="http://www.site.com/single-page" type="text" class="text" />
+	<input name="url" size="45" id="url" type="text" class="text" />
 	<input value="Submit" type="submit" />
 </form>
     <?php
 
 } else {
     $url = mysql_escape_string($_GET["url"]);
-    $url = str_replace("http://", "", $url);
+    $url = str_replace('http://', '', $url);
     $url = "http://$url";
 
     $result = MYSQL_QUERY("SELECT url FROM urls WHERE url='$url' LIMIT 1");

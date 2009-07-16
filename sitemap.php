@@ -13,9 +13,9 @@ use an xml sitemap rather than relying on Yahoo to return indexed pages.
 will not be added to the database like they will be if you use <a
 	href="addsite.php">this method</a>.
 <p>Enter the xml sitemap location in the box below:
-<form action="sitemap.php" method="get">
+<form action="sitemap.php" id="sitemap" method="get">
 	<label>Sitemap URL</label>
-	<input name="url" size="45" value="http://www.site.com/sitemap.xml" type="text" class="text" />
+	<input name="url" size="45" id="url" type="text" class="text" />
 	<input value="Submit" type="submit" />
 </form>
     <?php
@@ -125,5 +125,3 @@ will not be added to the database like they will be if you use <a
 }
 
 include 'footer.php';
-
-?>

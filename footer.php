@@ -31,6 +31,10 @@
 <div id="ft"></div>
 
 </div>
-
+<script type="text/javascript">
+	$('#add-site #url').clearingInput({text: 'http://www.example.com'});
+	$('#add-url #url').clearingInput({text: 'http://www.example.com/single-page'});
+	$('#sitemap #url').clearingInput({text: 'http://www.example.com/sitemap.xml'});
+</script>"
 </body>
 </html>

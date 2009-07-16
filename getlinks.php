@@ -25,7 +25,7 @@ if (!empty($url)) {
     }
 }
 
-if (!empty($linking_page)){
+if (!empty($linking_page)) {
 
     $request = 'http://search.yahooapis.com/SiteExplorerService/V1/inlinkData?appid=';
     $request .= $yahoo_api_key;
