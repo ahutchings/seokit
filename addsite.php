@@ -3,41 +3,38 @@
 include 'config.inc.php';
 include 'header.php';
 
-if (!isset($_GET['url']) || empty($_GET['url'])) {
-    ?>
-<h2>Add a site to be analysed</h2>
+if (!isset($_GET['url']) || empty($_GET['url'])): ?>
+    <h2>Add a site to be analysed</h2>
 
-<p>To input a site just enter the url in the box below and the script
-will store all the known url's in the database ready for analysis.</p>
+    <p>To input a site just enter the url in the box below and the script
+    will store all the known url's in the database ready for analysis.</p>
 
-<form action="addsite.php" id="add-site" method="get">
-	<label>Site URL</label>
-	<input name="url" id="url" size="45" type="text" class="text" />
-	<input value="Submit" type="submit" />
-</form>
+    <form action="addsite.php" id="add-site" method="get">
+    	<label>Site URL</label>
+    	<input name="url" id="url" size="45" type="text" class="text" />
+    	<input value="Submit" type="submit" />
+    </form>
 
-<p>The script captures data using the "Pages in Site" feature of
-<a href="https://siteexplorer.search.yahoo.com">Yahoo Site Explorer</a>.</p>
+    <p>The script captures data using the "Pages in Site" feature of
+    <a href="https://siteexplorer.search.yahoo.com">Yahoo Site Explorer</a>.</p>
 
-<p>You can add a site that's already in the database if you need to for
-any reason, we won't store duplicate urls.</p>
+    <p>You can add a site that's already in the database if you need to for
+    any reason, we won't store duplicate urls.</p>
 
-    <?php } else { ?>
-<h2>Spider results</h2>
+<?php else: ?>
+	<h2>Spider results</h2>
     <?php
-    $url = mysql_escape_string($_GET["url"]);
-    $str = explode('/', $url);
-    $domain = "$str[2]";
-    $q = "SELECT domain FROM domain WHERE domain='$domain' LIMIT 1";
+    $domain = parse_url($_GET['url'], PHP_URL_HOST);
+    $q = "SELECT COUNT(1) FROM domain WHERE domain = '$domain'";
 
-    if (!$row = $db->query($q)->fetch()){
+    if ($db->query($q)->fetchColumn() == 0){
 
         $pr = Google::get_pagerank($domain);
 
         $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
     }
 
-    echo "$url is being spidered.........<br>\n";
+    echo $_GET['url'] . " is being spidered.........<br>\n";
 
     $counter = 0;
     $type = 0;
@@ -106,12 +103,12 @@ any reason, we won't store duplicate urls.</p>
 
         $fp = @file($request);
 
-        if (!$fp){
+        if (!$fp) {
             echo "Cannot connect to Yahoo, you might have used more than 5000 queries today?";
             include 'footer.php';
             exit();
         }
-        foreach ($fp as $line){
+        foreach ($fp as $line) {
             if (!xml_parse($xmlParser, $line)){
                 echo "Cannot parse xml file";
                 include 'footer.php';
@@ -119,7 +116,7 @@ any reason, we won't store duplicate urls.</p>
             }
         }
 
-        foreach ($itemInfo as $items){
+        foreach ($itemInfo as $items) {
             $url = $items['url'];
             $title = $items['title'];
             $title = mysql_escape_string($title);
@@ -145,7 +142,6 @@ any reason, we won't store duplicate urls.</p>
         $start += 100;
     }
 
-
-}
+endif;
 
 include 'footer.php';

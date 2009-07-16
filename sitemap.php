@@ -26,7 +26,7 @@ will not be added to the database like they will be if you use <a
     $feedurl = mysql_escape_string($_GET["url"]);
     $str = explode('/',$feedurl);
     $domain = "$str[2]";
-    $result = MYSQL_QUERY("SELECT domain FROM domain WHERE domain='$domain' LIMIT 1");
+    $result = mysql_query("SELECT domain FROM domain WHERE domain='$domain' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)){
 
@@ -107,9 +107,9 @@ will not be added to the database like they will be if you use <a
     foreach ($itemInfo as $items) {
         $url = $items['loc'];
 
-        $result = MYSQL_QUERY("SELECT url FROM urls WHERE url='$url' LIMIT 1");
+        $result = mysql_query("SELECT url FROM urls WHERE url='$url' LIMIT 1");
 
-        if (!$row=mysql_fetch_array($result)){
+        if (!$row = mysql_fetch_array($result)){
 
             $pr = Google::get_pagerank($url);
 
