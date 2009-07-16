@@ -79,8 +79,8 @@ if (!empty($linking_page)) {
                 $pr = "$scriptlocation/getpr.php?url=$url";
                 $pr = @file_get_contents($pr);
 
-                $db->query("UPDATE urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
-                $db->query("UPDATE domains SET pr='$pr' WHERE domain='$domain' LIMIT 1");
+                $db->exec("UPDATE urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
+                $db->exec("UPDATE domain SET pr='$pr' WHERE domain='$domain' LIMIT 1");
 
                 echo "$incoming_links links to $url <br> \n";
             } else {

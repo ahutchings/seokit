@@ -31,7 +31,7 @@ class Domains
             $params[] = $criteria;
         }
 
-        $q = "SELECT * FROM domains ";
+        $q = "SELECT * FROM domain ";
 
         if (count($where)) {
             $q .= ' WHERE (' . implode(' AND ', $where) . ')';

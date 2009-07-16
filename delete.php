@@ -15,7 +15,7 @@ if ($confirm != "yes"){
     <?php
     include 'footer.php';
 } else {
-    $db->exec("DELETE FROM domains WHERE domain='$domain' LIMIT 1");
+    $db->exec("DELETE FROM domain WHERE domain='$domain' LIMIT 1");
     $db->exec("DELETE FROM urls WHERE url LIKE '%$domain%'");
     $db->exec("DELETE FROM linkdata WHERE url LIKE '%$domain%'");
 

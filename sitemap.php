@@ -26,13 +26,13 @@ will not be added to the database like they will be if you use <a
     $feedurl = mysql_escape_string($_GET["url"]);
     $str = explode('/',$feedurl);
     $domain = "$str[2]";
-    $result = MYSQL_QUERY("SELECT domain FROM domains WHERE domain='$domain' LIMIT 1");
+    $result = MYSQL_QUERY("SELECT domain FROM domain WHERE domain='$domain' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)){
         $pr = "$scriptlocation/getpr.php?url=$domain";
         $pr = @file_get_contents($pr);
 
-        $db->exec("INSERT INTO domains VALUES('','$domain','$pr')");
+        $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
     }
 
     echo "$feedurl is being spidered.........<br>\n";

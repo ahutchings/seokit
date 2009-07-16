@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `domains` (
+CREATE TABLE IF NOT EXISTS `domain` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `domain` varchar(255) DEFAULT NULL,
   `pr` int(2) DEFAULT NULL,

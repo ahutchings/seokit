@@ -24,13 +24,13 @@ any reason, we won't store duplicate urls.
     $url = mysql_escape_string($_GET["url"]);
     $str = explode('/', $url);
     $domain = "$str[2]";
-    $q = "SELECT domain FROM domains WHERE domain='$domain' LIMIT 1";
+    $q = "SELECT domain FROM domain WHERE domain='$domain' LIMIT 1";
 
     if (!$row = $db->query($q)->fetch()){
         $pr = "$scriptlocation/getpr.php?url=$domain";
         $pr = @file_get_contents($pr);
 
-        $db->exec("INSERT INTO domains VALUES('','$domain','$pr')");
+        $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
     }
 
     echo "$url is being spidered.........<br>\n";
