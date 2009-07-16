@@ -14,8 +14,6 @@
 
 </div>
 
-<div id="main_content_bottom"></div>
-
 <div id="footer"></div>
 
 </div>

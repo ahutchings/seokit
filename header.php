@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>SEOKit</title>
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -12,12 +12,8 @@
 <div id="container">
 
 <div id="header">
-<h1>Link Analysis Tool, find popular pages</h1>
+	<h1><a href="/">SEOKit</a></h1>
 </div>
-
-<div id="sub_header">... rank better</div>
-
-<div id="main_content_top"></div>
 
 <div id="main_content">
 
