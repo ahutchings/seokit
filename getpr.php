@@ -85,15 +85,12 @@ function getpr($url) {
     $fp = fsockopen($googlehost, 80, $errno, $errstr, 30);
     if ($fp) {
         $out = "GET /search?client=navclient-auto&ch=$ch&features=Rank&q=info:$url HTTP/1.1\r\n";
-        //echo "<pre>$out</pre>\n"; //debug only
         $out .= "User-Agent: $googleua\r\n";
         $out .= "Host: $googlehost\r\n";
         $out .= "Connection: Close\r\n\r\n";
 
         fwrite($fp, $out);
 
-        //$pagerank = substr(fgets($fp, 128), 4); //debug only
-        //echo $pagerank; //debug only
         while (!feof($fp)) {
             $data = fgets($fp, 128);
             //echo $data;
@@ -106,7 +103,7 @@ function getpr($url) {
                 return $pr;
             }
         }
-        //else { echo "$errstr ($errno)<br />\n"; } //debug only
+
         fclose($fp);
     }
 }

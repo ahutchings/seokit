@@ -7,7 +7,7 @@ $engine = mysql_escape_string($engine);
 
 
 $fp = fopen($url, 'r');
-while (! feof($fp)){
+while (!feof($fp)){
     $content .= fgets ($fp, 1024);
     if (stristr($content, '<title>' )){
         break;
