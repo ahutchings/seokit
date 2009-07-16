@@ -153,12 +153,14 @@ if ($refresh == "yes") {
 
     foreach ($linkdatas as $row) {
 
-        echo "<tr><td width=\"410\" bgcolor=\"$bg\"><a href=\"$row[linking_page]\" title=\"$row[linking_page]\">$row[linking_page_title]</a></td><td width=\"40\" bgcolor=\"$bg\"><a href=\"https://siteexplorer.search.yahoo.com/advsearch?p=$row[linking_page]&bwm=i&bwmo=d&bwmf=u\" target=\"_blank\">$row[linking_page_inlinks] links</a></td>";
+        echo "<tr style=\"background:$bg\">";
+        echo "<td width=\"410\"><a href=\"$row[linking_page]\" title=\"$row[linking_page]\">$row[linking_page_title]</a></td>";
+        echo "<td width=\"40\"><a href=\"https://siteexplorer.search.yahoo.com/advsearch?p=$row[linking_page]&bwm=i&bwmo=d&bwmf=u\" target=\"_blank\">$row[linking_page_inlinks] links</a></td>";
         echo "<td width=\"40\"><img src=\"images/pr$row[linking_page_pr].gif\" alt=\"PageRank $row[linking_page_pr]\" title=\"PageRank $row[linking_page_pr]\"></td>";
-        echo "<td width=\"18\" bgcolor=\"$bg\"><a href=\"rank.php?url=$row[linking_page]&engine=g\" target=\"_blank\"><img src=\"http://www.blogstorm.co.uk/images/g.gif\" alt=\"Check ranking on Google\" width=\"16\" height=\"16\" title=\"Check ranking on Google\" border=\"0\"></a></td>";
-        echo "<td width=\"18\" bgcolor=\"$bg\"><a href=\"rank.php?url=$row[linking_page]&engine=y\" target=\"_blank\"><img src=\"http://www.blogstorm.co.uk/images/y.gif\" alt=\"Check ranking on Yahoo\" width=\"16\" height=\"16\" title=\"Check ranking on Yahoo\" border=\"0\"></a></td>";
-        echo "<td width=\"18\" bgcolor=\"$bg\"><a href=\"rank.php?url=$row[linking_page]&engine=m\" target=\"_blank\"><img src=\"http://www.blogstorm.co.uk/images/m.gif\" alt=\"Check ranking on MSN\" width=\"16\" height=\"16\" title=\"Check ranking on MSN\" border=\"0\"></a></td>";
-        echo "<td width=\"18\" bgcolor=\"$bg\"><a href=\"update.php?linking_page=$row[linking_page]&url=$url\"><img src=\"http://www.blogstorm.co.uk/images/refresh.jpeg\" alt=\"Update link count for $row[linking_page]\" title=\"Update link count for $row[linking_page]\" border=\"0\"></a></td>";
+        echo "<td width=\"18\"><a href=\"http://www.google.com/search?hl=en&q=$row[linking_page_title]\" target=\"_blank\" title=\"Check ranking on Google\">G</a></td>";
+        echo "<td width=\"18\"><a href=\"http://search.yahoo.com/search?p=$row[linking_page_title]\" target=\"_blank\" title=\"Check ranking on Yahoo!\">Y!</a></td>";
+        echo "<td width=\"18\"><a href=\"http://www.bing.com/search?q=$row[linking_page_title]\" target=\"_blank\" title=\"Check ranking on Bing\">B</a></td>";
+        echo "<td width=\"18\"><a href=\"update.php?linking_page=$row[linking_page]&url=$url\"><img src=\"http://www.blogstorm.co.uk/images/refresh.jpeg\" alt=\"Update link count for $row[linking_page]\" title=\"Update link count for $row[linking_page]\" border=\"0\"></a></td>";
         echo "</tr>";
 
     }
