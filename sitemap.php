@@ -1,12 +1,9 @@
 <?php
 
 include 'config.inc.php';
-
-$feedurl = mysql_escape_string($_GET["url"]);
-
 include 'header.php';
 
-if (empty($feedurl)) {
+if (!isset($_GET['url']) || empty($_GET['url'])) {
     ?>
 <h2>Spider an xml sitemap for URL's</h2>
 <p>If you would like to input a lot of URL's it is sometimes better to
@@ -17,13 +14,14 @@ will not be added to the database like they will be if you use <a
 	href="addsite.php">this method</a>.
 <p>Enter the xml sitemap location in the box below:
 <form action="sitemap.php" method="get">Sitemap URL: <input name="url"
-	size="45" value="http://www.site.com/sitemap.xml" type="text" /><input
-	value="Submit" style="width: 50px" type="submit" /></form>
+	size="45" value="http://www.site.com/sitemap.xml" type="text" class="text" /><input
+	value="Submit" type="submit" /></form>
     <?php
 } else {
     ?>
 <h2>Spider results</h2>
     <?php
+    $feedurl = mysql_escape_string($_GET["url"]);
     $str = explode('/',$feedurl);
     $domain = "$str[2]";
     $result = MYSQL_QUERY("SELECT domain FROM linkanalysis_domains WHERE domain='$domain' LIMIT 1");

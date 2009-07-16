@@ -9,7 +9,7 @@ class SEOKit
      *
      * @return null
      */
-    static function autoload($class)
+    public static function autoload($class)
     {
         require APP_PATH . '/classes/' . ucfirst($class) . '.php';
     }

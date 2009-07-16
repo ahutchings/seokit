@@ -1,12 +1,9 @@
 <?php
 
 include 'config.inc.php';
-
-$url = mysql_escape_string($_GET["url"]);
-
 include 'header.php';
 
-if (empty($url)) {
+if (!isset($_GET['url']) || empty($_GET['url'])) {
     ?>
 <h2>Add a single web page to the database</h2>
 
@@ -16,11 +13,12 @@ below.
 will not be added to the database like they will be if you use <a
 	href="addsite.php">this method</a>.
 <form action="addurl.php" method="get">Web page URL: <input name="url"
-	size="45" value="http://www.site.com/single-page" type="text" /><input
-	value="Submit" style="width: 50px" type="submit" /></form>
+	size="45" value="http://www.site.com/single-page" type="text" class="text" /><input
+	value="Submit" type="submit" /></form>
     <?php
 
 } else {
+    $url = mysql_escape_string($_GET["url"]);
     $url = str_replace("http://", "", $url);
     $url = "http://$url";
 

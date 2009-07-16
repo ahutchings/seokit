@@ -1,10 +1,18 @@
 <?php
 
-// replace username, password and database-name with your details
+// @todo move initialization code to root index.php
+error_reporting(E_ALL);
+ini_set('display_errors', 2);
 
-$db = MYSQL_CONNECT("localhost","seokit","seokit") OR DIE("Unable to connect to database");
+if (!defined('APP_PATH')) {
+    define('APP_PATH', dirname(__FILE__));
+}
 
-@mysql_select_db("seokit") or die("Unable to select the database");
+require_once APP_PATH . '/classes/SEOKit.php';
+
+spl_autoload_register(array('SEOKit', 'autoload'));
+
+$db = DB::connect();
 
 // api key available from http://developer.yahoo.com/wsregapp/index.php
 // more details here http://developer.yahoo.com/search/

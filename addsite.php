@@ -1,21 +1,16 @@
 <?php
 
 include 'config.inc.php';
-
-
-$url = $_GET["url"];
-$url = mysql_escape_string($url);
-
 include 'header.php';
 
-if ($url == "") {
+if (!isset($_GET['url']) || empty($_GET['url'])) {
     ?>
 <h2>Add a site to be analysed</h2>
 <p>To input a site just enter the url in the box below and the script
 will store all the known url's in the database ready for analysis.
 <form action="addsite.php" method="get">Site URL: <input name="url"
-	size="45" value="http://www.site.com" type="text" /><input
-	value="Submit" style="width: 50px" type="submit" /></form>
+	size="45" value="http://www.site.com" type="text" class="text" />
+	<input value="Submit" type="submit" /></form>
 <p>The script captures data using the "Pages in Site" feature of <a
 	href="https://siteexplorer.search.yahoo.com">Yahoo Site Explorer</a>.
 <p>You can add a site that's already in the database if you need to for
@@ -26,8 +21,9 @@ else
     ?>
 <h2>Spider results</h2>
     <?php
+    $url = mysql_escape_string($_GET["url"]);
     $str = explode('/',$url);
-    $domain="$str[2]";
+    $domain = "$str[2]";
     $result = MYSQL_QUERY("SELECT domain FROM linkanalysis_domains WHERE domain='$domain' LIMIT 1");
 
     if (!$row=mysql_fetch_array($result)){
