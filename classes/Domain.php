@@ -11,8 +11,10 @@ class Domain
      */
     public function delete()
     {
-//        $db->exec("DELETE FROM domain WHERE domain='$domain' LIMIT 1");
-//        $db->exec("DELETE FROM urls WHERE url LIKE '%$domain%'");
-//        $db->exec("DELETE FROM linkdata WHERE url LIKE '%$domain%'");
+        $db = DB::connect();
+
+        $db->exec("DELETE FROM domain WHERE id = {$this->id} LIMIT 1");
+        $db->exec("DELETE FROM urls WHERE url LIKE '%$this->domain%'");
+        $db->exec("DELETE FROM linkdata WHERE url LIKE '%$this->domain%'");
     }
 }

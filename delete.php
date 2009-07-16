@@ -13,9 +13,8 @@ if (!isset($_GET['confirm']) || $_GET['confirm'] != "yes"){
     <?php
     include 'footer.php';
 } else {
-    $db->exec("DELETE FROM domain WHERE id = {$domain->id} LIMIT 1");
-    $db->exec("DELETE FROM urls WHERE url LIKE '%{$domain->domain}%'");
-    $db->exec("DELETE FROM linkdata WHERE url LIKE '%{$domain->domain}%'");
+
+    $domain->delete();
 
     header("HTTP/1.1 301 Moved Permanently");
     header("Location: index.php");
