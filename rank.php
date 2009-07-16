@@ -25,9 +25,9 @@ if (eregi("<title>(.*)</title>", $content, $out)) {
         header("Location: http://search.yahoo.com/search?p=$query");
         exit();
 
-    } elseif ($engine == "m"){
+    } elseif ($engine == "b"){
         header("HTTP/1.1 301 Moved Permanently");
-        header("Location: http://search.msn.com/results.aspx?q=$query");
+        header("Location: http://www.bing.com/search?q=$query");
         exit();
     }
 } else {
