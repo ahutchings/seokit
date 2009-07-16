@@ -51,6 +51,7 @@ if (!isset($_GET['domain'])) {
         	<th colspan="5"></th>
     	</tr>
 	</thead>
+	<tbody>
     <?php
     $domain1 = "http://$domain";
 
@@ -80,7 +81,7 @@ if (!isset($_GET['domain'])) {
         <?php
     }
 
-    echo "</table>";
+    echo "</tbody></table>";
 }
 
 include 'footer.php';

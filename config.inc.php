@@ -13,6 +13,8 @@ require_once APP_PATH . '/classes/SEOKit.php';
 spl_autoload_register(array('SEOKit', 'autoload'));
 set_error_handler(array('SEOKit', 'errorHandler'));
 
+date_default_timezone_set(Options::get('timezone'));
+
 $db = DB::connect();
 
 // api key available from http://developer.yahoo.com/wsregapp/index.php
