@@ -4,7 +4,6 @@ include 'config.inc.php';
 include 'header.php';
 
 if (!isset($_GET['domain'])) {
-    $domains = Domains::get();
     ?>
     <h2>All Domains</h2>
     <table>
@@ -16,7 +15,7 @@ if (!isset($_GET['domain'])) {
     		</tr>
     	</thead>
     	<tbody>
-        <?php foreach ($domains as $domain): ?>
+        <?php foreach ($this->domains as $domain): ?>
             <tr>
                 <td width="200"><a href="index.php?domain=<?php echo $domain->domain ?>"><?php echo $domain->domain ?></a></td>
                 <td><img src="images/pr<?php echo $domain->pr ?>.gif" alt="PageRank <?php echo $domain->pr ?>" title="PageRank <?php echo $domain->pr ?>"></td>

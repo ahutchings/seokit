@@ -11,6 +11,11 @@ class SiteHandler
 
     public function display_home()
     {
+        // displaying all domains
+        if (!isset($_GET['domain'])) {
+            $this->template->domains = Domains::get();
+        }
+
         $this->template->display('domains.php');
     }
 

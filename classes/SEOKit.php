@@ -44,4 +44,79 @@ class SEOKit
 
         return true;
     }
+
+    public static function paginate($class, $paramarray, $url)
+    {
+        $limit     = isset($paramarray['limit']) ? $paramarray['limit'] : Options::get('pagination');
+        $offset    = isset($paramarray['offset']) ? $paramarray['offset'] : 0;
+        $current   = isset($paramarray['page']) ? $paramarray['page'] : ceil($offset / $limit);
+        $current   = ($current == 0) ? 1 : $current;
+        $has_query = (parse_url($url, PHP_URL_QUERY) == '') ? false : true;
+
+        $class = new $class;
+
+        // @todo base count on the params
+        $total = ceil($class->get_count() / $limit);
+
+        $out = array();
+
+        if (isset($paramarray['page'])) {
+            $offset = ($paramarray['page'] - 1) * $limit;
+        }
+
+        $out[] = '<ul class="pager">';
+
+        if ($current > 1) {
+            if ($has_query) {
+                $prev_url = $url . '&page=' . ($current - 1);
+            } else {
+                $prev_url = $url . '?page=' . ($current - 1);
+            }
+
+            $out[] = '<li><a href="'.$prev_url.'">&#171; Prev</a></li>';
+        }
+
+        $pages[] = 1;
+
+        for ($i = max($current - 2, 2); $i < $total && $i <= $current + 2; $i++ ) {
+            $pages[] = $i;
+        }
+
+        if ($total > 1) {
+            $pages[] = $total;
+        }
+
+        for ($i = 0, $n = count($pages); $i < $n; $i++) {
+            $active = ($pages[$i] == $current) ? ' class="active"' : '';
+
+            if ($has_query) {
+                $page_url = $url . '&page=' . $pages[$i];
+            } else {
+                $page_url = $url . '?page=' . $pages[$i];
+            }
+
+            if ($pages[$i] > 1 && ($pages[$i] - $pages[$i - 1]) > 1) {
+                $out[] = '<li>&#x2026;</li>';
+            }
+
+            $out[] = '<li'.$active.'><a href="'.$page_url.'">' . $pages[$i] . '</a></li>';
+        }
+
+        if ($current < $total) {
+
+            if ($has_query) {
+                $next_url = $url . '&page=' . ($current + 1);
+            } else {
+                $next_url = $url . '?page=' . ($current + 1);
+            }
+
+            $out[] = '<li><a href="'.$next_url.'">Next &#187;</a></li>';
+        }
+
+        $out[] = '</ul>';
+
+        $out = implode('', $out);
+
+        return $out;
+    }
 }
