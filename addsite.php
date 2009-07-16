@@ -37,7 +37,7 @@ any reason, we won't store duplicate urls.
 
     $counter = 0;
     $type = 0;
-    $tag = "";
+    $tag = '';
     $itemInfo = array();
     $channelInfo = array();
 
@@ -47,25 +47,26 @@ any reason, we won't store duplicate urls.
 
         $tag = $name;
 
-        if ($name == "RESULTSET"){
+        if ($name == "RESULTSET") {
             $type = 1;
-        } elseif ($name == "RESULT"){
+        } elseif ($name == "RESULT") {
             $type = 2;
         }
-    }//end opening element
+    }
 
     function closing_element($xmlParser, $name)
     {
         global $tag, $type, $counter;
 
-        $tag = "";
-        if ($name == "RESULT"){
+        $tag = '';
+
+        if ($name == "RESULT") {
             $type = 0;
             $counter++;
-        } elseif ($name == "RESULTSET"){
+        } elseif ($name == "RESULTSET") {
             $type = 0;
         }
-    }//end closing_element
+    }
 
     function c_data($xmlParser, $data)
     {
@@ -73,19 +74,14 @@ any reason, we won't store duplicate urls.
 
         $data = trim(htmlspecialchars($data));
 
-        if ($tag == "TITLE" || $tag == "DESCRIPTION" || $tag == "URL" || $tag == "PUBDATE"){
+        if (in_array($tag, array('TITLE', 'DESCRIPTION', 'URL', 'PUBDATE'))) {
             if ($type == 1){
-
                 $channelInfo[strtolower($tag)] = $data;
-
-            }//end checking channel
-            elseif($type == 2){
-
+            } elseif ($type == 2) {
                 $itemInfo[$counter][strtolower($tag)] .= $data;
-
-            }//end checking for item
-        }//end checking tag
-    }//end cdata funct
+            }
+        }
+    }
 
     $start = 1;
     while ($start <= 1000) {

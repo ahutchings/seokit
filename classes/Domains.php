@@ -12,14 +12,21 @@ class Domains
     public static function get($paramarray = array())
     {
         // defaults
-        $where  = array();
-        $params = array();
-        $limit  = 20;
+        $where    = array();
+        $params   = array();
+        $limit    = 20;
+        $fetch_fn = 'fetchAll';
 
         // extract overrides
-        $allowed    = array('criteria', 'limit', 'offset', 'page');
+        $allowed    = array('criteria', 'limit', 'offset', 'page', 'id');
         $paramarray = array_intersect_key($paramarray, array_fill_keys($allowed, true));
         extract($paramarray);
+
+        if (isset($id) && is_numeric($id)) {
+            $where[]  = "id = ?";
+            $params[] = $id;
+            $fetch_fn = 'fetch';
+        }
 
         if (isset($page) && is_numeric($page) ) {
             $offset = (intval($page) - 1) * intval($limit);
@@ -51,7 +58,7 @@ class Domains
 
             $sth->execute($params);
 
-            $domains = $sth->fetchAll();
+            $domains = $sth->$fetch_fn();
         } catch (PDOException $e) {
             trigger_error($e->getMessage());
 

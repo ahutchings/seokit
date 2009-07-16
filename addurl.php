@@ -31,13 +31,14 @@ will not be added to the database like they will be if you use <a
         $pr = "$scriptlocation/getpr.php?url=$url";
         $pr = @file_get_contents($pr);
 
-        if ($db->exec("INSERT INTO urls VALUES('','$url','$title','0','','$pr')")){
+        if ($db->exec("INSERT INTO urls VALUES('','$url','$title','0','','$pr')")) {
             echo "<h2>Page added</h2> <br> <a href=\"$url\">$url</a> was added to the database<br />\n";
         }
 
     } else {
         echo "<h2>Results</h2> <br> <a href=\"$url\">$url</a> is already listed in the database<br>\n";
     }
+
     $update = "$scriptlocation/getlinks.php?url=$url";
     $update = file_get_contents($update);
 
@@ -45,7 +46,7 @@ will not be added to the database like they will be if you use <a
     $domain = "$str[2]";
     $result = MYSQL_QUERY("SELECT domain FROM domain WHERE domain='$domain' LIMIT 1");
 
-    if (!$row = mysql_fetch_array($result)){
+    if (!$row = mysql_fetch_array($result)) {
         $pr = "$scriptlocation/getpr.php?url=$domain";
         $pr = @file_get_contents($pr);
         $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
