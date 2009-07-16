@@ -52,7 +52,7 @@ if (!isset($_GET['domain'])) {
     <?php
     $domain1 = "http://$domain";
 
-    if (empty($orderby)){
+    if (empty($orderby)) {
         $orderby = "links";
     }
 

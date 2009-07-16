@@ -27,8 +27,8 @@ any reason, we won't store duplicate urls.
     $q = "SELECT domain FROM domain WHERE domain='$domain' LIMIT 1";
 
     if (!$row = $db->query($q)->fetch()){
-        $pr = "$scriptlocation/getpr.php?url=$domain";
-        $pr = @file_get_contents($pr);
+
+        $pr = Google::get_pagerank($domain);
 
         $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
     }
@@ -122,8 +122,9 @@ any reason, we won't store duplicate urls.
             $q = "SELECT url FROM urls WHERE url='$url' LIMIT 1";
 
             if (!$row = $db->query($q)->fetch()){
-                $pr = "$scriptlocation/getpr.php?url=$url";
-                $pr = @file_get_contents($pr);
+//                $pr = "$scriptlocation/getpr.php?url=$url";
+//                $pr = @file_get_contents($pr);
+                $pr = Google::get_pagerank($url);
                 if ($db->exec("INSERT INTO urls VALUES('','$url','$title','0','','$pr')")){
                     echo "<a href=\"$url\">$url</a> was added!<br />\n";
                     $update = "$scriptlocation/getlinks.php?url=$url";

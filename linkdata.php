@@ -106,18 +106,17 @@ if ($refresh == "yes") {
             $result = MYSQL_QUERY("SELECT linking_page FROM linkdata WHERE linking_page='$linking_page' LIMIT 1");
 
             if (!$row=mysql_fetch_array($result)){
-                $pr="$scriptlocation/getpr.php?url=$domain";
-                $pr=@file_get_contents($pr);
+
+                $pr = Google::get_pagerank($domain);
+
                 if (mysql_query("INSERT INTO linkdata VALUES('','$url','$linking_page','$linking_page_title','$pr','0')") or die(mysql_error())){
                     echo "Link found at $pr <a href=\"$linking_page\">$linking_page_title</a><br />\n";
 
                 }
 
-            }
-            else
-            {
-                $pr = "$scriptlocation/getpr.php?url=$linking_page";
-                $pr = @file_get_contents($pr);
+            } else {
+                $pr = Google::get_pagerank($linking_page);
+
                 $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
                 echo "Link data updated <a href=\"$linking_page\">$linking_page_title</a><br>\n";
 

@@ -28,8 +28,7 @@ will not be added to the database like they will be if you use <a
 
     if (!$row = mysql_fetch_array($result)){
 
-        $pr = "$scriptlocation/getpr.php?url=$url";
-        $pr = @file_get_contents($pr);
+        $pr = Google::get_pagerank($url);
 
         if ($db->exec("INSERT INTO urls VALUES('','$url','$title','0','','$pr')")) {
             echo "<h2>Page added</h2> <br> <a href=\"$url\">$url</a> was added to the database<br />\n";
@@ -47,8 +46,9 @@ will not be added to the database like they will be if you use <a
     $result = MYSQL_QUERY("SELECT domain FROM domain WHERE domain='$domain' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)) {
-        $pr = "$scriptlocation/getpr.php?url=$domain";
-        $pr = @file_get_contents($pr);
+
+        $pr = Google::get_pagerank($domain);
+
         $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
     }
 }

@@ -19,8 +19,9 @@ if (!empty($linking_page)) {
     $incoming_links = $output[ResultSet][totalResultsAvailable];
 
     if (ctype_digit($incoming_links)) {
-        $pr = "$scriptlocation/getpr.php?url=$linking_page";
-        $pr = @file_get_contents($pr);
+
+        $pr = Google::get_pagerank($linking_page);
+
         $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
     }
 
@@ -41,8 +42,9 @@ if (!empty($linking_page)) {
         $incoming_links = $output['ResultSet']['totalResultsAvailable'];
 
         if (ctype_digit($incoming_links)) {
-            $pr = "$scriptlocation/getpr.php?url=$url";
-            $pr = @file_get_contents($pr);
+
+            $pr = Google::get_pagerank($url);
+
             $db->exec("UPDATE urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
         }
         $str = explode('/',$url);
@@ -76,8 +78,8 @@ if (!empty($linking_page)) {
             $incoming_links = $output['ResultSet']['totalResultsAvailable'];
 
             if (ctype_digit($incoming_links)) {
-                $pr = "$scriptlocation/getpr.php?url=$url";
-                $pr = @file_get_contents($pr);
+
+                $pr = Google::get_pagerank($url);
 
                 $db->exec("UPDATE urls SET checkdate='$today',links='$incoming_links',pr='$pr' WHERE url='$url' LIMIT 1");
                 $db->exec("UPDATE domain SET pr='$pr' WHERE domain='$domain' LIMIT 1");
