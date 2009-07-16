@@ -14,11 +14,9 @@ will store all the known url's in the database ready for analysis.
 <p>The script captures data using the "Pages in Site" feature of <a
 	href="https://siteexplorer.search.yahoo.com">Yahoo Site Explorer</a>.
 <p>You can add a site that's already in the database if you need to for
-any reason, we won't store duplicate urls. <?php
-}
-else
-{
-    ?>
+any reason, we won't store duplicate urls.
+
+    <?php } else { ?>
 <h2>Spider results</h2>
     <?php
     $url = mysql_escape_string($_GET["url"]);
@@ -26,16 +24,16 @@ else
     $domain = "$str[2]";
     $result = MYSQL_QUERY("SELECT domain FROM domains WHERE domain='$domain' LIMIT 1");
 
-    if (!$row=mysql_fetch_array($result)){
-        $pr="$scriptlocation/getpr.php?url=$domain";
-        $pr=@file_get_contents($pr);
+    if (!$row = mysql_fetch_array($result)){
+        $pr = "$scriptlocation/getpr.php?url=$domain";
+        $pr = @file_get_contents($pr);
         if (mysql_query("INSERT INTO domains VALUES('','$domain','$pr')") or die(mysql_error())){
 
         }
 
     }
-    echo "$url being spidered.........<BR>\n";
 
+    echo "$url being spidered.........<BR>\n";
 
     $counter = 0;
     $type = 0;
@@ -49,10 +47,9 @@ else
 
         $tag = $name;
 
-        if($name == "RESULTSET"){
+        if ($name == "RESULTSET"){
             $type = 1;
-        }
-        else if($name == "RESULT"){
+        } elseif ($name == "RESULT"){
             $type = 2;
         }
 
@@ -63,11 +60,10 @@ else
         global $tag, $type, $counter;
 
         $tag = "";
-        if($name == "RESULT"){
+        if ($name == "RESULT"){
             $type = 0;
             $counter++;
-        }
-        else if($name == "RESULTSET"){
+        } elseif ($name == "RESULTSET"){
             $type = 0;
         }
     }//end closing_element
@@ -78,13 +74,13 @@ else
 
         $data = trim(htmlspecialchars($data));
 
-        if($tag == "TITLE" || $tag == "DESCRIPTION" || $tag == "URL" || $tag == "PUBDATE"){
-            if($type == 1){
+        if ($tag == "TITLE" || $tag == "DESCRIPTION" || $tag == "URL" || $tag == "PUBDATE"){
+            if ($type == 1){
 
                 $channelInfo[strtolower($tag)] = $data;
 
             }//end checking channel
-            else if($type == 2){
+            elseif($type == 2){
 
                 $itemInfo[$counter][strtolower($tag)] .= $data;
 
@@ -92,16 +88,13 @@ else
         }//end checking tag
     }//end cdata funct
 
-    $start="1";
-    while ( $start <= 1000 ) {
-        $request="";
+    $start = 1;
+    while ($start <= 1000) {
+        $request = "";
         $request = 'http://search.yahooapis.com/SiteExplorerService/V1/pageData?appid=FUH9aZjV34GSWglIPsIhtcRNWA3_oTLSJDq51iBY8_P7.ykFyeZOcLoH.Hz4AiI-&query=';
         $request.=$url;
         $request.='&results=100&start=';
         $request.=$start;
-
-        //echo "$request <BR>";
-
 
         $xmlParser = xml_parser_create();
 
@@ -111,7 +104,7 @@ else
         xml_set_element_handler($xmlParser, "opening_element", "closing_element");
         xml_set_character_data_handler($xmlParser, "c_data");
 
-        $fp="";
+        $fp = "";
         $fp = @file($request);
 
         if(!$fp){
@@ -120,7 +113,7 @@ else
             exit();
         }
         foreach($fp as $line){
-            if(!xml_parse($xmlParser, $line)){
+            if (!xml_parse($xmlParser, $line)){
                 echo "Cannot parse xml file";
                 include 'footer.php';
                 exit();
