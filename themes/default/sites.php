@@ -5,7 +5,7 @@
 
                 <?php if (!isset($_GET['domain'])): ?>
 
-                	<div class="block" id="domains">
+                	<div class="block" id="sites">
                 		<div class="hd">
                             <h2>All Sites</h2>
                 		</div>
@@ -13,25 +13,25 @@
                             <table>
                             	<thead>
                                     <tr>
-                                        <th>URL</th>
+                                        <th>Site</th>
                                         <th>PageRank</th>
                                         <th></th>
                                     </tr>
                             	</thead>
                             	<tbody>
-                                <?php foreach ($this->domains as $domain): ?>
+                                <?php foreach ($this->sites as $site): ?>
                                     <tr>
-                                        <td width="200"><a href="/?domain=<?php echo $domain->domain ?>"><?php echo $domain->domain ?></a></td>
-                                        <td><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $domain->pr ?>.gif" alt="PageRank <?php echo $domain->pr ?>" title="PageRank <?php echo $domain->pr ?>"></td>
+                                        <td width="200"><a href="/?domain=<?php echo $site->domain ?>"><?php echo $site->domain ?></a></td>
+                                        <td><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $site->pr ?>.gif" alt="PageRank <?php echo $site->pr ?>" title="PageRank <?php echo $site->pr ?>"></td>
                                         <td>
-                                        	<a href="update.php?domain=<?php echo $domain->domain ?>" title="Update all link counts for <?php echo $domain->domain ?>">refresh</a> |
-                                        	<a href="/domain/delete?id=<?php echo $domain->id ?>" title="Delete entire domain">delete</a>
+                                        	<a href="update.php?domain=<?php echo $site->domain ?>" title="Update all link counts for <?php echo $site->domain ?>">refresh</a> |
+                                        	<a href="/site/delete?id=<?php echo $site->id ?>" title="Delete entire site">delete</a>
                                     	</td>
                                     </tr>
                                 <?php endforeach; ?>
                         		</tbody>
                             </table>
-                            <p><a href="/domain/create">Add a new domain</a></p>
+                            <p><a href="/site/create">Add a new site</a></p>
                         </div>
                 	</div>
 
@@ -48,11 +48,11 @@
                         	</tr>
                     	</thead>
                     	<tbody>
-                        <?php foreach ($this->domain_pages as $row): ?>
+                        <?php foreach ($this->site_pages as $row): ?>
                             <tr style="background:<?php echo ($row['url'] == $this->checked) ? '#ADDFFF' : '#FFF'; ?>">
                                 <td width="410"><a href="linkdata.php?url=<?php echo $row['url'] ?>" title="View link data for this url"><?php echo (empty($row['title'])) ? $row['url'] : $row['title']; ?></a></td>
                                 <td width="40"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $row['url'] ?>&bwm=i&bwmo=d&bwmf=u" target="_blank"><?php echo $row['links'] ?></a></td>
-                                <td width="40"><img src="images/pr<?php echo $row['pr'] ?>.gif" alt="PageRank <?php echo $row['pr'] ?>" title="PageRank <?php echo $row['pr'] ?>"></td>
+                                <td width="40"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $row['pr'] ?>.gif" alt="PageRank <?php echo $row['pr'] ?>" title="PageRank <?php echo $row['pr'] ?>"></td>
                                 <td width="18"><a href="http://www.google.com/search?hl=en&amp;q=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Google">G</a></td>
                                 <td width="18"><a href="http://search.yahoo.com/search?p=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Yahoo">Y!</a></td>
                                 <td width="18"><a href="http://www.bing.com/search?q=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Bing">B</a></td>

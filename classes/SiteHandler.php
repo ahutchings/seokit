@@ -9,16 +9,16 @@ class SiteHandler
         $this->template = new Template();
     }
 
-    public function display_home()
+    public function display_sites()
     {
         if (!isset($_GET['domain'])) {
-            // displaying all domains
-            $this->template->domains = Domains::get();
+            // displaying all sites
+            $this->template->sites = Sites::get();
         } else {
-            // displaying single domain
+            // displaying single site
             $orderby = $_GET["orderby"];
             $this->template->checked = $_GET["checked"];
-            $domain  = mysql_escape_string($_GET["domain"]);
+            $domain = mysql_escape_string($_GET["domain"]);
 
             $this->template->domain = $domain;
 
@@ -29,42 +29,42 @@ class SiteHandler
             }
 
             $q = "SELECT * FROM urls WHERE url LIKE '$domain%' ORDER BY $orderby DESC, id ASC";
-            $this->template->domain_pages = DB::connect()->query($q)->fetchAll();
+            $this->template->site_pages = DB::connect()->query($q)->fetchAll();
         }
 
-        $this->template->display('domains.php');
+        $this->template->display('sites.php');
     }
 
-    public function display_domain_create()
+    public function display_site_create()
     {
         if (isset($_GET['url']) && !empty($_GET['url'])) {
             $db     = DB::connect();
             $domain = parse_url($_GET['url'], PHP_URL_HOST);
-            $q      = "SELECT COUNT(1) FROM domain WHERE domain = '$domain'";
+            $q      = "SELECT COUNT(1) FROM site WHERE domain = '$domain'";
 
             if ($db->query($q)->fetchColumn() == 0){
                 $pr = Google::get_pagerank($domain);
 
-                $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
+                $db->exec("INSERT INTO site VALUES('','$domain','$pr')");
             }
         }
 
         $this->template->display('addsite.php');
     }
 
-    public function display_domain_delete()
+    public function display_site_delete()
     {
-        $domain = Domains::get(array('id' => $_GET['id']));
+        $site = Sites::get(array('id' => $_GET['id']));
 
         if (!isset($_GET['confirm']) || $_GET['confirm'] != "yes"){
 
-            $this->template->domain = $domain;
+            $this->template->site = $site;
 
             $this->template->display('delete.php');
 
         } else {
 
-            $domain->delete();
+            $site->delete();
 
             header("HTTP/1.1 301 Moved Permanently");
             header("Location: /");

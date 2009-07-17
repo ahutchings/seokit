@@ -10,9 +10,9 @@ class Controller
     public static function parseRequest()
     {
         $routes = array(
-            'index' => array('url' => '/\\A\\z/', 'controller' => 'SiteHandler', 'action' => 'display_home'),
-        	'domain_create' => array('url' => '%^domain/create/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_domain_create'),
-        	'domain_delete' => array('url' => '%^domain/delete/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_domain_delete'),
+            'index' => array('url' => '/\\A\\z/', 'controller' => 'SiteHandler', 'action' => 'display_sites'),
+        	'site_create' => array('url' => '%^site/create/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_create'),
+        	'site_delete' => array('url' => '%^site/delete/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_delete'),
             'settings' => array('url' => '%^settings/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_settings'),
         	'logs' => array('url' => '%^logs/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_logs'),
             'login' => array('url' => '%^login/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_login'),

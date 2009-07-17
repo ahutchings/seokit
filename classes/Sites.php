@@ -1,13 +1,13 @@
 <?php
 
-class Domains
+class Sites
 {
     /**
-     * get a domain or domains
+     * get a site or sites
      *
      * @param array $paramarray Query parameters
      *
-     * @return array An array of Domain objects, or a single Domain object, depending on request
+     * @return array An array of Site objects, or a single Site object, depending on request
      */
     public static function get($paramarray = array())
     {
@@ -38,7 +38,7 @@ class Domains
             $params[] = $criteria;
         }
 
-        $q = "SELECT * FROM domain ";
+        $q = "SELECT * FROM site ";
 
         if (count($where)) {
             $q .= ' WHERE (' . implode(' AND ', $where) . ')';
@@ -54,7 +54,7 @@ class Domains
         try {
             $sth = DB::connect()->prepare($q);
 
-            $sth->setFetchMode(PDO::FETCH_CLASS, 'Domain', array());
+            $sth->setFetchMode(PDO::FETCH_CLASS, 'Site', array());
 
             $sth->execute($params);
 

@@ -12,7 +12,7 @@
                             <p>To input a site just enter the url in the box below and the script
                             will store all the known url's in the database ready for analysis.</p>
 
-                            <form action="/domain/create" id="add-site" method="get">
+                            <form action="/site/create" id="add-site" method="get">
                             	<label>Site URL</label>
                             	<input name="url" id="url" size="45" type="text" class="text" />
                             	<input value="Submit" type="submit" />

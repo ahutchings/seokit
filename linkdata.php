@@ -101,7 +101,7 @@ if ($refresh == "yes"): ?>
 
             $result = MYSQL_QUERY("SELECT linking_page FROM linkdata WHERE linking_page='$linking_page' LIMIT 1");
 
-            if (!$row=mysql_fetch_array($result)){
+            if (!$row = mysql_fetch_array($result)){
 
                 $pr = Google::get_pagerank($domain);
 

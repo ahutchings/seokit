@@ -11,7 +11,7 @@ if (!isset($_GET['url']) || empty($_GET['url'])) {
 
     <p><b>Note:</b> if you spider a site using this method the page titles
     will not be added to the database like they will be if you use <a
-    	href="/domain/create">this method</a>.</p>
+    	href="/site/create">this method</a>.</p>
 
     <p>Enter the xml sitemap location in the box below:</p>
 
@@ -28,13 +28,13 @@ if (!isset($_GET['url']) || empty($_GET['url'])) {
     $feedurl = mysql_escape_string($_GET["url"]);
     $str = explode('/',$feedurl);
     $domain = "$str[2]";
-    $result = mysql_query("SELECT domain FROM domain WHERE domain='$domain' LIMIT 1");
+    $result = mysql_query("SELECT domain FROM site WHERE domain='$domain' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)){
 
         $pr = Google::get_pagerank($domain);
 
-        $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
+        $db->exec("INSERT INTO site VALUES('','$domain','$pr')");
     }
 
     echo "$feedurl is being spidered.........<br>\n";

@@ -8,7 +8,7 @@
 
     <p><b>Note:</b> if you spider a site using this method the page titles
     will not be added to the database like they will be if you use <a
-    	href="/domain/create">this method</a>.</p>
+    	href="/site/create">this method</a>.</p>
 
     <form action="addurl.php" id="add-url" method="get">
     	<label>Web page URL</label>
@@ -45,13 +45,13 @@
     }
 
     $domain = parse_url($url, PHP_URL_HOST);
-    $result = mysql_query("SELECT domain FROM domain WHERE domain='$domain' LIMIT 1");
+    $result = mysql_query("SELECT domain FROM site WHERE domain='$domain' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)) {
 
         $pr = Google::get_pagerank($domain);
 
-        $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
+        $db->exec("INSERT INTO site VALUES('','$domain','$pr')");
     }
 endif; ?>
 
