@@ -1,29 +1,27 @@
-<?php
+<?php include 'header.php' ?>
 
-include 'header.php';
+<?php if (!isset($_GET['url']) || empty($_GET['url'])): ?>
+    <h2>Add a single web page to the database</h2>
 
-if (!isset($_GET['url']) || empty($_GET['url'])) {
-    ?>
-<h2>Add a single web page to the database</h2>
+    <p>If you would like to input just one webpage then enter it in the form
+    below.</p>
 
-<p>If you would like to input just one webpage then enter it in the form
-below.
-<p><b>Note:</b> if you spider a site using this method the page titles
-will not be added to the database like they will be if you use <a
-	href="/domain/create">this method</a>.
-<form action="addurl.php" id="add-url" method="get">
-	<label>Web page URL</label>
-	<input name="url" size="45" id="url" type="text" class="text" />
-	<input value="Submit" type="submit" />
-</form>
-    <?php
+    <p><b>Note:</b> if you spider a site using this method the page titles
+    will not be added to the database like they will be if you use <a
+    	href="/domain/create">this method</a>.</p>
 
-} else {
+    <form action="addurl.php" id="add-url" method="get">
+    	<label>Web page URL</label>
+    	<input name="url" size="45" id="url" type="text" class="text" />
+    	<input value="Submit" type="submit" />
+    </form>
+<?php else: ?>
+	<?php
     $url = mysql_escape_string($_GET["url"]);
     $url = str_replace('http://', '', $url);
     $url = "http://$url";
 
-    $result = MYSQL_QUERY("SELECT url FROM urls WHERE url='$url' LIMIT 1");
+    $result = mysql_query("SELECT url FROM urls WHERE url='$url' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)){
 
@@ -37,12 +35,17 @@ will not be added to the database like they will be if you use <a
         echo "<h2>Results</h2> <br> <a href=\"$url\">$url</a> is already listed in the database<br>\n";
     }
 
-    $update = "$scriptlocation/getlinks.php?url=$url";
-    $update = file_get_contents($update);
+    $today = date("Y-m-d");
 
-    $str    = explode('/',$url);
-    $domain = "$str[2]";
-    $result = MYSQL_QUERY("SELECT domain FROM domain WHERE domain='$domain' LIMIT 1");
+    $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
+
+    if (ctype_digit($incoming_links)) {
+        $db->exec("UPDATE urls SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
+        echo "$incoming_links links to $url";
+    }
+
+    $domain = parse_url($url, PHP_URL_HOST);
+    $result = mysql_query("SELECT domain FROM domain WHERE domain='$domain' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)) {
 
@@ -50,6 +53,6 @@ will not be added to the database like they will be if you use <a
 
         $db->exec("INSERT INTO domain VALUES('','$domain','$pr')");
     }
-}
+endif; ?>
 
-include 'footer.php';
+<?php include 'footer.php' ?>

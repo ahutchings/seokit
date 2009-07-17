@@ -126,14 +126,28 @@
                 $pr = Google::get_pagerank($url);
                 if ($db->exec("INSERT INTO urls VALUES('','$url','$title','0','','$pr')")){
                     echo "<a href=\"$url\">$url</a> was added!<br />\n";
-                    $update = "$scriptlocation/getlinks.php?url=$url";
-                    $update = file_get_contents($update);
+
+                    $today = date("Y-m-d");
+
+                    $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
+
+                    if (ctype_digit($incoming_links)) {
+                        $db->exec("UPDATE urls SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
+                        echo "$incoming_links links to $url";
+                    }
                 }
 
             } else {
                 echo "<a href=\"$url\">$url</a> is already listed <br>\n";
-                $update = "$scriptlocation/getlinks.php?url=$url";
-                $update = file_get_contents($update);
+
+                $today = date("Y-m-d");
+
+                $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
+
+                if (ctype_digit($incoming_links)) {
+                    $db->exec("UPDATE urls SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
+                    echo "$incoming_links links to $url";
+                }
             }
 
         }

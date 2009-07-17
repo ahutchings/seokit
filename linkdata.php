@@ -6,13 +6,11 @@ $orderby = $_GET["orderby"];
 
 include 'header.php';
 
-if ($refresh == "yes") {
-    ?>
+if ($refresh == "yes"): ?>
 <h2>Spider results</h2>
     <?php
 
     echo "Links to $url are being found.........<br>\n";
-
 
     $counter = 0;
     $type = 0;
@@ -119,51 +117,54 @@ if ($refresh == "yes") {
                 echo "Link data updated <a href=\"$linking_page\">$linking_page_title</a><br>\n";
 
             }
-            $update = "$scriptlocation/getlinks.php?linking_page=$linking_page";
-            $update = file_get_contents($update);
 
+            $today = date("Y-m-d");
+
+            $incoming_links = Yahoo::get_inlink_count(array('query' => $linking_page));
+
+            if (ctype_digit($incoming_links)) {
+                $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links' WHERE linking_page='$linking_page' LIMIT 1");
+                echo "$incoming_links links to $url";
+            }
         }
 
         $start += 100;
     }
 
 
-} else {
+else:
     $orderby = (empty($orderby)) ? "linking_page_inlinks" : $orderby;
-
+    $q = "SELECT * FROM linkdata WHERE url='$url' ORDER BY $orderby DESC LIMIT 1000";
+    $linkdatas = DB::connect()->query($q)->fetchAll();
     ?>
     <h2>Links to <?php echo $url ?></h2>
+
     <p><a href="linkdata.php?url=<?php echo $url ?>&amp;refresh=yes">Click here to refresh this data using Yahoo</a></p>
+
     <table>
         <thead>
             <tr>
             	<td></td>
-            	<td><a href="linkdata.php?url=<?php echo $url ?>&orderby=linking_page_inlinks">Links</a></td>
-            	<td><a href="linkdata.php?url=<?php echo $url ?>&orderby=linking_page_pr">PR</a></td>
+            	<td><a href="linkdata.php?url=<?php echo $url ?>&amp;orderby=linking_page_inlinks">Links</a></td>
+            	<td><a href="linkdata.php?url=<?php echo $url ?>&amp;orderby=linking_page_pr">PR</a></td>
             	<td colspan="4"></td>
         	</tr>
     	</thead>
     	<tbody>
 
-	<?php
-    $q = "SELECT * FROM linkdata WHERE url='$url' ORDER BY $orderby DESC LIMIT 1000";
-    $linkdatas = $db->query($q)->fetchAll();
+    	<?php foreach ($linkdatas as $row): ?>
+        <tr style="background:<?php echo $bg ?>">
+            <td width="410"><a href="<?php echo $row['linking_page'] ?>" title="<?php echo $row['linking_page'] ?>"><?php echo $row['linking_page_title'] ?></a></td>
+            <td width="40"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $row['linking_page'] ?>&amp;bwm=i&amp;bwmo=d&amp;bwmf=u" target="_blank"><?php echo $row['linking_page_inlinks'] ?> links</a></td>
+            <td width="40"><img src="images/pr<?php echo $row['linking_page_pr'] ?>.gif" alt="PageRank <?php echo $row['linking_page_pr'] ?>" title="PageRank <?php echo $row['linking_page_pr'] ?>"></td>
+            <td width="18"><a href="http://www.google.com/search?hl=en&amp;q=<?php echo $row['linking_page_title'] ?>" target="_blank" title="Check ranking on Google">G</a></td>
+            <td width="18"><a href="http://search.yahoo.com/search?p=<?php echo $row['linking_page_title'] ?>" target="_blank" title="Check ranking on Yahoo!">Y!</a></td>
+            <td width="18"><a href="http://www.bing.com/search?q=<?php echo $row['linking_page_title'] ?>" target="_blank" title="Check ranking on Bing">B</a></td>
+            <td width="18"><a href="update.php?linking_page=<?php echo $row['linking_page'] ?>&url=<?php echo $url ?>"><img src="http://www.blogstorm.co.uk/images/refresh.jpeg" alt="Update link count for <?php echo $row['linking_page'] ?>" title="Update link count for <?php echo $row['linking_page'] ?>" border="0"></a></td>
+        </tr>
+	    <?php endforeach; ?>
+	    </tbody>
+    </table>
+<?php endif; ?>
 
-    foreach ($linkdatas as $row) {
-
-        echo "<tr style=\"background:$bg\">";
-        echo "<td width=\"410\"><a href=\"$row[linking_page]\" title=\"$row[linking_page]\">$row[linking_page_title]</a></td>";
-        echo "<td width=\"40\"><a href=\"https://siteexplorer.search.yahoo.com/advsearch?p=$row[linking_page]&bwm=i&bwmo=d&bwmf=u\" target=\"_blank\">$row[linking_page_inlinks] links</a></td>";
-        echo "<td width=\"40\"><img src=\"images/pr$row[linking_page_pr].gif\" alt=\"PageRank $row[linking_page_pr]\" title=\"PageRank $row[linking_page_pr]\"></td>";
-        echo "<td width=\"18\"><a href=\"http://www.google.com/search?hl=en&q=$row[linking_page_title]\" target=\"_blank\" title=\"Check ranking on Google\">G</a></td>";
-        echo "<td width=\"18\"><a href=\"http://search.yahoo.com/search?p=$row[linking_page_title]\" target=\"_blank\" title=\"Check ranking on Yahoo!\">Y!</a></td>";
-        echo "<td width=\"18\"><a href=\"http://www.bing.com/search?q=$row[linking_page_title]\" target=\"_blank\" title=\"Check ranking on Bing\">B</a></td>";
-        echo "<td width=\"18\"><a href=\"update.php?linking_page=$row[linking_page]&url=$url\"><img src=\"http://www.blogstorm.co.uk/images/refresh.jpeg\" alt=\"Update link count for $row[linking_page]\" title=\"Update link count for $row[linking_page]\" border=\"0\"></a></td>";
-        echo "</tr>";
-
-    }
-
-    echo "</tbody></table>";
-}
-
-include 'footer.php';
+<?php include 'footer.php'; ?>

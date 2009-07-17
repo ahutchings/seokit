@@ -4,23 +4,26 @@ include 'header.php';
 
 if (!isset($_GET['url']) || empty($_GET['url'])) {
     ?>
-<h2>Spider an XML sitemap for URLs</h2>
-<p>If you would like to input a lot of URL's it is sometimes better to
-use an xml sitemap rather than relying on Yahoo to return indexed pages.
+    <h2>Spider an XML sitemap for URLs</h2>
 
-<p><b>Note:</b> if you spider a site using this method the page titles
-will not be added to the database like they will be if you use <a
-	href="/domain/create">this method</a>.
-<p>Enter the xml sitemap location in the box below:
-<form action="sitemap.php" id="sitemap" method="get">
-	<label>Sitemap URL</label>
-	<input name="url" size="45" id="url" type="text" class="text" />
-	<input value="Submit" type="submit" />
-</form>
+    <p>If you would like to input a lot of URL's it is sometimes better to
+    use an xml sitemap rather than relying on Yahoo to return indexed pages.</p>
+
+    <p><b>Note:</b> if you spider a site using this method the page titles
+    will not be added to the database like they will be if you use <a
+    	href="/domain/create">this method</a>.</p>
+
+    <p>Enter the xml sitemap location in the box below:</p>
+
+    <form action="sitemap.php" id="sitemap" method="get">
+    	<label>Sitemap URL</label>
+    	<input name="url" size="45" id="url" type="text" class="text" />
+    	<input value="Submit" type="submit" />
+    </form>
     <?php
 } else {
     ?>
-<h2>Spider results</h2>
+	<h2>Spider results</h2>
     <?php
     $feedurl = mysql_escape_string($_GET["url"]);
     $str = explode('/',$feedurl);
