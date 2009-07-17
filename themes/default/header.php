@@ -19,7 +19,7 @@
         	<div id="navigation">
             	<ul id="primary-navigation">
                     <li class="active"><a href="/">Overview</a></li>
-                	<li><a href="/addurl.php">Add single URL</a></li>
+                	<li><a href="/site/from-page">Add single page</a></li>
                 	<li><a href="/sitemap.php">Spider a sitemap</a></li>
             	</ul>
             	<ul id="user-navigation">

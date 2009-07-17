@@ -13,6 +13,7 @@ class Controller
             'index' => array('url' => '/\\A\\z/', 'controller' => 'SiteHandler', 'action' => 'display_sites'),
         	'site_create' => array('url' => '%^site/create/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_create'),
         	'site_delete' => array('url' => '%^site/delete/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_delete'),
+        	'site_create_from_page' => array('url' => '%^site/from-page/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_create_from_page'),
             'settings' => array('url' => '%^settings/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_settings'),
         	'logs' => array('url' => '%^logs/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_logs'),
             'login' => array('url' => '%^login/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_login'),

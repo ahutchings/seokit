@@ -1,20 +1,25 @@
 <?php include 'header.php' ?>
 
 <?php if (!isset($_GET['url']) || empty($_GET['url'])): ?>
-    <h2>Add a single web page to the database</h2>
+        <div id="bd">
+           	<div id="yui-main">
+            	<div class="yui-b"><div class="yui-g">
+                    <h2>Add a single web page to the database</h2>
 
-    <p>If you would like to input just one webpage then enter it in the form
-    below.</p>
+                    <p>If you would like to input just one webpage then enter it in the form
+                    below.</p>
 
-    <p><b>Note:</b> if you spider a site using this method the page titles
-    will not be added to the database like they will be if you use <a
-    	href="/site/create">this method</a>.</p>
+                    <p><b>Note:</b> if you spider a site using this method the page titles
+                    will not be added to the database like they will be if you use <a
+                    	href="/site/create">this method</a>.</p>
 
-    <form action="addurl.php" id="add-url" method="get">
-    	<label>Web page URL</label>
-    	<input name="url" size="45" id="url" type="text" class="text" />
-    	<input value="Submit" type="submit" />
-    </form>
+                    <form action="/site/from-page" id="add-url" method="get">
+                    	<label>Web page URL</label>
+                    	<input name="url" size="45" id="url" type="text" class="text" />
+                    	<input value="Submit" type="submit" />
+                    </form>
+                </div></div>
+            </div>
 <?php else: ?>
 	<?php
     $url = mysql_escape_string($_GET["url"]);
