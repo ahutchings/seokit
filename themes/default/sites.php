@@ -50,7 +50,7 @@
                     	<tbody>
                         <?php foreach ($this->site_pages as $row): ?>
                             <tr style="background:<?php echo ($row['url'] == $this->checked) ? '#ADDFFF' : '#FFF'; ?>">
-                                <td width="410"><a href="linkdata.php?url=<?php echo $row['url'] ?>" title="View link data for this url"><?php echo (empty($row['title'])) ? $row['url'] : $row['title']; ?></a></td>
+                                <td width="410"><a href="/site/page?url=<?php echo urlencode($row['url']) ?>" title="View link data for this url"><?php echo (empty($row['title'])) ? $row['url'] : $row['title']; ?></a></td>
                                 <td width="40"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $row['url'] ?>&bwm=i&bwmo=d&bwmf=u" target="_blank"><?php echo $row['links'] ?></a></td>
                                 <td width="40"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $row['pr'] ?>.gif" alt="PageRank <?php echo $row['pr'] ?>" title="PageRank <?php echo $row['pr'] ?>"></td>
                                 <td width="18"><a href="http://www.google.com/search?hl=en&amp;q=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Google">G</a></td>

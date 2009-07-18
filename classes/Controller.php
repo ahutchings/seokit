@@ -16,6 +16,7 @@ class Controller
         	'site_delete' => array('url' => '%^site/delete/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_delete'),
         	'site_create_from_page' => array('url' => '%^site/from-page/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_create_from_page'),
         	'site_create_from_sitemap' => array('url' => '%^site/from-sitemap/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_create_from_sitemap'),
+        	'site_page' => array('url' => '%^site/page/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_page'),
             'settings' => array('url' => '%^settings/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_settings'),
         	'logs' => array('url' => '%^logs/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_logs'),
             'login' => array('url' => '%^login/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_login'),

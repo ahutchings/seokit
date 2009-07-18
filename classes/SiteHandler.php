@@ -35,6 +35,11 @@ class SiteHandler
         $this->template->display('sites.php');
     }
 
+    public function display_site_page()
+    {
+        $this->template->display('site_page.php');
+    }
+
     public function site_update()
     {
         if (empty($_GET['domain'])) {

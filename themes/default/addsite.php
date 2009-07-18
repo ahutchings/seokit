@@ -6,7 +6,7 @@
 
             <div class="block">
                 <div class="bd">
-                    <h2>Add a site to be analysed</h2>
+                    <h2>Add a site to be analyzed</h2>
 
                     <p>To input a site just enter the url in the box below and the script
                     will store all the known url's in the database ready for analysis.</p>
