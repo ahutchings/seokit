@@ -15,8 +15,62 @@ class SiteHandler
         $this->template->display('sites.php');
     }
 
+    public function site_page_update()
+    {
+        $db  = DB::connect();
+        $url = $_GET['url'];
+
+        for ($start = 1; $start <= 1000; $start += 100) {
+
+            $params = array(
+                'start' => $start,
+                'query' => $url
+            );
+
+            $data = Yahoo::get_inlink_data($params);
+
+            foreach ($data['ResultSet']['Result'] as $page) {
+                $linking_page_title = mysql_escape_string($page['Title']);
+                $linking_page       = mysql_escape_string($page['Url']);
+
+                $pr = Google::get_pagerank($linking_page);
+
+                $q = "SELECT COUNT(1) FROM linkdata WHERE linking_page = '$linking_page'";
+
+                if ($db->query($q)->fetchColumn() == 0){
+                    $db->exec("INSERT INTO linkdata VALUES('','$url','$linking_page','$linking_page_title','$pr','0')");
+                } else {
+                    $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
+                }
+
+                $today          = date("Y-m-d");
+                $incoming_links = Yahoo::get_inlink_count(array('query' => $linking_page));
+
+                $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links' WHERE linking_page='$linking_page' LIMIT 1");
+            }
+        }
+
+        // redirect to site subpage page
+        header('HTTP/1.1 302 Found');
+        header("Location: ". Options::get('base_url') ."site/page/?url=" . urlencode($url));
+        exit();
+    }
+
     public function display_site_page()
     {
+        if (isset($_GET["refresh"]) && $_GET['refresh'] == "yes") {
+            $this->site_page_update();
+        }
+
+        $url = mysql_escape_string($_GET['url']);
+
+        $q = "SELECT * FROM linkdata WHERE url='$url' ORDER BY linking_page_inlinks DESC LIMIT 1000";
+
+        $incoming_links = DB::connect()->query($q)->fetchAll();
+
+        $this->template->url            = $url;
+        $this->template->incoming_links = $incoming_links;
+
         $this->template->display('site_page.php');
     }
 

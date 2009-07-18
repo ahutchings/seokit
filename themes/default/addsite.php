@@ -19,9 +19,6 @@
 
                     <p>The script captures data using the "Pages in Site" feature of
                     <a href="https://siteexplorer.search.yahoo.com">Yahoo Site Explorer</a>.</p>
-
-                    <p>You can add a site that's already in the database if you need to for
-                    any reason, we won't store duplicate urls.</p>
                 </div>
             </div>
 

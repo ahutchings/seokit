@@ -13,8 +13,6 @@
                     will not be added to the database like they will be if you use <a
                     	href="/site/create">this method</a>.</p>
 
-                    <p>Enter the xml sitemap location in the box below:</p>
-
                     <form action="/site/from-sitemap" id="sitemap" method="get">
                     	<label for="url">Sitemap URL</label>
                     	<input name="url" size="45" id="url" type="text" class="text" />
