@@ -25,7 +25,7 @@
                                     <a href="http://search.yahoo.com/search?p=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Yahoo">Y!</a>&nbsp;
                                     <a href="http://www.bing.com/search?q=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Bing">B</a>
                                 </td>
-                                <td><a href="update.php?url=<?php echo $row['url'] ?>"><img src="<?php echo Options::get('theme_path') ?>images/arrow_refresh.png" alt="Update link count for <?php echo $row['url'] ?>"></a></td>
+                                <td><a href="/site/page/update?url=<?php echo $row['url'] ?>"><img src="<?php echo Options::get('theme_path') ?>images/arrow_refresh.png" alt="Update link count for <?php echo $row['url'] ?>"></a></td>
                                 <td><a href="<?php echo $row['url'] ?>" title="Visit this URL"><img src="<?php echo Options::get('theme_path') ?>images/magnifier.png" alt="Visit this url" ></a></td>
                             </tr>
                         <?php endforeach ?>

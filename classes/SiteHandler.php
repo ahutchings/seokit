@@ -15,6 +15,34 @@ class SiteHandler
         $this->template->display('sites.php');
     }
 
+    /**
+     * Updates incoming link count and pagerank for an page incoming link.
+     *
+     * @return null
+     */
+    public function site_page_inlink_update()
+    {
+        $url = $_GET['url'];
+
+        $linking_page   = mysql_escape_string($_GET["linking_page"]);
+        $incoming_links = Yahoo::get_inlink_count(array('query' => $linking_page));
+        $pr             = Google::get_pagerank($linking_page);
+
+        $q = "UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1";
+
+        DB::connect()->exec($q);
+
+        header('HTTP/1.1 302 Found');
+        header("Location: " . Options::get('base_url') . "site/page?url=" . urlencode($url));
+        exit();
+    }
+
+    /**
+     * Retrieves and stores incoming links for a page, and
+     * incoming link count and pagerank of each incoming link.
+     *
+     * @return null
+     */
     public function site_page_update()
     {
         $db  = DB::connect();
@@ -58,10 +86,6 @@ class SiteHandler
 
     public function display_site_page()
     {
-        if (isset($_GET["refresh"]) && $_GET['refresh'] == "yes") {
-            $this->site_page_update();
-        }
-
         $url = mysql_escape_string($_GET['url']);
 
         $q = "SELECT * FROM linkdata WHERE url='$url' ORDER BY linking_page_inlinks DESC LIMIT 1000";
