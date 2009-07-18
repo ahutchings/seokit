@@ -11,27 +11,7 @@ class SiteHandler
 
     public function display_sites()
     {
-        if (!isset($_GET['domain'])) {
-            // displaying all sites
-            $this->template->sites = Sites::get();
-        } else {
-            // displaying single site
-            $orderby = $_GET["orderby"];
-            $this->template->checked = $_GET["checked"];
-            $domain = mysql_escape_string($_GET["domain"]);
-
-            $this->template->domain = $domain;
-
-            $domain = "http://$domain";
-
-            if (empty($orderby)) {
-                $orderby = "links";
-            }
-
-            $q = "SELECT * FROM urls WHERE url LIKE '$domain%' ORDER BY $orderby DESC, id ASC";
-            $this->template->site_pages = DB::connect()->query($q)->fetchAll();
-        }
-
+        $this->template->sites = Sites::get();
         $this->template->display('sites.php');
     }
 
@@ -71,7 +51,7 @@ class SiteHandler
 
         // redirect to site display page
         header('HTTP/1.1 302 Found');
-        header("Location: ". Options::get('base_url') ."?domain=" . $domain);
+        header("Location: ". Options::get('base_url') ."site/?domain=" . $domain);
         exit();
     }
 
@@ -90,8 +70,29 @@ class SiteHandler
 
         // redirect to site display page
         header("HTTP/1.1 301 Moved Permanently");
-        header("Location: ". Options::get('base_url') ."?domain=" . $domain);
+        header("Location: ". Options::get('base_url') ."site/?domain=" . $domain);
         exit();
+    }
+
+    public function display_site()
+    {
+        // displaying single site
+        $orderby = $_GET["orderby"];
+        $this->template->checked = $_GET["checked"];
+        $domain = mysql_escape_string($_GET["domain"]);
+
+        $this->template->domain = $domain;
+
+        $domain = "http://$domain";
+
+        if (empty($orderby)) {
+            $orderby = "links";
+        }
+
+        $q = "SELECT * FROM urls WHERE url LIKE '$domain%' ORDER BY $orderby DESC, id ASC";
+        $this->template->site_pages = DB::connect()->query($q)->fetchAll();
+
+        $this->template->display('site.php');
     }
 
     public function display_site_create()

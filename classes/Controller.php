@@ -11,6 +11,7 @@ class Controller
     {
         $routes = array(
             'index' => array('url' => '/\\A\\z/', 'controller' => 'SiteHandler', 'action' => 'display_sites'),
+			'site' => array('url' => '%^site/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site'),
         	'site_create' => array('url' => '%^site/create/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_create'),
         	'site_update' => array('url' => '%^site/update/?\\z%', 'controller' => 'SiteHandler', 'action' => 'site_update'),
         	'site_delete' => array('url' => '%^site/delete/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_delete'),
