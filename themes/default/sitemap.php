@@ -1,33 +1,35 @@
-<?php
+<?php include 'header.php' ?>
 
-include 'header.php';
+<?php if (!isset($_GET['url']) || empty($_GET['url'])): ?>
+        <div id="bd">
+           	<div id="yui-main">
+            	<div class="yui-b"><div class="yui-g">
+                    <h2>Spider an XML sitemap for URLs</h2>
 
-if (!isset($_GET['url']) || empty($_GET['url'])) {
-    ?>
-    <h2>Spider an XML sitemap for URLs</h2>
+                    <p>If you would like to input a lot of URL's it is sometimes better to
+                    use an xml sitemap rather than relying on Yahoo to return indexed pages.</p>
 
-    <p>If you would like to input a lot of URL's it is sometimes better to
-    use an xml sitemap rather than relying on Yahoo to return indexed pages.</p>
+                    <p><b>Note:</b> if you spider a site using this method the page titles
+                    will not be added to the database like they will be if you use <a
+                    	href="/site/create">this method</a>.</p>
 
-    <p><b>Note:</b> if you spider a site using this method the page titles
-    will not be added to the database like they will be if you use <a
-    	href="/site/create">this method</a>.</p>
+                    <p>Enter the xml sitemap location in the box below:</p>
 
-    <p>Enter the xml sitemap location in the box below:</p>
-
-    <form action="sitemap.php" id="sitemap" method="get">
-    	<label>Sitemap URL</label>
-    	<input name="url" size="45" id="url" type="text" class="text" />
-    	<input value="Submit" type="submit" />
-    </form>
-    <?php
-} else {
-    ?>
+                    <form action="/site/from-sitemap" id="sitemap" method="get">
+                    	<label for="url">Sitemap URL</label>
+                    	<input name="url" size="45" id="url" type="text" class="text" />
+                    	<input value="Submit" type="submit" />
+                    </form>
+                </div></div>
+            </div>
+<?php else: ?>
 	<h2>Spider results</h2>
+
+    <p><?php echo $_GET['url'] ?> is being spidered...</p>
+
     <?php
-    $feedurl = mysql_escape_string($_GET["url"]);
-    $str = explode('/',$feedurl);
-    $domain = "$str[2]";
+    $domain = parse_url($_GET['url'], PHP_URL_HOST);
+
     $result = mysql_query("SELECT domain FROM site WHERE domain='$domain' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)){
@@ -36,8 +38,6 @@ if (!isset($_GET['url']) || empty($_GET['url'])) {
 
         $db->exec("INSERT INTO site VALUES('','$domain','$pr')");
     }
-
-    echo "$feedurl is being spidered.........<br>\n";
 
     $counter = 0;
     $type = 0;
@@ -95,11 +95,13 @@ if (!isset($_GET['url']) || empty($_GET['url'])) {
     xml_set_element_handler($xmlParser, "opening_element", "closing_element");
     xml_set_character_data_handler($xmlParser, "c_data");
 
-    $fp = file($feedurl);
+    $fp = file($_GET['url']);
+
     if (!$fp) {
-        echo "Cannot connect to $feedurl";
+        echo "Cannot connect to " . $_GET['url'];
         exit();
     }
+
     foreach ($fp as $line){
         if (!xml_parse($xmlParser, $line)) {
             die("Could not parse file.");
@@ -122,8 +124,10 @@ if (!isset($_GET['url']) || empty($_GET['url'])) {
         } else {
             echo "<a href=\"$url\">$url</a> is already listed <br>\n";
         }
-
     }
-}
 
-include 'footer.php';
+endif;
+
+?>
+
+<?php include 'footer.php' ?>

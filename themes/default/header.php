@@ -20,7 +20,7 @@
             	<ul id="primary-navigation">
                     <li class="active"><a href="/">Overview</a></li>
                 	<li><a href="/site/from-page">Add single page</a></li>
-                	<li><a href="/sitemap.php">Spider a sitemap</a></li>
+                	<li><a href="/site/from-sitemap">Spider a sitemap</a></li>
             	</ul>
             	<ul id="user-navigation">
                 	<li><a href="/logs">Logs</a></li>

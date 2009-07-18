@@ -104,6 +104,11 @@ class SiteHandler
         $this->template->display('addurl.php');
     }
 
+    public function display_site_create_from_sitemap()
+    {
+        $this->template->display('sitemap.php');
+    }
+
     public function display_site_delete()
     {
         $site = Sites::get(array('id' => $_GET['id']));
