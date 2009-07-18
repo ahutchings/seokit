@@ -35,7 +35,42 @@ class SiteHandler
         $this->template->display('sites.php');
     }
 
-    public function create_site()
+    public function site_update()
+    {
+        if (empty($_GET['domain'])) {
+            trigger_error('Please enter a domain to update', E_USER_ERROR);
+
+            // redirect to index
+            header('HTTP/1.1 302 Found');
+            header("Location: " . Options::get('base_url'));
+            exit();
+        }
+
+        $db = DB::connect();
+
+        $domain = $_GET['domain'];
+
+        $q   = "SELECT * FROM urls WHERE checkdate !='$today' AND url LIKE 'http://$domain%' ORDER BY id DESC LIMIT 5000";
+
+        foreach ($db->query($q) as $row) {
+            $url            = $row['url'];
+            $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
+            $pr             = Google::get_pagerank($url);
+            $today          = date("Y-m-d");
+
+            $db->exec("UPDATE urls SET checkdate='$today', links='$incoming_links', pr='$pr' WHERE url='$url' LIMIT 1");
+        }
+
+        $pr = Google::get_pagerank($domain);
+        $db->exec("UPDATE site SET pr='$pr' WHERE domain='$domain' LIMIT 1");
+
+        // redirect to site display page
+        header('HTTP/1.1 302 Found');
+        header("Location: ". Options::get('base_url') ."?domain=" . $domain);
+        exit();
+    }
+
+    public function site_create()
     {
         if (!isset($_POST['url']) || empty($_POST['url'])) {
             // @todo redirect to site create page
@@ -57,7 +92,7 @@ class SiteHandler
     public function display_site_create()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $this->create_site();
+            $this->site_create();
             return;
         }
 
