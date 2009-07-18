@@ -35,18 +35,30 @@ class SiteHandler
         $this->template->display('sites.php');
     }
 
+    public function create_site()
+    {
+        if (!isset($_POST['url']) || empty($_POST['url'])) {
+            // @todo redirect to site create page
+            trigger_error('Please enter a URL.', E_USER_ERROR);
+            exit();
+        }
+
+        Site::create(array('url' => $_POST['url']));
+
+        // @todo get the domain from the site create method results
+        $domain = parse_url($_POST['url'], PHP_URL_HOST);
+
+        // redirect to site display page
+        header("HTTP/1.1 301 Moved Permanently");
+        header("Location: ". Options::get('base_url') ."?domain=" . $domain);
+        exit();
+    }
+
     public function display_site_create()
     {
-        if (isset($_GET['url']) && !empty($_GET['url'])) {
-            $db     = DB::connect();
-            $domain = parse_url($_GET['url'], PHP_URL_HOST);
-            $q      = "SELECT COUNT(1) FROM site WHERE domain = '$domain'";
-
-            if ($db->query($q)->fetchColumn() == 0){
-                $pr = Google::get_pagerank($domain);
-
-                $db->exec("INSERT INTO site VALUES('','$domain','$pr')");
-            }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->create_site();
+            return;
         }
 
         $this->template->display('addsite.php');
