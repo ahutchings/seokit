@@ -12,16 +12,16 @@
                             	<thead>
                                     <tr>
                                         <th>Site</th>
-                                        <th>PageRank</th>
+                                        <th class="text-center">PageRank</th>
                                         <th></th>
                                     </tr>
                             	</thead>
                             	<tbody>
                                 <?php foreach ($this->sites as $site): ?>
                                     <tr>
-                                        <td width="200"><a href="/site/?domain=<?php echo $site->domain ?>"><?php echo $site->domain ?></a></td>
-                                        <td><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $site->pr ?>.gif" alt="PageRank <?php echo $site->pr ?>" title="PageRank <?php echo $site->pr ?>"></td>
-                                        <td>
+                                        <td><a href="/site/?domain=<?php echo $site->domain ?>"><?php echo $site->domain ?></a></td>
+                                        <td class="text-center"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $site->pr ?>.gif" alt="PageRank <?php echo $site->pr ?>" title="PageRank <?php echo $site->pr ?>"></td>
+                                        <td class="text-right">
                                         	<a href="/site/update?domain=<?php echo $site->domain ?>" title="Update all link counts for <?php echo $site->domain ?>">refresh</a> |
                                         	<a href="/site/delete?id=<?php echo $site->id ?>" title="Delete entire site">delete</a>
                                     	</td>

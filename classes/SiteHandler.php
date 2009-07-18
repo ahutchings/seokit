@@ -77,19 +77,13 @@ class SiteHandler
     public function display_site()
     {
         // displaying single site
-        $orderby = $_GET["orderby"];
-        $this->template->checked = $_GET["checked"];
         $domain = mysql_escape_string($_GET["domain"]);
 
         $this->template->domain = $domain;
 
         $domain = "http://$domain";
 
-        if (empty($orderby)) {
-            $orderby = "links";
-        }
-
-        $q = "SELECT * FROM urls WHERE url LIKE '$domain%' ORDER BY $orderby DESC, id ASC";
+        $q = "SELECT * FROM urls WHERE url LIKE '$domain%' ORDER BY links DESC, id ASC";
         $this->template->site_pages = DB::connect()->query($q)->fetchAll();
 
         $this->template->display('site.php');

@@ -8,22 +8,25 @@
                         <thead>
                             <tr>
                             	<th>Page Title</th>
-                            	<th><a href="/?domain=<?php echo $this->domain ?>&orderby=links">Links</a></th>
-                            	<th><a href="/?domain=<?php echo $this->domain ?>&orderby=pr">PR</a></th>
-                            	<th colspan="5"></th>
+                            	<th class="text-right">Incoming Links</th>
+                            	<th class="text-center">PageRank</th>
+                            	<th class="text-center">Title Search</th>
+                            	<th colspan="2"></th>
                         	</tr>
                     	</thead>
                     	<tbody>
                         <?php foreach ($this->site_pages as $row): ?>
-                            <tr style="background:<?php echo ($row['url'] == $this->checked) ? '#ADDFFF' : '#FFF'; ?>">
-                                <td width="410"><a href="/site/page?url=<?php echo urlencode($row['url']) ?>" title="View link data for this url"><?php echo (empty($row['title'])) ? $row['url'] : $row['title']; ?></a></td>
-                                <td width="40"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $row['url'] ?>&bwm=i&bwmo=d&bwmf=u" target="_blank"><?php echo $row['links'] ?></a></td>
-                                <td width="40"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $row['pr'] ?>.gif" alt="PageRank <?php echo $row['pr'] ?>" title="PageRank <?php echo $row['pr'] ?>"></td>
-                                <td width="18"><a href="http://www.google.com/search?hl=en&amp;q=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Google">G</a></td>
-                                <td width="18"><a href="http://search.yahoo.com/search?p=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Yahoo">Y!</a></td>
-                                <td width="18"><a href="http://www.bing.com/search?q=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Bing">B</a></td>
-                                <td width="18"><a href="update.php?url=<?php echo $row['url'] ?>"><img src="<?php echo Options::get('theme_path') ?>/images/arrow_refresh.png" alt="Update link count for <?php echo $row['url'] ?>" title="Update link count for <?php echo $row['url'] ?>" border="0"></a></td>
-                                <td width="18"><a href="<?php echo $row['url'] ?>" title="Visit this URL"><img src="<?php echo Options::get('theme_path') ?>/images/magnifier.png" alt="Visit this url" border="0"></a></td>
+                            <tr>
+                                <td><a href="/site/page?url=<?php echo urlencode($row['url']) ?>" title="View link data for this url"><?php echo (empty($row['title'])) ? $row['url'] : $row['title']; ?></a></td>
+                                <td class="text-right"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $row['url'] ?>&bwm=i&bwmo=d&bwmf=u" target="_blank"><?php echo $row['links'] ?></a></td>
+                                <td class="text-center"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $row['pr'] ?>.gif" alt="PageRank <?php echo $row['pr'] ?>" title="PageRank <?php echo $row['pr'] ?>"></td>
+                                <td class="text-center">
+                                    <a href="http://www.google.com/search?hl=en&amp;q=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Google">G</a>&nbsp;
+                                    <a href="http://search.yahoo.com/search?p=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Yahoo">Y!</a>&nbsp;
+                                    <a href="http://www.bing.com/search?q=<?php echo $row['title'] ?>" target="_blank" title="Check ranking on Bing">B</a>
+                                </td>
+                                <td><a href="update.php?url=<?php echo $row['url'] ?>"><img src="<?php echo Options::get('theme_path') ?>/images/arrow_refresh.png" alt="Update link count for <?php echo $row['url'] ?>"></a></td>
+                                <td><a href="<?php echo $row['url'] ?>" title="Visit this URL"><img src="<?php echo Options::get('theme_path') ?>/images/magnifier.png" alt="Visit this url" ></a></td>
                             </tr>
                         <?php endforeach ?>
                         </tbody>
