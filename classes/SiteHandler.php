@@ -100,36 +100,28 @@ class SiteHandler
 
     public function site_update()
     {
-        if (empty($_GET['domain'])) {
-            trigger_error('Please enter a domain to update', E_USER_ERROR);
-
-            // redirect to index
-            header('HTTP/1.1 302 Found');
-            header("Location: " . Options::get('base_url'));
-            exit();
-        }
-
         $db = DB::connect();
 
-        $domain = $_GET['domain'];
+        $id    = intval($_GET['id']);
+        $site  = Sites::get(array('id' => $id));
+        $today = date("Y-m-d");
 
-        $q   = "SELECT * FROM urls WHERE checkdate !='$today' AND url LIKE 'http://$domain%' ORDER BY id DESC LIMIT 5000";
+        $q = "SELECT * FROM urls WHERE checkdate !='$today' AND url LIKE 'http://$site->domain%' ORDER BY id DESC LIMIT 5000";
 
         foreach ($db->query($q) as $row) {
             $url            = $row['url'];
             $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
             $pr             = Google::get_pagerank($url);
-            $today          = date("Y-m-d");
 
             $db->exec("UPDATE urls SET checkdate='$today', links='$incoming_links', pr='$pr' WHERE url='$url' LIMIT 1");
         }
 
-        $pr = Google::get_pagerank($domain);
-        $db->exec("UPDATE site SET pr='$pr' WHERE domain='$domain' LIMIT 1");
+        $pr = Google::get_pagerank($site->domain);
+        $db->exec("UPDATE site SET pr='$pr' WHERE id = '$site->id' LIMIT 1");
 
         // redirect to site display page
         header('HTTP/1.1 302 Found');
-        header("Location: ". Options::get('base_url') ."site/?domain=" . $domain);
+        header("Location: ". Options::get('base_url') ."site/?id=" . $site->id);
         exit();
     }
 
@@ -141,28 +133,21 @@ class SiteHandler
             exit();
         }
 
-        Site::create(array('url' => $_POST['url']));
-
-        // @todo get the domain from the site create method results
-        $domain = parse_url($_POST['url'], PHP_URL_HOST);
+        $site = Site::create(array('url' => $_POST['url']));
 
         // redirect to site display page
         header("HTTP/1.1 301 Moved Permanently");
-        header("Location: ". Options::get('base_url') ."site/?domain=" . $domain);
+        header("Location: ". Options::get('base_url') ."site/?id=" . $site->id);
         exit();
     }
 
     public function display_site()
     {
-        // displaying single site
-        $domain = mysql_escape_string($_GET["domain"]);
+        $id = intval($_GET['id']);
 
-        $this->template->domain = $domain;
+        $site = Sites::get(array('id' => $id));
 
-        $domain = "http://$domain";
-
-        $q = "SELECT * FROM urls WHERE url LIKE '$domain%' ORDER BY links DESC, id ASC";
-        $this->template->site_pages = DB::connect()->query($q)->fetchAll();
+        $this->template->site = $site;
 
         $this->template->display('site.php');
     }

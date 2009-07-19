@@ -3,7 +3,7 @@
            	<div id="yui-main">
             	<div class="yui-a"><div class="yui-g">
 
-                    <h2>Results for <?php echo $this->domain ?></h2>
+                    <h2>Results for <?php echo $this->site->domain ?></h2>
                     <table>
                         <thead>
                             <tr>
@@ -15,7 +15,7 @@
                         	</tr>
                     	</thead>
                     	<tbody>
-                        <?php foreach ($this->site_pages as $row): ?>
+                        <?php foreach ($this->site->pages as $row): ?>
                             <tr>
                                 <td><a href="/site/page?url=<?php echo urlencode($row['url']) ?>" title="View incoming links to this URL"><?php echo (empty($row['title'])) ? $row['url'] : $row['title']; ?></a></td>
                                 <td class="text-right"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $row['url'] ?>&bwm=i&bwmo=d&bwmf=u" target="_blank" title="View incoming links using Yahoo! Site Explorer"><?php echo $row['links'] ?></a></td>

@@ -2,6 +2,16 @@
 
 class Site
 {
+    public function __construct()
+    {
+        $db = DB::connect();
+        $q  = "SELECT * FROM urls WHERE url LIKE 'http://$this->domain%' ORDER BY links DESC, id ASC";
+
+        $pages = $db->query($q)->fetchAll();
+
+        $this->pages = $pages;
+    }
+
     public static function exists($domain)
     {
         $db = DB::connect();
@@ -50,7 +60,13 @@ class Site
             }
         }
 
-        // @todo return an instance of the created site
+        // return an instance of the created site
+        $q = 'SELECT id FROM site ORDER BY id DESC LIMIT 1';
+        $id = $db->query($q)->fetchColumn();
+
+        $site = Sites::get(array('id' => $id));
+
+        return $site;
     }
 
     /*
