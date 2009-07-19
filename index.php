@@ -16,6 +16,4 @@ date_default_timezone_set(Options::get('timezone'));
 
 $db = DB::connect();
 
-$scriptlocation = "http://seokit.localhost";
-
 Controller::dispatchRequest();

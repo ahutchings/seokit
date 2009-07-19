@@ -11,6 +11,7 @@ class Google
      * @param $Str
      * @param $Check
      * @param $Magic
+     *
      * @return unknown_type
      */
     private static function StrToNum($Str, $Check, $Magic)
@@ -37,6 +38,7 @@ class Google
      * generate a hash for a url
      *
      * @param $String
+     *
      * @return unknown_type
      */
     private static function HashURL($String)
@@ -59,14 +61,15 @@ class Google
      * generate a checksum for the hash string
      *
      * @param $Hashnum
-     * @return unknown_type
+     *
+     * @return string
      */
     private static function CheckHash($Hashnum)
     {
         $CheckByte = 0;
         $Flag = 0;
 
-        $HashStr = sprintf('%u', $Hashnum) ;
+        $HashStr = sprintf('%u', $Hashnum);
         $length = strlen($HashStr);
 
         for ($i = $length - 1;  $i >= 0;  $i --) {
@@ -96,8 +99,9 @@ class Google
     /**
      * return the pagerank checksum hash
      *
-     * @param $url
-     * @return unknown_type
+     * @param string $url The URL
+     *
+     * @return string
      */
     private static function getch($url)
     {
@@ -107,8 +111,9 @@ class Google
     /**
      * return the pagerank figure
      *
-     * @param $url
-     * @return unknown_type
+     * @param string $url The URL
+     *
+     * @return int PageRank
      */
     public static function get_pagerank($url)
     {

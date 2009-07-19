@@ -2,27 +2,43 @@
 
 class Site
 {
+    /**
+     * Populates pages variable with site subpages.
+     *
+     * @return null
+     */
     public function __construct()
     {
-        $db = DB::connect();
         $q  = "SELECT * FROM urls WHERE url LIKE 'http://$this->domain%' ORDER BY links DESC, id ASC";
 
-        $pages = $db->query($q)->fetchAll();
+        $pages = DB::connect()->query($q)->fetchAll();
 
         $this->pages = $pages;
     }
 
+    /**
+     * Checks whether a domain exists in the database
+     *
+     * @param string $domain Domain to check
+     *
+     * @return bool
+     */
     public static function exists($domain)
     {
-        $db = DB::connect();
-
         $q = "SELECT COUNT(1) FROM site WHERE domain = '$domain'";
 
-        $exists = $db->query($q)->fetchColumn();
+        $exists = DB::connect()->query($q)->fetchColumn();
 
         return $exists;
     }
 
+    /**
+     * Creates a Site object with PageRank and subpages
+     *
+     * @param array $paramarray Array of parameters
+     *
+     * @return Site object
+     */
     public static function create($paramarray)
     {
         $db     = DB::connect();

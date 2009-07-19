@@ -45,6 +45,15 @@ class SEOKit
         return true;
     }
 
+    /**
+     * Retrieve HTML pagination
+     *
+     * @param string $class The object class we're paginating
+     * @param array $paramarray Parameters
+     * @param string $url Current URL
+     *
+     * @return string pagination HTML
+     */
     public static function paginate($class, $paramarray, $url)
     {
         $limit     = isset($paramarray['limit']) ? $paramarray['limit'] : Options::get('pagination');

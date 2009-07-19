@@ -2,6 +2,11 @@
 
 class Logs
 {
+    /**
+     * Retrieve a count of all log entries.
+     *
+     * @return int
+     */
     public static function get_count()
     {
         $q = 'SELECT COUNT(1) FROM log';

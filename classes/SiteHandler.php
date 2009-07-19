@@ -95,7 +95,7 @@ class SiteHandler
         $this->template->url            = $url;
         $this->template->incoming_links = $incoming_links;
 
-        $this->template->display('site_page.php');
+        $this->template->display('page.php');
     }
 
     public function site_update()
