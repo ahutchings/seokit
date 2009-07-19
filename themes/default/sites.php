@@ -20,7 +20,7 @@
                                 <?php foreach ($this->sites as $site): ?>
                                     <tr>
                                         <td><a href="/site/?id=<?php echo $site->id ?>"><?php echo $site->domain ?></a></td>
-                                        <td class="text-center"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $site->pr ?>.gif" alt="PageRank <?php echo $site->pr ?>" title="PageRank <?php echo $site->pr ?>"></td>
+                                        <td class="text-center"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $site->pagerank ?>.gif" alt="PageRank <?php echo $site->pagerank ?>"></td>
                                         <td class="text-right">
                                         	<a href="/site/update?id=<?php echo $site->id ?>" title="Update all link counts for <?php echo $site->domain ?>">refresh</a> |
                                         	<a href="/site/delete?id=<?php echo $site->id ?>" title="Delete entire site">delete</a>

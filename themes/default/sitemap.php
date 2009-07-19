@@ -32,9 +32,9 @@
 
     if (!$row = mysql_fetch_array($result)){
 
-        $pr = Google::get_pagerank($domain);
+        $pagerank = Google::get_pagerank($domain);
 
-        $db->exec("INSERT INTO site VALUES('','$domain','$pr')");
+        $db->exec("INSERT INTO site VALUES('','$domain','$pagerank')");
     }
 
     $counter = 0;
@@ -113,9 +113,9 @@
 
         if (!$row = mysql_fetch_array($result)){
 
-            $pr = Google::get_pagerank($url);
+            $pagerank = Google::get_pagerank($url);
 
-            if (mysql_query("INSERT INTO page VALUES('','$url','','0','','$pr')") or die(mysql_error())){
+            if (mysql_query("INSERT INTO page VALUES('','$url','','0','','$pagerank')") or die(mysql_error())){
                 echo "<a href=\"$url\">$url</a> was added!<br />\n";
             }
 

@@ -26,9 +26,9 @@ class SiteHandler
 
         $linking_page   = mysql_escape_string($_GET["linking_page"]);
         $incoming_links = Yahoo::get_inlink_count(array('query' => $linking_page));
-        $pr             = Google::get_pagerank($linking_page);
+        $pagerank       = Google::get_pagerank($linking_page);
 
-        $q = "UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1";
+        $q = "UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pagerank' WHERE linking_page='$linking_page' LIMIT 1";
 
         DB::connect()->exec($q);
 
@@ -61,14 +61,14 @@ class SiteHandler
                 $linking_page_title = mysql_escape_string($page['Title']);
                 $linking_page       = mysql_escape_string($page['Url']);
 
-                $pr = Google::get_pagerank($linking_page);
+                $pagerank = Google::get_pagerank($linking_page);
 
                 $q = "SELECT COUNT(1) FROM linkdata WHERE linking_page = '$linking_page'";
 
                 if ($db->query($q)->fetchColumn() == 0){
-                    $db->exec("INSERT INTO linkdata VALUES('','$url','$linking_page','$linking_page_title','$pr','0')");
+                    $db->exec("INSERT INTO linkdata VALUES('','$url','$linking_page','$linking_page_title','$pagerank','0')");
                 } else {
-                    $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pr' WHERE linking_page='$linking_page' LIMIT 1");
+                    $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pagerank' WHERE linking_page='$linking_page' LIMIT 1");
                 }
 
                 $today          = date("Y-m-d");
@@ -106,18 +106,18 @@ class SiteHandler
         $site  = Sites::get(array('id' => $id));
         $today = date("Y-m-d");
 
-        $q = "SELECT * FROM page WHERE checkdate !='$today' AND url LIKE 'http://$site->domain%' ORDER BY id DESC LIMIT 5000";
+        $q = "SELECT * FROM page WHERE updated_at !='$today' AND url LIKE 'http://$site->domain%' ORDER BY id DESC LIMIT 5000";
 
         foreach ($db->query($q) as $row) {
-            $url            = $row['url'];
-            $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
-            $pr             = Google::get_pagerank($url);
+            $url          = $row['url'];
+            $inlink_count = Yahoo::get_inlink_count(array('query' => $url));
+            $pagerank     = Google::get_pagerank($url);
 
-            $db->exec("UPDATE page SET checkdate='$today', links='$incoming_links', pr='$pr' WHERE url='$url' LIMIT 1");
+            $db->exec("UPDATE page SET updated_at = '$today', inlink_count = '$inlink_count', pagerank = '$pagerank' WHERE url = '$url' LIMIT 1");
         }
 
-        $pr = Google::get_pagerank($site->domain);
-        $db->exec("UPDATE site SET pr='$pr' WHERE id = '$site->id' LIMIT 1");
+        $pagerank = Google::get_pagerank($site->domain);
+        $db->exec("UPDATE site SET pagerank = '$pagerank' WHERE id = '$site->id' LIMIT 1");
 
         // redirect to site display page
         header('HTTP/1.1 302 Found');

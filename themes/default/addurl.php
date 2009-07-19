@@ -30,33 +30,24 @@
 
     if (!$row = mysql_fetch_array($result)){
 
-        $pr = Google::get_pagerank($url);
+        $pagerank = Google::get_pagerank($url);
 
-        if ($db->exec("INSERT INTO page VALUES('','$url','$title','0','','$pr')")) {
-            echo "<h2>Page added</h2> <br> <a href=\"$url\">$url</a> was added to the database<br />\n";
-        }
-
-    } else {
-        echo "<h2>Results</h2> <br> <a href=\"$url\">$url</a> is already listed in the database<br>\n";
+        $db->exec("INSERT INTO page VALUES('','$url','$title','0','','$pagerank')");
     }
 
-    $today = date("Y-m-d");
+    $today        = date("Y-m-d");
+    $inlink_count = Yahoo::get_inlink_count(array('query' => $url));
 
-    $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
-
-    if (ctype_digit($incoming_links)) {
-        $db->exec("UPDATE page SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
-        echo "$incoming_links links to $url";
-    }
+    $db->exec("UPDATE page SET updated_at = '$today', inlink_count = '$inlink_count' WHERE url = '$url' LIMIT 1");
 
     $domain = parse_url($url, PHP_URL_HOST);
-    $result = mysql_query("SELECT domain FROM site WHERE domain='$domain' LIMIT 1");
+    $result = mysql_query("SELECT domain FROM site WHERE domain = '$domain' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)) {
 
-        $pr = Google::get_pagerank($domain);
+        $pagerank = Google::get_pagerank($domain);
 
-        $db->exec("INSERT INTO site VALUES('','$domain','$pr')");
+        $db->exec("INSERT INTO site VALUES('', '$domain', '$pagerank')");
     }
 endif; ?>
 

@@ -9,7 +9,7 @@ class Site
      */
     public function __construct()
     {
-        $q  = "SELECT * FROM page WHERE url LIKE 'http://$this->domain%' ORDER BY links DESC, id ASC";
+        $q  = "SELECT * FROM page WHERE url LIKE 'http://$this->domain%' ORDER BY inlink_count DESC, id ASC";
 
         $pages = DB::connect()->query($q)->fetchAll();
 
@@ -49,9 +49,9 @@ class Site
             return false;
         }
 
-        $pr = Google::get_pagerank($domain);
+        $pagerank = Google::get_pagerank($domain);
 
-        $db->exec("INSERT INTO site VALUES('', '$domain', '$pr')");
+        $db->exec("INSERT INTO site VALUES('', '$domain', '$pagerank')");
 
         // retrieve and add site pages
         for ($start = 1; $start <= 1000; $start += 100) {
@@ -65,14 +65,14 @@ class Site
 
             foreach ($data['ResultSet']['Result'] as $page) {
                 // insert the page, update pagerank and incoming link count
-                $url            = $page['Url'];
-                $title          = $page['Title'];
-                $today          = date("Y-m-d");
-                $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
-                $pagerank       = Google::get_pagerank($url);
+                $url          = $page['Url'];
+                $title        = $page['Title'];
+                $today        = date("Y-m-d");
+                $inlink_count = Yahoo::get_inlink_count(array('query' => $url));
+                $pagerank     = Google::get_pagerank($url);
 
                 $db->exec("INSERT INTO page VALUES('','$url','$title','0','','$pagerank')");
-                $db->exec("UPDATE page SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
+                $db->exec("UPDATE page SET updated_at = '$today', inlink_count = '$inlink_count' WHERE url = '$url' LIMIT 1");
             }
         }
 

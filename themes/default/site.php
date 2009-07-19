@@ -18,8 +18,8 @@
                         <?php foreach ($this->site->pages as $row): ?>
                             <tr>
                                 <td><a href="/site/page?url=<?php echo urlencode($row['url']) ?>" title="View incoming links to this URL"><?php echo (empty($row['title'])) ? $row['url'] : $row['title']; ?></a></td>
-                                <td class="text-right"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $row['url'] ?>&bwm=i&bwmo=d&bwmf=u" target="_blank" title="View incoming links using Yahoo! Site Explorer"><?php echo $row['links'] ?></a></td>
-                                <td class="text-center"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $row['pr'] ?>.gif" alt="PageRank <?php echo $row['pr'] ?>" title="PageRank <?php echo $row['pr'] ?>"></td>
+                                <td class="text-right"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $row['url'] ?>&bwm=i&bwmo=d&bwmf=u" target="_blank" title="View incoming links using Yahoo! Site Explorer"><?php echo $row['inlink_count'] ?></a></td>
+                                <td class="text-center"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $row['pagerank'] ?>.gif" alt="PageRank <?php echo $row['pagerank'] ?>"></td>
                                 <td class="text-center">
                                     <a href="http://www.google.com/search?hl=en&amp;q=<?php echo $row['title'] ?>" target="_blank" title="Search for this title on Google">G</a>&nbsp;
                                     <a href="http://search.yahoo.com/search?p=<?php echo $row['title'] ?>" target="_blank" title="Search for this title on Yahoo">Y!</a>&nbsp;
