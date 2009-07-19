@@ -83,7 +83,6 @@ a.button {
 }
 
 a.button:hover {
-	border-color:#888;
-	background:#BBB;
-	color:#FFF;
+	border-color:#AAA;
+	background:#DBDBDB;
 }
