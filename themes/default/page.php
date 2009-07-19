@@ -17,17 +17,17 @@
                         	</tr>
                     	</thead>
                     	<tbody>
-                    	<?php foreach ($this->incoming_links as $row): ?>
+                    	<?php foreach ($this->incoming_links as $inlink): ?>
                             <tr>
-                                <td><a href="<?php echo $row['linking_page'] ?>" title="Visit <?php echo $row['linking_page'] ?>"><?php echo $row['linking_page_title'] ?></a></td>
-                                <td class="text-right"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $row['linking_page'] ?>&amp;bwm=i&amp;bwmo=d&amp;bwmf=u" target="_blank" title="View incoming links using Yahoo! Site Explorer"><?php echo $row['linking_page_inlinks'] ?></a></td>
-                                <td class="text-center"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $row['linking_page_pr'] ?>.gif" alt="PageRank <?php echo $row['linking_page_pr'] ?>"></td>
+                                <td><a href="<?php echo $inlink->url ?>" title="Visit <?php echo $inlink->url ?>"><?php echo $inlink->title ?></a></td>
+                                <td class="text-right"><a href="https://siteexplorer.search.yahoo.com/advsearch?p=<?php echo $inlink->url ?>&amp;bwm=i&amp;bwmo=d&amp;bwmf=u" target="_blank" title="View incoming links using Yahoo! Site Explorer"><?php echo $inlink->inlink_count ?></a></td>
+                                <td class="text-center"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $inlink->pagerank ?>.gif" alt="PageRank <?php echo $inlink->pagerank ?>"></td>
                                 <td class="text-center">
-                                    <a href="http://www.google.com/search?hl=en&amp;q=<?php echo $row['linking_page_title'] ?>" target="_blank" title="Search for this title on Google">G</a>&nbsp;
-                                    <a href="http://search.yahoo.com/search?p=<?php echo $row['linking_page_title'] ?>" target="_blank" title="Search for this title on Yahoo!">Y!</a>&nbsp;
-                                    <a href="http://www.bing.com/search?q=<?php echo $row['linking_page_title'] ?>" target="_blank" title="Search for this title on Bing">B</a>
+                                    <a href="http://www.google.com/search?hl=en&amp;q=<?php echo $inlink->title ?>" target="_blank" title="Search for this title on Google">G</a>&nbsp;
+                                    <a href="http://search.yahoo.com/search?p=<?php echo $inlink->title ?>" target="_blank" title="Search for this title on Yahoo!">Y!</a>&nbsp;
+                                    <a href="http://www.bing.com/search?q=<?php echo $inlink->title ?>" target="_blank" title="Search for this title on Bing">B</a>
                                 </td>
-                                <td><a href="/site/page/inlink/update?linking_page=<?php echo urlencode($row['linking_page']) ?>&amp;url=<?php echo urlencode($this->url) ?>" title="Update incoming link count for <?php echo $row['linking_page'] ?>"><img src="<?php echo Options::get('theme_path') ?>images/arrow_refresh.png" alt="Update incoming link count for <?php echo $row['linking_page'] ?>"></a></td>
+                                <td><a href="/site/page/inlink/update?linking_page=<?php echo urlencode($inlink->url) ?>&amp;url=<?php echo urlencode($this->url) ?>" title="Update incoming link count for <?php echo $inlink->url ?>"><img src="<?php echo Options::get('theme_path') ?>images/arrow_refresh.png" alt="Update incoming link count for <?php echo $inlink->url ?>"></a></td>
                             </tr>
                 	    <?php endforeach ?>
                 	    </tbody>

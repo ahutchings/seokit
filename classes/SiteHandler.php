@@ -28,7 +28,7 @@ class SiteHandler
         $incoming_links = Yahoo::get_inlink_count(array('query' => $linking_page));
         $pagerank       = Google::get_pagerank($linking_page);
 
-        $q = "UPDATE inlink SET linking_page_inlinks='$incoming_links',linking_page_pr='$pagerank' WHERE linking_page='$linking_page' LIMIT 1";
+        $q = "UPDATE inlink SET inlink_count = '$incoming_links', pagerank = '$pagerank' WHERE url = '$linking_page' LIMIT 1";
 
         DB::connect()->exec($q);
 
@@ -58,23 +58,24 @@ class SiteHandler
             $data = Yahoo::get_inlink_data($params);
 
             foreach ($data['ResultSet']['Result'] as $page) {
-                $linking_page_title = mysql_escape_string($page['Title']);
-                $linking_page       = mysql_escape_string($page['Url']);
+                $title        = mysql_escape_string($page['Title']);
+                $linking_page = mysql_escape_string($page['Url']);
 
                 $pagerank = Google::get_pagerank($linking_page);
 
-                $q = "SELECT COUNT(1) FROM inlink WHERE linking_page = '$linking_page'";
+                $q = "SELECT COUNT(1) FROM inlink WHERE url = '$linking_page'";
 
                 if ($db->query($q)->fetchColumn() == 0){
-                    $db->exec("INSERT INTO inlink VALUES('','$url','$linking_page','$linking_page_title','$pagerank','0')");
+                    $db->exec("INSERT INTO inlink VALUES('','$url','$linking_page','$title','$pagerank','0')");
                 } else {
-                    $db->exec("UPDATE inlink SET linking_page_inlinks='$incoming_links',linking_page_pr='$pagerank' WHERE linking_page='$linking_page' LIMIT 1");
+                    $db->exec("UPDATE inlink SET inlink_count='$incoming_links',pagerank='$pagerank' WHERE url = '$linking_page' LIMIT 1");
                 }
 
-                $today          = date("Y-m-d");
-                $incoming_links = Yahoo::get_inlink_count(array('query' => $linking_page));
 
-                $db->exec("UPDATE inlink SET linking_page_inlinks='$incoming_links' WHERE linking_page='$linking_page' LIMIT 1");
+                // @todo this should be a part of the preceding INSERT query
+                $inlink_count = Yahoo::get_inlink_count(array('query' => $linking_page));
+
+                $db->exec("UPDATE inlink SET inlink_count='$inlink_count' WHERE url = '$linking_page' LIMIT 1");
             }
         }
 
@@ -88,9 +89,9 @@ class SiteHandler
     {
         $url = mysql_escape_string($_GET['url']);
 
-        $q = "SELECT * FROM inlink WHERE url='$url' ORDER BY linking_page_inlinks DESC LIMIT 1000";
+        $q = "SELECT * FROM inlink WHERE page_url = '$url' ORDER BY inlink_count DESC LIMIT 1000";
 
-        $incoming_links = DB::connect()->query($q)->fetchAll();
+        $incoming_links = DB::connect()->query($q)->fetchAll(PDO::FETCH_OBJ);
 
         $this->template->url            = $url;
         $this->template->incoming_links = $incoming_links;
@@ -106,7 +107,7 @@ class SiteHandler
         $site  = Sites::get(array('id' => $id));
         $today = date("Y-m-d");
 
-        $q = "SELECT * FROM page WHERE updated_at !='$today' AND url LIKE 'http://$site->domain%' ORDER BY id DESC LIMIT 5000";
+        $q = "SELECT * FROM page WHERE updated_at ! = '$today' AND url LIKE 'http://$site->domain%' ORDER BY id DESC LIMIT 5000";
 
         foreach ($db->query($q) as $row) {
             $url          = $row['url'];
