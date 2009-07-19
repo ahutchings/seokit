@@ -9,7 +9,7 @@ class Site
      */
     public function __construct()
     {
-        $q  = "SELECT * FROM urls WHERE url LIKE 'http://$this->domain%' ORDER BY links DESC, id ASC";
+        $q  = "SELECT * FROM page WHERE url LIKE 'http://$this->domain%' ORDER BY links DESC, id ASC";
 
         $pages = DB::connect()->query($q)->fetchAll();
 
@@ -71,8 +71,8 @@ class Site
                 $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
                 $pagerank       = Google::get_pagerank($url);
 
-                $db->exec("INSERT INTO urls VALUES('','$url','$title','0','','$pagerank')");
-                $db->exec("UPDATE urls SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
+                $db->exec("INSERT INTO page VALUES('','$url','$title','0','','$pagerank')");
+                $db->exec("UPDATE page SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
             }
         }
 
@@ -97,7 +97,7 @@ class Site
         $db = DB::connect();
 
         $db->exec("DELETE FROM site WHERE id = {$this->id} LIMIT 1");
-        $db->exec("DELETE FROM urls WHERE url LIKE '%$this->domain%'");
+        $db->exec("DELETE FROM page WHERE url LIKE '%$this->domain%'");
         $db->exec("DELETE FROM linkdata WHERE url LIKE '%$this->domain%'");
     }
 }

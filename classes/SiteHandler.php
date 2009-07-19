@@ -106,14 +106,14 @@ class SiteHandler
         $site  = Sites::get(array('id' => $id));
         $today = date("Y-m-d");
 
-        $q = "SELECT * FROM urls WHERE checkdate !='$today' AND url LIKE 'http://$site->domain%' ORDER BY id DESC LIMIT 5000";
+        $q = "SELECT * FROM page WHERE checkdate !='$today' AND url LIKE 'http://$site->domain%' ORDER BY id DESC LIMIT 5000";
 
         foreach ($db->query($q) as $row) {
             $url            = $row['url'];
             $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
             $pr             = Google::get_pagerank($url);
 
-            $db->exec("UPDATE urls SET checkdate='$today', links='$incoming_links', pr='$pr' WHERE url='$url' LIMIT 1");
+            $db->exec("UPDATE page SET checkdate='$today', links='$incoming_links', pr='$pr' WHERE url='$url' LIMIT 1");
         }
 
         $pr = Google::get_pagerank($site->domain);

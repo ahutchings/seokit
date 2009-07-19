@@ -26,13 +26,13 @@
     $url = str_replace('http://', '', $url);
     $url = "http://$url";
 
-    $result = mysql_query("SELECT url FROM urls WHERE url='$url' LIMIT 1");
+    $result = mysql_query("SELECT url FROM page WHERE url='$url' LIMIT 1");
 
     if (!$row = mysql_fetch_array($result)){
 
         $pr = Google::get_pagerank($url);
 
-        if ($db->exec("INSERT INTO urls VALUES('','$url','$title','0','','$pr')")) {
+        if ($db->exec("INSERT INTO page VALUES('','$url','$title','0','','$pr')")) {
             echo "<h2>Page added</h2> <br> <a href=\"$url\">$url</a> was added to the database<br />\n";
         }
 
@@ -45,7 +45,7 @@
     $incoming_links = Yahoo::get_inlink_count(array('query' => $url));
 
     if (ctype_digit($incoming_links)) {
-        $db->exec("UPDATE urls SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
+        $db->exec("UPDATE page SET checkdate='$today',links='$incoming_links' WHERE url='$url' LIMIT 1");
         echo "$incoming_links links to $url";
     }
 

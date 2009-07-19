@@ -54,7 +54,7 @@
                     key/IP address. <a href="http://developer.yahoo.com/search/">More
                     details</a>.</p>
 
-                    <p>Yahoo also only returns the first 1000 urls in a site so for large
+                    <p>Yahoo also only returns the first 1000 URLs in a site so for large
                     sites you might need to add the rest using the sitemap.xml spider.</p>
                 </div>
             </div>

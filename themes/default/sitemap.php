@@ -4,9 +4,9 @@
         <div id="bd">
            	<div id="yui-main">
             	<div class="yui-b"><div class="yui-g">
-                    <h2>Spider an XML sitemap for URLs</h2>
+                    <h2>Spider an XML sitemap for Pages</h2>
 
-                    <p>If you would like to input a lot of URL's it is sometimes better to
+                    <p>If you would like to input a lot of pages it is sometimes better to
                     use an XML sitemap rather than relying on Yahoo! to return indexed pages.</p>
 
                     <p><b>Note:</b> if you spider a site using this method the page titles
@@ -109,13 +109,13 @@
     foreach ($itemInfo as $items) {
         $url = $items['loc'];
 
-        $result = mysql_query("SELECT url FROM urls WHERE url='$url' LIMIT 1");
+        $result = mysql_query("SELECT url FROM page WHERE url='$url' LIMIT 1");
 
         if (!$row = mysql_fetch_array($result)){
 
             $pr = Google::get_pagerank($url);
 
-            if (mysql_query("INSERT INTO urls VALUES('','$url','','0','','$pr')") or die(mysql_error())){
+            if (mysql_query("INSERT INTO page VALUES('','$url','','0','','$pr')") or die(mysql_error())){
                 echo "<a href=\"$url\">$url</a> was added!<br />\n";
             }
 
