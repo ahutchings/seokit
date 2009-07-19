@@ -29,7 +29,7 @@
                                 <?php endforeach; ?>
                         		</tbody>
                             </table>
-                            <p><a href="/site/create">Add a new site</a></p>
+                            <p><a class="button" href="/site/create">Add a new site</a></p>
                         </div>
                 	</div>
 

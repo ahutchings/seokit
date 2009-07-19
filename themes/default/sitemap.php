@@ -7,7 +7,7 @@
                     <h2>Spider an XML sitemap for URLs</h2>
 
                     <p>If you would like to input a lot of URL's it is sometimes better to
-                    use an xml sitemap rather than relying on Yahoo to return indexed pages.</p>
+                    use an XML sitemap rather than relying on Yahoo! to return indexed pages.</p>
 
                     <p><b>Note:</b> if you spider a site using this method the page titles
                     will not be added to the database like they will be if you use <a

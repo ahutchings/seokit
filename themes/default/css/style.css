@@ -74,19 +74,16 @@ ul.pager li.active a,ul.pager li a:hover {
 	color:#666;
 }
 
-#search { text-align:right; }
-#search label { display:none; }
-#search #criteria { display:inline; width:inherit; }
-
-#messages thead { display:none; }
-#messages .bd { padding:0; }
-#messages .protocol { width:11px; padding:0; }
-#messages .aim { background:#ffffcc; }
-#messages .jabber { background:#ffe5cc; }
-#messages .msn { background:#ccf3ff; }
-#messages .yahoo { background:#ffcccc; }
-
 tr.odd { background:#F8F8F8 }
 
-#sender { display:inline; width:160px; }
-#dates { display:inline; width:120px; }
+a.button {
+	border:1px solid #CCC;
+	background:#EEE;
+	padding:0.4em;
+}
+
+a.button:hover {
+	border-color:#888;
+	background:#BBB;
+	color:#FFF;
+}
