@@ -28,7 +28,7 @@ class SiteHandler
         $incoming_links = Yahoo::get_inlink_count(array('query' => $linking_page));
         $pagerank       = Google::get_pagerank($linking_page);
 
-        $q = "UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pagerank' WHERE linking_page='$linking_page' LIMIT 1";
+        $q = "UPDATE inlink SET linking_page_inlinks='$incoming_links',linking_page_pr='$pagerank' WHERE linking_page='$linking_page' LIMIT 1";
 
         DB::connect()->exec($q);
 
@@ -63,18 +63,18 @@ class SiteHandler
 
                 $pagerank = Google::get_pagerank($linking_page);
 
-                $q = "SELECT COUNT(1) FROM linkdata WHERE linking_page = '$linking_page'";
+                $q = "SELECT COUNT(1) FROM inlink WHERE linking_page = '$linking_page'";
 
                 if ($db->query($q)->fetchColumn() == 0){
-                    $db->exec("INSERT INTO linkdata VALUES('','$url','$linking_page','$linking_page_title','$pagerank','0')");
+                    $db->exec("INSERT INTO inlink VALUES('','$url','$linking_page','$linking_page_title','$pagerank','0')");
                 } else {
-                    $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links',linking_page_pr='$pagerank' WHERE linking_page='$linking_page' LIMIT 1");
+                    $db->exec("UPDATE inlink SET linking_page_inlinks='$incoming_links',linking_page_pr='$pagerank' WHERE linking_page='$linking_page' LIMIT 1");
                 }
 
                 $today          = date("Y-m-d");
                 $incoming_links = Yahoo::get_inlink_count(array('query' => $linking_page));
 
-                $db->exec("UPDATE linkdata SET linking_page_inlinks='$incoming_links' WHERE linking_page='$linking_page' LIMIT 1");
+                $db->exec("UPDATE inlink SET linking_page_inlinks='$incoming_links' WHERE linking_page='$linking_page' LIMIT 1");
             }
         }
 
@@ -88,7 +88,7 @@ class SiteHandler
     {
         $url = mysql_escape_string($_GET['url']);
 
-        $q = "SELECT * FROM linkdata WHERE url='$url' ORDER BY linking_page_inlinks DESC LIMIT 1000";
+        $q = "SELECT * FROM inlink WHERE url='$url' ORDER BY linking_page_inlinks DESC LIMIT 1000";
 
         $incoming_links = DB::connect()->query($q)->fetchAll();
 

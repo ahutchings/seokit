@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `linkdata` (
+CREATE TABLE IF NOT EXISTS `inlink` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(255) DEFAULT NULL,
   `linking_page` varchar(255) DEFAULT NULL,
