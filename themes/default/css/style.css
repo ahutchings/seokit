@@ -86,3 +86,12 @@ a.button:hover {
 	border-color:#AAA;
 	background:#DBDBDB;
 }
+
+#sites table .thumb {
+	background-color:#EAF3FA;
+	padding:2px;
+}
+
+#sites table .thumb:hover {
+	background-color:#CEE1EF;	
+}

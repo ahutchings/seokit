@@ -11,16 +11,27 @@
                             <table>
                             	<thead>
                                     <tr>
-                                        <th>Site</th>
+                                        <th colspan="2">Site</th>
                                         <th class="text-center">PageRank</th>
+                                        <th class="text-right">Pages</th>
                                         <th></th>
                                     </tr>
                             	</thead>
                             	<tbody>
                                 <?php foreach ($this->sites as $site): ?>
                                     <tr>
-                                        <td><a href="/site/?id=<?php echo $site->id ?>"><?php echo $site->domain ?></a></td>
+                                    	<td width="124">
+                                        	<a href="/site/?id=<?php echo $site->id ?>" title="View site details">
+	                                    		<img src="<?php echo $site->thumb_path ?>" width="120" height="90" alt="" class="thumb">
+	                                        </a>
+                                        </td>
+                                        <td>
+                                        	<a href="/site/?id=<?php echo $site->id ?>" title="View site details">
+                                                <?php echo $site->domain ?>
+                                            </a>
+                                        </td>
                                         <td class="text-center"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $site->pagerank ?>.gif" alt="PageRank <?php echo $site->pagerank ?>"></td>
+                                        <td class="text-right"><?php echo count($site->pages) ?></td>
                                         <td class="text-right">
                                         	<a href="/site/update?id=<?php echo $site->id ?>" title="Update all link counts for <?php echo $site->domain ?>">refresh</a> |
                                         	<a href="/site/delete?id=<?php echo $site->id ?>" title="Delete entire site">delete</a>

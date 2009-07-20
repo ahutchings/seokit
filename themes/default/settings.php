@@ -18,6 +18,9 @@
                                 <p><label for="yahoo_api_key">Yahoo! API Key</label>
                                     <input type="text" class="text" name="yahoo_api_key" id="yahoo_api_key" value="<?php echo Options::get('yahoo_api_key') ?>">
                                 </p>
+                                <p><label for="stw_access_key">ShrinkTheWeb Access Key</label>
+                                    <input type="text" class="text" name="stw_access_key" id="stw_access_key" value="<?php echo Options::get('stw_access_key') ?>">
+                                </p>
                                 <p><label for="pagination">Items per Page</label>
                                     <input type="text" class="text" name="pagination" id="pagination" value="<?php echo Options::get('pagination') ?>">
                                     <span class="info">Ex: 20</span>

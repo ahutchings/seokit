@@ -17,7 +17,37 @@ class Site
 
         $pages = $sth->fetchAll();
 
-        $this->pages = $pages;
+        $this->pages      = $pages;
+        $this->thumb_path = $this->get_thumb_path();
+
+    }
+
+    /**
+     * Retrieves and caches a domain thumbnail, and returns the path
+     *
+     * @return string
+     */
+    private function get_thumb_path()
+    {
+        $path = APP_PATH . '/cache/' . md5($this->domain) . '.jpg';
+
+        // if the thumbnail doesn't exist or it's older than a week
+        if (!file_exists($path) || filemtime($path) < (time() - 604800)) {
+            $request  = 'http://www.shrinktheweb.com/xino.php?embed=1&STWAccessKeyId=';
+            $request .= Options::get('stw_access_key');
+            $request .= '&Size=sm&stwUrl=';
+            $request .= $this->domain;
+
+            $thumbnail = file_get_contents($request);
+
+            file_put_contents($path, $thumbnail);
+
+            trigger_error("Refreshed cached thumbnail for $this->domain.", E_USER_NOTICE);
+        }
+
+        $relative_path = str_replace(APP_PATH, '', $path);
+
+        return $relative_path;
     }
 
     /**
