@@ -32,7 +32,7 @@ class Page
         $pagerank = Google::get_pagerank($this->url);
         $db->exec("INSERT INTO page_data VALUES($this->id, '0', NOW(), $pagerank)");
 
-        $inlink_count = Yahoo::get_inlink_count(array('query' => $page->url));
+        $inlink_count = Yahoo::get_inlink_count(array('query' => $this->url));
         $db->exec("INSERT INTO page_data VALUES($this->id, '1', NOW(), $inlink_count)");
     }
 }
