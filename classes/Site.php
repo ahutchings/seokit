@@ -87,33 +87,48 @@ class Site
 
         $db->exec("INSERT INTO site VALUES('', '$domain', '$pagerank')");
 
+        // return an instance of the created site
+        $id = $db->query('SELECT id FROM site ORDER BY id DESC LIMIT 1')->fetchColumn();
+
+        $site = Sites::get(array('id' => $id));
+
+        $site->refresh_pages();
+        $site->update_page_statistics();
+
+        return $site;
+    }
+
+    /**
+     * Retrieves and stores site pages
+     *
+     * @return null
+     */
+    public function refresh_pages()
+    {
+        $site_url = 'http://' . $this->domain;
+        $db       = DB::connect();
+
         // retrieve and add site pages
         for ($start = 1; $start <= 1000; $start += 100) {
 
             $params = array(
-                'query' => $paramarray['url'],
+                'query' => $site_url,
                 'start' => $start
             );
 
             $data = Yahoo::get_page_data($params);
 
             foreach ($data['ResultSet']['Result'] as $page) {
-                $url          = $page['Url'];
-                $title        = $page['Title'];
+                $page_url   = $page['Url'];
+                $page_title = $page['Title'];
 
-                // insert the page
-                $db->exec("INSERT INTO page VALUES('','$url','$title')");
+                // check for existence
+                if ($db->query("SELECT COUNT(1) FROM page WHERE url = '$page_url'")->fetchColumn() == 0) {
+                    // insert the page
+                    $db->exec("INSERT INTO page VALUES('','$page_url','$page_title')");
+                }
             }
         }
-
-        // return an instance of the created site
-        $id = $db->query('SELECT id FROM site ORDER BY id DESC LIMIT 1')->fetchColumn();
-
-        $site = Sites::get(array('id' => $id));
-
-        $site->update_page_statistics();
-
-        return $site;
     }
 
     /*
