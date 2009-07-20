@@ -9,9 +9,13 @@ class Site
      */
     public function __construct()
     {
-        $q  = "SELECT * FROM page WHERE url LIKE 'http://$this->domain%' ORDER BY inlink_count DESC, id ASC";
+        $q  = "SELECT * FROM page WHERE url LIKE 'http://$this->domain%'";
 
-        $pages = DB::connect()->query($q)->fetchAll(PDO::FETCH_OBJ);
+        $sth = DB::connect()->prepare($q);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'Page', array());
+        $sth->execute();
+
+        $pages = $sth->fetchAll();
 
         $this->pages = $pages;
     }
@@ -64,23 +68,20 @@ class Site
             $data = Yahoo::get_page_data($params);
 
             foreach ($data['ResultSet']['Result'] as $page) {
-                // insert the page, update pagerank and incoming link count
                 $url          = $page['Url'];
                 $title        = $page['Title'];
-                $today        = date("Y-m-d");
-                $inlink_count = Yahoo::get_inlink_count(array('query' => $url));
-                $pagerank     = Google::get_pagerank($url);
 
-                $db->exec("INSERT INTO page VALUES('','$url','$title','0','','$pagerank')");
-                $db->exec("UPDATE page SET updated_at = '$today', inlink_count = '$inlink_count' WHERE url = '$url' LIMIT 1");
+                // insert the page
+                $db->exec("INSERT INTO page VALUES('','$url','$title')");
             }
         }
 
         // return an instance of the created site
-        $q = 'SELECT id FROM site ORDER BY id DESC LIMIT 1';
-        $id = $db->query($q)->fetchColumn();
+        $id = $db->query('SELECT id FROM site ORDER BY id DESC LIMIT 1')->fetchColumn();
 
         $site = Sites::get(array('id' => $id));
+
+        $site->update_page_statistics();
 
         return $site;
     }
@@ -114,7 +115,7 @@ class Site
     }
 
     /**
-     * Updates PageRank and incoming link count for all site pages.
+     * Updates statistics for all site pages.
      *
      * @return null
      */
@@ -122,14 +123,8 @@ class Site
     {
         $db = DB::connect();
 
-        $today = date("Y-m-d");
-
         foreach ($this->pages as $page) {
-            echo "updating page statistics for $page->url<br />";
-            $inlink_count = Yahoo::get_inlink_count(array('query' => $page->url));
-            $pagerank     = Google::get_pagerank($page->url);
-
-            $db->exec("UPDATE page SET updated_at = '$today', inlink_count = '$inlink_count', pagerank = '$pagerank' WHERE url = '$page->url' LIMIT 1");
+            $page->update_statistics();
         }
     }
 }

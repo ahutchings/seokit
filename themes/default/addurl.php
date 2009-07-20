@@ -22,29 +22,25 @@
             </div>
 <?php else: ?>
 	<?php
+	$db = DB::connect();
+
     $url = mysql_escape_string($_GET["url"]);
     $url = str_replace('http://', '', $url);
     $url = "http://$url";
 
-    $result = mysql_query("SELECT url FROM page WHERE url='$url' LIMIT 1");
+    $page_exists = $db->query("SELECT COUNT(1) FROM page WHERE url= '$url'")->fetchColumn();
 
-    if (!$row = mysql_fetch_array($result)){
+    if (!$page_exists){
+        // create the page
+        $db->exec("INSERT INTO page VALUES('','$url','$title')");
 
-        $pagerank = Google::get_pagerank($url);
-
-        $db->exec("INSERT INTO page VALUES('','$url','$title','0','','$pagerank')");
+        // @todo update page metrics
     }
 
-    $today        = date("Y-m-d");
-    $inlink_count = Yahoo::get_inlink_count(array('query' => $url));
+    $domain      = parse_url($url, PHP_URL_HOST);
+    $site_exists = $db->query("SELECT COUNT(1) FROM site WHERE domain = '$domain'")->fetchColumn();
 
-    $db->exec("UPDATE page SET updated_at = '$today', inlink_count = '$inlink_count' WHERE url = '$url' LIMIT 1");
-
-    $domain = parse_url($url, PHP_URL_HOST);
-    $result = mysql_query("SELECT domain FROM site WHERE domain = '$domain' LIMIT 1");
-
-    if (!$row = mysql_fetch_array($result)) {
-
+    if (!$site_exists) {
         $pagerank = Google::get_pagerank($domain);
 
         $db->exec("INSERT INTO site VALUES('', '$domain', '$pagerank')");

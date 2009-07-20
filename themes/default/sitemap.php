@@ -109,18 +109,12 @@
     foreach ($itemInfo as $items) {
         $url = $items['loc'];
 
-        $result = mysql_query("SELECT url FROM page WHERE url='$url' LIMIT 1");
+        $page_exists = DB::connect()->query("SELECT COUNT(1) FROM page WHERE url = '$url'")->fetchColumn();
 
-        if (!$row = mysql_fetch_array($result)){
+        if (!$page_exists){
+            DB::connect()->exec("INSERT INTO page VALUES('','$url','')");
 
-            $pagerank = Google::get_pagerank($url);
-
-            if (mysql_query("INSERT INTO page VALUES('','$url','','0','','$pagerank')") or die(mysql_error())){
-                echo "<a href=\"$url\">$url</a> was added!<br />\n";
-            }
-
-        } else {
-            echo "<a href=\"$url\">$url</a> is already listed <br>\n";
+            // @todo update page metrics
         }
     }
 
