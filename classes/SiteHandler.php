@@ -101,24 +101,11 @@ class SiteHandler
 
     public function site_update()
     {
-        $db = DB::connect();
+        $id   = intval($_GET['id']);
+        $site = Sites::get(array('id' => $id));
 
-        $id    = intval($_GET['id']);
-        $site  = Sites::get(array('id' => $id));
-        $today = date("Y-m-d");
-
-        $q = "SELECT * FROM page WHERE updated_at ! = '$today' AND url LIKE 'http://$site->domain%' ORDER BY id DESC LIMIT 5000";
-
-        foreach ($db->query($q) as $row) {
-            $url          = $row['url'];
-            $inlink_count = Yahoo::get_inlink_count(array('query' => $url));
-            $pagerank     = Google::get_pagerank($url);
-
-            $db->exec("UPDATE page SET updated_at = '$today', inlink_count = '$inlink_count', pagerank = '$pagerank' WHERE url = '$url' LIMIT 1");
-        }
-
-        $pagerank = Google::get_pagerank($site->domain);
-        $db->exec("UPDATE site SET pagerank = '$pagerank' WHERE id = '$site->id' LIMIT 1");
+        $site->update_page_statistics();
+        $site->update_statistics();
 
         // redirect to site display page
         header('HTTP/1.1 302 Found');
