@@ -142,9 +142,10 @@ class Site
     {
         $db = DB::connect();
 
-        $db->exec("DELETE FROM site WHERE id = {$this->id} LIMIT 1");
-        $db->exec("DELETE FROM page WHERE url LIKE '%$this->domain%'");
         $db->exec("DELETE FROM inlink WHERE url LIKE '%$this->domain%'");
+        $db->exec("DELETE FROM page_data WHERE page_id IN (SELECT id FROM page WHERE url LIKE '%$this->domain%')");
+        $db->exec("DELETE FROM page WHERE url LIKE '%$this->domain%'");
+        $db->exec("DELETE FROM site WHERE id = $this->id LIMIT 1");
     }
 
     /**
