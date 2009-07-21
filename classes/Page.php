@@ -35,4 +35,20 @@ class Page
         $inlink_count = Yahoo::get_inlink_count(array('query' => $this->url));
         $db->exec("INSERT INTO page_data VALUES($this->id, '1', NOW(), $inlink_count)");
     }
+
+    /**
+     * Checks whether a page exists in the database
+     *
+     * @param string $url URL to check
+     *
+     * @return bool
+     */
+    public static function exists($url)
+    {
+        $q = "SELECT COUNT(1) FROM page WHERE url = '$url'";
+
+        $exists = DB::connect()->query($q)->fetchColumn();
+
+        return $exists;
+    }
 }

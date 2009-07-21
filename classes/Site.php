@@ -167,8 +167,6 @@ class Site
      */
     public function update_page_statistics()
     {
-        $db = DB::connect();
-
         foreach ($this->pages as $page) {
             $page->update_statistics();
         }

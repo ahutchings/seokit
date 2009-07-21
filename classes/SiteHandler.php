@@ -129,6 +129,34 @@ class SiteHandler
         exit();
     }
 
+    private function site_create_from_sitemap()
+    {
+        $db     = DB::connect();
+        $domain = parse_url($_POST['url'], PHP_URL_HOST);
+
+        if (!Site::exists($domain)){
+            $pagerank = Google::get_pagerank($domain);
+
+            $db->exec("INSERT INTO site VALUES('', '$domain', '$pagerank')");
+        }
+
+        if (!$xml = simplexml_load_file($_POST['url'])) {
+            trigger_error('Unable to load sitemap at ' . $_POST['url'], E_USER_ERROR);
+
+            header('HTTP/1.1 302 Found');
+            header("Location: " . Options::get('base_url'));
+            exit();
+        }
+
+        foreach ($xml->url as $url) {
+            if (!Page::exists($url->loc)){
+                $db->exec("INSERT INTO page VALUES('', '$url->loc', '')");
+
+                // @todo update page metrics
+            }
+        }
+    }
+
     public function display_site()
     {
         $id = intval($_GET['id']);
@@ -157,6 +185,14 @@ class SiteHandler
 
     public function display_site_create_from_sitemap()
     {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->site_create_from_sitemap();
+
+            header('HTTP/1.1 302 Found');
+            header("Location: " . Options::get('base_url'));
+            exit();
+        }
+
         $this->template->display('sitemap.php');
     }
 
