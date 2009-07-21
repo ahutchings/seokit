@@ -15,6 +15,16 @@ class SiteHandler
         $this->template->display('sites.php');
     }
 
+    private function site_keyword_add()
+    {
+        $site_id = $_POST['id'];
+        $keyword = $_POST['keyword'];
+
+        $q = "INSERT INTO keyword (site_id, text) VALUES ($site_id, '$keyword')";
+
+        DB::connect()->exec($q);
+    }
+
     /**
      * Updates incoming link count and pagerank for an page incoming link.
      *
@@ -85,6 +95,27 @@ class SiteHandler
         exit();
     }
 
+    public function display_site_keyword_add()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->site_keyword_add();
+
+            $keyword = $_POST['keyword'];
+
+            trigger_error("Keyword '$keyword' added.", E_USER_NOTICE);
+
+            header('HTTP/1.1 302 Found');
+            header("Location: " . Options::get('base_url') . "site/?id=" . $_POST['id']);
+            exit();
+        }
+
+        $site = Sites::get(array('id' => $_GET['id']));
+
+        $this->template->site = $site;
+
+        $this->template->display('site_keyword_add.php');
+    }
+
     public function display_site_page()
     {
         $url = mysql_escape_string($_GET['url']);
@@ -113,7 +144,7 @@ class SiteHandler
         exit();
     }
 
-    public function site_create()
+    private function site_create()
     {
         if (!isset($_POST['url']) || empty($_POST['url'])) {
             // @todo redirect to site create page

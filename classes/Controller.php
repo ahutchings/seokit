@@ -18,6 +18,7 @@ class Controller
         	'site_create_from_page' => array('url' => '%^site/from-page/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_create_from_page'),
         	'site_create_from_sitemap' => array('url' => '%^site/from-sitemap/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_create_from_sitemap'),
         	'site_page' => array('url' => '%^site/page/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_page'),
+        	'site_keyword_add' => array('url' => '%^site/keyword/add/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_site_keyword_add'),
         	'site_page_update' => array('url' => '%^site/page/update/?\\z%', 'controller' => 'SiteHandler', 'action' => 'site_page_update'),
         	'site_page_inlink_update' => array('url' => '%^site/page/inlink/update/?\\z%', 'controller' => 'SiteHandler', 'action' => 'site_page_inlink_update'),
             'settings' => array('url' => '%^settings/?\\z%', 'controller' => 'SiteHandler', 'action' => 'display_settings'),

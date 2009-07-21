@@ -14,6 +14,7 @@
                                         <th colspan="2">Site</th>
                                         <th class="text-center">PageRank</th>
                                         <th class="text-right">Pages</th>
+                                        <th class="text-right">Keywords</th>
                                         <th></th>
                                     </tr>
                             	</thead>
@@ -32,6 +33,7 @@
                                         </td>
                                         <td class="text-center"><img src="<?php echo Options::get('theme_path') ?>images/pr<?php echo $site->pagerank ?>.gif" alt="PageRank <?php echo $site->pagerank ?>"></td>
                                         <td class="text-right"><?php echo count($site->pages) ?></td>
+                                        <td class="text-right"><?php echo count($site->keywords) ?></td>
                                         <td class="text-right">
                                         	<a href="/site/update?id=<?php echo $site->id ?>" title="Update all link counts for <?php echo $site->domain ?>">refresh</a> |
                                         	<a href="/site/delete?id=<?php echo $site->id ?>" title="Delete entire site">delete</a>

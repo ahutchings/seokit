@@ -9,6 +9,27 @@ class Site
      */
     public function __construct()
     {
+        $this->keywords   = $this->get_keywords();
+        $this->pages      = $this->get_pages();
+        $this->thumb_path = $this->get_thumb_path();
+
+    }
+
+    private function get_keywords()
+    {
+        $q = "SELECT * FROM keyword WHERE site_id = $this->id";
+
+        $sth = DB::connect()->prepare($q);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'Keyword', array());
+        $sth->execute();
+
+        $keywords = $sth->fetchAll();
+
+        return $keywords;
+    }
+
+    private function get_pages()
+    {
         $q  = "SELECT * FROM page WHERE url LIKE 'http://$this->domain%'";
 
         $sth = DB::connect()->prepare($q);
@@ -17,9 +38,7 @@ class Site
 
         $pages = $sth->fetchAll();
 
-        $this->pages      = $pages;
-        $this->thumb_path = $this->get_thumb_path();
-
+        return $pages;
     }
 
     /**
