@@ -174,15 +174,8 @@ class Site
      */
     public function update_keyword_rankings()
     {
-        $db = DB::connect();
-
         foreach ($this->keywords as $keyword) {
-            $rank = Scroogle::get_ranking($keyword->text, $this->domain);
-
-            $q = "INSERT INTO keyword_rank (site_id, search_engine_id, keyword_id, created_at, rank)"
-            	. " VALUES ($this->id, 1, $keyword->id, NOW(), $rank)";
-
-            $db->exec($q);
+            $keyword->update_rankings();
         }
     }
 

@@ -14,12 +14,18 @@
                 				<thead>
 									<tr>
 										<th>Keyword</th>
+										<th class="text-right">Google</th>
+										<th class="text-right">Yahoo</th>
+										<th class="text-right">Bing</th>
 									</tr>
                 				</thead>
                 				<tbody>
                 				<?php foreach ($this->site->keywords as $keyword): ?>
                 					<tr>
                 						<td><?php echo $keyword->text ?></td>
+                						<td class="text-right"><?php echo $keyword->rankings->google->rank ?></td>
+                						<td class="text-right"><?php echo $keyword->rankings->yahoo->rank ?></td>
+                						<td class="text-right"><?php echo $keyword->rankings->bing->rank ?></td>
                 					</tr>
                 				<?php endforeach ?>
                 				</tbody>
