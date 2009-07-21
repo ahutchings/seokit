@@ -43,6 +43,8 @@ class Scroogle
         curl_close($ch);
 
         $results = self::parse_results($results);
+
+        return $results;
     }
 
     /**
@@ -65,5 +67,31 @@ class Scroogle
         }
 
         return $results;
+    }
+
+    /**
+     * Get the ranking of a search term.
+     *
+     * @param string $term      Search term
+     * @param string $domain    Domain
+     * @param int    $max_pages Maximum pages to query
+     *
+     * @return int Term ranking (0 for not found)
+     */
+    public static function get_ranking($term, $domain, $max_pages = 5)
+    {
+        $match_url = 'http://' . $domain;
+
+        for ($page = 1; $page <= $max_pages; $page++) {
+            $results = self::search($term, $page);
+
+            foreach ($results as $pos => $url) {
+                if (strpos($url, $match_url) === 0) {
+                    return $pos;
+                }
+            }
+        }
+
+        return 0;
     }
 }

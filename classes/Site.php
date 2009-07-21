@@ -168,7 +168,26 @@ class Site
     }
 
     /**
-     * Updates PageRank for the site domain.
+     * Store current keyword rankings.
+     *
+     * @return null
+     */
+    public function update_keyword_rankings()
+    {
+        $db = DB::connect();
+
+        foreach ($this->keywords as $keyword) {
+            $rank = Scroogle::get_ranking($keyword->text, $this->domain);
+
+            $q = "INSERT INTO keyword_rank (site_id, search_engine_id, keyword_id, created_at, rank)"
+            	. " VALUES ($this->id, 1, $keyword->id, NOW(), $rank)";
+
+            $db->exec($q);
+        }
+    }
+
+    /**
+     * Updates statistics for the site domain.
      *
      * @return null
      */
@@ -177,6 +196,8 @@ class Site
         $pagerank = Google::get_pagerank($this->domain);
 
         DB::connect()->exec("UPDATE site SET pagerank = '$pagerank' WHERE id = '$this->id' LIMIT 1");
+
+        $this->update_keyword_rankings();
     }
 
     /**
