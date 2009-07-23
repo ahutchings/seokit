@@ -7,16 +7,27 @@ class Keyword
         $this->set_rankings();
     }
 
+    /**
+     * Retrieves and stores current rankings for the keyword.
+     *
+     * @return null
+     */
     public function update_rankings()
     {
-        $db = DB::connect();
-
+        $db   = DB::connect();
         $site = Sites::get(array('id' => $this->site_id));
 
         $rank = Scroogle::get_ranking($this->text, $site->domain);
 
         $q = "INSERT INTO keyword_rank (site_id, search_engine_id, keyword_id, created_at, rank)"
         	. " VALUES ($site->id, 1, $this->id, NOW(), $rank)";
+
+        $db->exec($q);
+
+        $rank = Yahoo::get_ranking($this->text, $site->domain);
+
+        $q = "INSERT INTO keyword_rank (site_id, search_engine_id, keyword_id, created_at, rank)"
+        	. " VALUES ($site->id, 2, $this->id, NOW(), $rank)";
 
         $db->exec($q);
     }

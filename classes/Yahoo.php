@@ -54,4 +54,65 @@ class Yahoo
 
         return $data;
     }
+
+    /**
+     * Queries Yahoo BOSS for a given term.
+     *
+     * @param string $term  Search term or phrase
+     * @param int    $page  Page offset
+     * @param int    $limit Result URLs (up to 50)
+     *
+     * @return obj Anonymous object
+     */
+    public static function search($term, $page = 1, $limit = 50)
+    {
+        $endpoint = 'http://boss.yahooapis.com/ysearch/web/v1/' . urlencode($term) . '?';
+
+        $start = ($page - 1) * $limit;
+
+        $params = array(
+        	'appid' => Options::get('yahoo_api_key'),
+            'start' => $start,
+            'count' => $limit
+        );
+
+        $query = http_build_query($params, '', '&');
+
+        $endpoint .= $query;
+
+        $response = file_get_contents($endpoint);
+
+        $result = json_decode($response);
+
+        return $result;
+    }
+
+    /**
+     * Get the ranking of a search term.
+     *
+     * @param string $term         Search term
+     * @param string $domain       Domain
+     * @param int    $max_position Maximum position to check
+     *
+     * @return int Term ranking (0 for not found)
+     */
+    public static function get_ranking($term, $domain, $max_position = 500)
+    {
+        $match_url = 'http://' . $domain;
+
+        $max_pages = ($max_position / 50);
+
+        for ($page = 1; $page <= $max_pages; $page++) {
+            $results = self::search($term, $page);
+
+            foreach ($results->ysearchresponse->resultset_web as $pos => $obj) {
+
+                if (strpos($obj->url, $match_url) === 0) {
+                    return $pos + 1;
+                }
+            }
+        }
+
+        return 0;
+    }
 }
