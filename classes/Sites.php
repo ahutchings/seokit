@@ -7,7 +7,7 @@ class Sites
      *
      * @param array $paramarray Query parameters
      *
-     * @return array An array of Site objects, or a single Site object, depending on request
+     * @return mixed An array of Site objects, or a single Site object, depending on request
      */
     public static function get($paramarray = array())
     {
@@ -58,13 +58,34 @@ class Sites
 
             $sth->execute($params);
 
-            $domains = $sth->$fetch_fn();
+            $sites = $sth->$fetch_fn();
         } catch (PDOException $e) {
             trigger_error($e->getMessage());
 
             return false;
         }
 
-        return $domains;
+        return $sites;
+    }
+
+    public static function update_keyword_rankings()
+    {
+        foreach (self::get() as $site) {
+            $site->update_keyword_rankings();
+        }
+    }
+
+    public static function update_page_statistics()
+    {
+        foreach (self::get() as $site) {
+            $site->update_page_statistics();
+        }
+    }
+
+    public static function refresh_pages()
+    {
+        foreach (self::get() as $site) {
+            $site->refresh_pages();
+        }
     }
 }

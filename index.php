@@ -14,6 +14,6 @@ set_error_handler(array('SEOKit', 'errorHandler'));
 
 date_default_timezone_set(Options::get('timezone'));
 
-$db = DB::connect();
+CronTab::run(true);
 
 Controller::dispatchRequest();
